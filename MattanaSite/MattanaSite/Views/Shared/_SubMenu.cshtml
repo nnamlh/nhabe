@@ -1,0 +1,20 @@
+﻿@if (ViewBag.SubMenu != null)
+{
+
+    <li class="sidebar-header">
+        THAO TÁC
+    </li>
+
+    foreach (var item in ViewBag.SubMenu)
+    {
+        <li class="@(item.Active == 1?"active":"")">
+            <a href="@item.Url">
+                <i class="fa fa-edit"></i>
+                @item.Name
+            </a>
+        </li>
+    }
+
+    <li class="divider"></li>
+}
+
