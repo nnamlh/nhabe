@@ -21,13 +21,11 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="CMonth" Type="int" />
-    <Property Name="CYear" Type="int" />
-    <Property Name="CWeek" Type="int" />
-    <Property Name="FDay" Type="int" />
-    <Property Name="TDay" Type="int" />
-    <Property Name="IsClock" Type="int" />
-    <Property Name="GroupNumber" Type="int" />
+    <Property Name="IsLock" Type="int" />
+    <Property Name="FDate" Type="date" />
+    <Property Name="TDate" Type="date" />
+    <Property Name="Notes" Type="nvarchar(max)" />
+    <Property Name="WeekOfYear" Type="int" />
   </EntityType>
   <EntityType Name="CalendarType">
     <Key>
@@ -43,6 +41,7 @@
     </Key>
     <Property Name="CalendarId" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="GroupNumber" Type="int" />
   </EntityType>
   <EntityType Name="CalendarWork">
     <Key>
@@ -59,6 +58,11 @@
     <Property Name="Perform" Type="int" />
     <Property Name="CDate" Type="varchar" MaxLength="32" />
     <Property Name="AgencyId" Type="varchar" MaxLength="128" />
+    <Property Name="MUser" Type="varchar" MaxLength="128" />
+    <Property Name="StaffCode" Type="varchar" MaxLength="128" />
+    <Property Name="CYear" Type="int" />
+    <Property Name="CMonth" Type="int" />
+    <Property Name="CalendarId" Type="varchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="MAgency">
     <Key>
@@ -74,6 +78,8 @@
     <Property Name="Province" Type="nvarchar" MaxLength="512" />
     <Property Name="AreaId" Type="varchar" MaxLength="128" />
     <Property Name="IsLock" Type="int" />
+    <Property Name="Lat" Type="float" />
+    <Property Name="Lng" Type="float" />
   </EntityType>
   <EntityType Name="MProduct">
     <Key>
@@ -136,7 +142,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CalendarW__Calen__46E78A0C">
+  <Association Name="FK__CalendarW__Calen__5441852A">
     <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="1" />
     <End Role="CalendarWithStaff" Type="Self.CalendarWithStaff" Multiplicity="*" />
     <ReferentialConstraint>
@@ -148,7 +154,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CalendarW__Staff__47DBAE45">
+  <Association Name="FK__CalendarW__Calen__5629CD9C">
+    <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="0..1" />
+    <End Role="CalendarWork" Type="Self.CalendarWork" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CalendarInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarWork">
+        <PropertyRef Name="CalendarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Staff__5535A963">
     <End Role="MStaff" Type="Self.MStaff" Multiplicity="1" />
     <End Role="CalendarWithStaff" Type="Self.CalendarWithStaff" Multiplicity="*" />
     <ReferentialConstraint>
@@ -194,11 +212,15 @@
       <End Role="MAgency" EntitySet="MAgency" />
       <End Role="CalendarWork" EntitySet="CalendarWork" />
     </AssociationSet>
-    <AssociationSet Name="FK__CalendarW__Calen__46E78A0C" Association="Self.FK__CalendarW__Calen__46E78A0C">
+    <AssociationSet Name="FK__CalendarW__Calen__5441852A" Association="Self.FK__CalendarW__Calen__5441852A">
       <End Role="CalendarInfo" EntitySet="CalendarInfo" />
       <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
     </AssociationSet>
-    <AssociationSet Name="FK__CalendarW__Staff__47DBAE45" Association="Self.FK__CalendarW__Staff__47DBAE45">
+    <AssociationSet Name="FK__CalendarW__Calen__5629CD9C" Association="Self.FK__CalendarW__Calen__5629CD9C">
+      <End Role="CalendarInfo" EntitySet="CalendarInfo" />
+      <End Role="CalendarWork" EntitySet="CalendarWork" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Staff__5535A963" Association="Self.FK__CalendarW__Staff__5535A963">
       <End Role="MStaff" EntitySet="MStaff" />
       <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
     </AssociationSet>

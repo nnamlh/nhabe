@@ -16,18 +16,18 @@ namespace MattanaSite.Models
     {
         public CalendarInfo()
         {
-            this.MStaffs = new HashSet<MStaff>();
+            this.CalendarWithStaffs = new HashSet<CalendarWithStaff>();
+            this.CalendarWorks = new HashSet<CalendarWork>();
         }
     
         public string Id { get; set; }
-        public Nullable<int> CMonth { get; set; }
-        public Nullable<int> CYear { get; set; }
-        public Nullable<int> CWeek { get; set; }
-        public Nullable<int> FDay { get; set; }
-        public Nullable<int> TDay { get; set; }
-        public Nullable<int> IsClock { get; set; }
-        public Nullable<int> GroupNumber { get; set; }
+        public Nullable<int> IsLock { get; set; }
+        public Nullable<System.DateTime> FDate { get; set; }
+        public Nullable<System.DateTime> TDate { get; set; }
+        public string Notes { get; set; }
+        public Nullable<int> WeekOfYear { get; set; }
     
-        public virtual ICollection<MStaff> MStaffs { get; set; }
+        public virtual ICollection<CalendarWithStaff> CalendarWithStaffs { get; set; }
+        public virtual ICollection<CalendarWork> CalendarWorks { get; set; }
     }
 }

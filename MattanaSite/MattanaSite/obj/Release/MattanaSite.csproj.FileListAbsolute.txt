@@ -56,3 +56,5 @@ N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.Owin.Security.Twitter.xml
 N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 N:\nhabe\MattanaSite\MattanaSite\obj\Release\MattanaSite.dll
 N:\nhabe\MattanaSite\MattanaSite\obj\Release\MattanaSite.pdb
+N:\nhabe\MattanaSite\MattanaSite\bin\EPPlus.dll
+N:\nhabe\MattanaSite\MattanaSite\obj\Release\MattanaSite.csprojResolveAssemblyReference.cache
