@@ -1,0 +1,227 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+    <title>@ViewBag.Title</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:400,300,700">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Font awesome CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- App CSS -->
+    <link rel="stylesheet" href="~/content/css/mvpready-admin.css">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    @RenderSection("Styles", false)
+
+</head>
+
+<body class="layout-fixed  ">
+
+    <div id="wrapper">
+
+        <div class="navbar navbar-default" role="navigation">
+
+            <div class="container">
+
+                <div class="navbar-header">
+                    <div class="navbar-brand">
+                        <a href="./index.html" class="logo">
+                            <img src="~/content/image/logo.png" alt="">
+                        </a>
+                    </div>
+
+                    <button class="navbar-toggle pull-right" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <i class="fa fa-cog"></i>
+                    </button>
+                </div><!-- /.navbar-header -->
+
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li class="divider"></li>
+
+                        <li class="dropdown navbar-profile">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href="javascript:;">
+                                <img src="~/content/image/user.png" class="navbar-profile-avatar" alt="">
+                                <span class="visible-xs-inline">&nbsp;</span>
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="/account/manage">
+                                        <i class="fa fa-user"></i>
+                                        &nbsp;&nbsp;Đổi mật khẩu
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-sign-out"></i>
+                                        Quản trị
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                        <i class="fa fa-sign-out"></i>
+                                        &nbsp;&nbsp;Thoát
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div> <!--/.container -->
+
+        </div> <!--/.navbar -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-bg"></div><!-- /.sidebar-bg -->
+
+            <div class="sidebar-trigger sidebar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <i class="fa fa-bars"></i>
+            </div><!-- /.sidebar-trigger -->
+
+            <div class="sidebar-inner sidebar-collapse collapse">
+
+                <ul class="sidebar-menu">
+
+                    @{
+                        Html.RenderPartial("_SubMenu");
+                    }
+
+                    <li class="dropdown has_sub ">
+                        <a href="#" class="">
+                            <i class="fa fa-file-text-o"></i>
+
+                            Danh mục
+
+                            <span class="pull-right">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+
+                        <ul class="list-unstyled">
+
+                            <li>
+                                <a href="/staff/show">
+                                   Nhân viên
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/agency/show">
+                                    Đại lý
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/product/show">
+                                    Sản phẩm
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown has_sub ">
+
+                        <a href="#" class="">
+                            <i class="fa fa-file-text-o"></i>
+
+                            Danh mục
+
+                            <span class="pull-right">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+
+                        <ul class="list-unstyled">
+
+                            <li>
+                                <a href="./page-sitemap.html">
+                                    Sitemap
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="divider"></li>
+
+                </ul>
+
+                <div class="clearfix"></div>
+
+            </div><!-- /.sidebar-inner -->
+
+        </div> <!-- /.side-menu -->
+
+        <div class="content-page">
+
+            <div class="content">
+
+                <div class="container">
+
+                    @RenderBody()
+
+                </div> <!-- /.container -->
+
+            </div> <!-- .content -->
+
+        </div> <!-- /.content-page -->
+
+    </div> <!-- /#wrapper -->
+
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+        }
+    }
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Core JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="~/scripts/js/jquery.slimscroll.min.js"></script>
+
+    @RenderSection("Scripts", false)
+
+    <!-- App JS -->
+    <script src="~/scripts/js/mvpready-core.js"></script>
+    <script src="~/scripts/js/mvpready-helpers.js"></script>
+    <script src="~/scripts/js/mvpready-admin.js"></script>
+
+</body>
+</html>

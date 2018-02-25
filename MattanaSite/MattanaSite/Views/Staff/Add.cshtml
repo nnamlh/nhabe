@@ -1,0 +1,53 @@
+﻿@model MattanaSite.Models.MStaff
+@{
+    ViewBag.Title = "Add";
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Thêm nhân viên
+        </h4>
+    </div> <!-- /.portlet-header -->
+    
+    <div class="portlet-body">
+        <div class="row">
+            <p class="">@ViewBag.MSG</p>
+            <form method="post" onsubmit="if(!confirm('Thêm nhân viên mới?')){return false;}">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Mã nhân viên</label>
+                        <input type="text" name="Id" class="form-control" required value="@Model.Id">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên nhân viên</label>
+                        <input type="text" name="FullName" class="form-control" required value="@Model.FullName">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" name="Phone" class="form-control" required value="@Model.Phone">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Thêm nhân viên</button>
+
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>CMND</label>
+                        <input type="text" name="IdentityCard" class="form-control" value="@Model.IdentityCard">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nhóm</label>
+                        <input type="number" name="GroupNumber" class="form-control" required value="@Model.GroupNumber">
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

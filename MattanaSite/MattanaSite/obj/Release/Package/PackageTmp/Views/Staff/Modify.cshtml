@@ -1,0 +1,114 @@
+﻿@model MattanaSite.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Chỉnh sửa nhân viên";
+
+    var staff = ViewBag.Staff as MattanaSite.Models.MStaff;
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Nhân viên @staff.Id - @staff.FullName
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <p class="">@ViewBag.MSG</p>
+            <form method="post" onsubmit="if(!confirm('Thay đổi ?')){return false;}">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Mã nhân viên</label>
+                        <input type="text" class="form-control" value="@staff.Id" disabled>
+                    </div>
+
+                    <input type="hidden" name="Id" value="@staff.Id" />
+
+                    <div class="form-group">
+                        <label>Tên nhân viên</label>
+                        <input type="text" name="FullName" class="form-control" required value="@staff.FullName">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" name="Phone" class="form-control" required value="@staff.Phone">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Thay đổi</button>
+
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>CMND</label>
+                        <input type="text" name="IdentityCard" class="form-control" value="@staff.IdentityCard">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nhóm</label>
+                        <input type="number" name="GroupNumber" class="form-control" required value="@staff.GroupNumber">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tài khoản</label>
+                        <input type="text" class="form-control" value="@staff.MUser" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Khóa nhân viên</label>
+                        <input type="checkbox" name="Lock" @(staff.IsLock == 1 ? "checked" : "")>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+@if (String.IsNullOrEmpty(staff.MUser))
+{
+    <div class="portlet portlet-boxed">
+        <div class="portlet-header">
+            <h4 class="portlet-title">Tạo tài khoản cho nhân viên</h4>
+        </div> <!-- /.portlet-header -->
+
+
+        <div class="portlet-body">
+            @using (Html.BeginForm("RegisterStaff", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <input type="hidden" name="staffId" value="@staff.Id" />
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-primary" value="Register" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

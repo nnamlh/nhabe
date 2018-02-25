@@ -13,11 +13,8 @@ namespace MattanaSite.Controllers
         public ActionResult Index()
         {
 
-            AddMenu(1);
-
             return View();
         }
-
 
         /*
         public override List<SubMenuInfo> Menu(int idxActive)

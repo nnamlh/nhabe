@@ -1,0 +1,59 @@
+﻿@model PagedList.IPagedList<MattanaSite.Models.MProduct>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Sản phẩm";
+}
+
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Danh sách nhân viên
+        </h4>
+    </div> <!-- /.portlet-header -->
+    <div class="portlet-body">
+
+        <div class="row">
+            <div class="col-sm-6">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search" value="@ViewBag.SearchText" placeholder="Mã hoặc tên nhân viên" />
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">XEM</button>
+                        </div><!-- /btn-group -->
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12">
+                <br />
+                <fieldset>
+                    <table class="table table-striped table-bordered thumbnail-table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="@(item.IsLock == 1?"danger":"")">
+                                    <td>@item.Id @(item.IsLock == 1 ? "(đang khóa)" : "")</td>
+                          
+                                    <td><a href="/staff/modify/@item.Id" target="_blank">Chỉnh sửa</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("show",
+                                                                     new { page, search = ViewBag.SearchText }))
+                </fieldset>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+

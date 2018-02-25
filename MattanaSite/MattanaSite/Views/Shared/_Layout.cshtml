@@ -68,7 +68,6 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-
                                 <li>
                                     <a href="/account/manage">
                                         <i class="fa fa-user"></i>
@@ -119,10 +118,10 @@
                     }
 
                     <li class="dropdown has_sub ">
-                        <a href="http://jumpstartthemes.com/#" class="">
+                        <a href="#" class="">
                             <i class="fa fa-file-text-o"></i>
 
-                            Demo Pages
+                            Danh mục
 
                             <span class="pull-right">
                                 <i class="fa fa-angle-right"></i>
@@ -132,49 +131,32 @@
                         <ul class="list-unstyled">
 
                             <li>
-                                <a href="./page-profile.html">
-                                    Profile
+                                <a href="/staff/show">
+                                   Nhân viên
                                 </a>
                             </li>
 
                             <li>
-                                <a href="./page-settings.html">
-                                    Settings
+                                <a href="/agency/show">
+                                    Đại lý
                                 </a>
                             </li>
 
                             <li>
-                                <a href="./page-faq.html">
-                                    FAQ
+                                <a href="/product/show">
+                                    Sản phẩm
                                 </a>
                             </li>
 
-                            <li>
-                                <a href="./page-pricing-plans.html">
-                                    Plans & Billing
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="./page-pricing-table.html">
-                                    Pricing Table
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="./pages-gallery.html">
-                                    Gallery
-                                </a>
-                            </li>
                         </ul>
                     </li>
 
                     <li class="dropdown has_sub ">
 
-                        <a href="http://jumpstartthemes.com/#" class="">
+                        <a href="#" class="">
                             <i class="fa fa-file-text-o"></i>
 
-                            Utilities
+                            Danh mục
 
                             <span class="pull-right">
                                 <i class="fa fa-angle-right"></i>
@@ -186,32 +168,6 @@
                             <li>
                                 <a href="./page-sitemap.html">
                                     Sitemap
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="./page-blank.html">
-                                    Blank Slate
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="./page-404.html">
-                                    404 Error
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="./page-500.html">
-                                    500 Error
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="./page-maintenance.html" target="_blank">
-                                    Maintenance
-                                    &nbsp;
-                                    <small><i class="fa fa-external-link pull-right text-secondary" style="position: relative; top: 3px;"></i></small>
                                 </a>
                             </li>
                         </ul>
@@ -242,6 +198,15 @@
         </div> <!-- /.content-page -->
 
     </div> <!-- /#wrapper -->
+
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+        }
+    }
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Core JS -->

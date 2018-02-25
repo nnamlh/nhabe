@@ -1,0 +1,70 @@
+﻿@model PagedList.IPagedList<MattanaSite.Models.MAgency>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách đại lý";
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Danh sách đại lý
+        </h4>
+    </div> <!-- /.portlet-header -->
+    <div class="portlet-body">
+
+        <div class="row">
+            <div class="col-sm-6">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search" value="@ViewBag.SearchText" placeholder="Mã hoặc tên cửa hàng" />
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">XEM</button>
+                        </div><!-- /btn-group -->
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12">
+                <br />
+                <fieldset>
+                    <table class="table table-striped table-bordered thumbnail-table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Cửa hàng</th>
+                                <th>Đại diện</th>
+                                <th>Vùng</th>
+                                <th>Liên hệ</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="@(item.IsLock == 1?"danger":"")">
+                                    <td>@item.Code @(item.IsLock == 1 ? "(đang khóa)" : "")</td>
+                                    <td>@item.Store</td>
+                                    <td>@item.Deputy</td>
+                                    <td>@item.AreaInfo.AreaName</td>
+                                    <td>
+                                        <span>Điện thoại: </span>@item.Phone <br />
+                                        <span>Địa chỉ: </span>@item.AddressDetail <br />
+                                        <span>CMND: </span>@item.IdentityCard
+                                    </td>
+                                    <td><a href="/agency/modify/@item.Id" target="_blank">Chỉnh sửa</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("show",
+                                                                     new { page, search = ViewBag.SearchText }))
+                </fieldset>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+

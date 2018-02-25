@@ -7,12 +7,10 @@ using MattanaSite.Models;
 
 namespace MattanaSite.Controllers
 {
-    
-    [Authorize]
+
+    [Authorize(Roles = "Admin")]
     public abstract class MainController : Controller
     {
-
-
 
         public abstract List<SubMenuInfo> Menu(int idxActive);
 

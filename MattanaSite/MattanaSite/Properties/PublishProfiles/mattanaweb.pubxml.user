@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\HAI\Desktop\nha be\mattanaweb</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>01/26/2018 00:21:46</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>01/26/2018 00:21:48</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>01/26/2018 00:21:48</publishTime>
+    </File>
+    <File Include="bin/MattanaSite.dll">
+      <publishTime>02/25/2018 17:29:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>01/26/2018 00:21:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>01/26/2018 00:21:51</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>01/26/2018 00:21:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>01/26/2018 00:21:51</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>01/26/2018 00:21:51</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>01/26/2018 00:21:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>01/26/2018 00:21:51</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Facebook.dll">
+      <publishTime>01/26/2018 00:21:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Google.dll">
+      <publishTime>01/26/2018 00:21:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.MicrosoftAccount.dll">
+      <publishTime>01/26/2018 00:21:53</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>01/26/2018 00:21:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
+      <publishTime>01/26/2018 00:21:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>01/26/2018 00:21:44</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>01/26/2018 00:21:45</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>01/26/2018 00:21:51</publishTime>
+    </File>
+    <File Include="bin/PagedList.dll">
+      <publishTime>02/25/2018 15:41:48</publishTime>
+    </File>
+    <File Include="bin/PagedList.Mvc.dll">
+      <publishTime>02/25/2018 15:41:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/26/2018 00:21:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/26/2018 00:21:45</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>01/26/2018 00:21:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/26/2018 00:21:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>01/26/2018 00:21:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>01/26/2018 00:21:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>01/26/2018 00:21:44</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>01/26/2018 00:21:47</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="Content/css/jquery.steps.css">
+      <publishTime>01/26/2018 00:25:49</publishTime>
+    </File>
+    <File Include="Content/css/mvpready-admin.css">
+      <publishTime>01/26/2018 00:40:51</publishTime>
+    </File>
+    <File Include="Content/image/logo.png">
+      <publishTime>01/26/2018 00:50:57</publishTime>
+    </File>
+    <File Include="Content/image/logofull.png">
+      <publishTime>02/25/2018 15:12:02</publishTime>
+    </File>
+    <File Include="Content/image/user.png">
+      <publishTime>01/26/2018 00:47:41</publishTime>
+    </File>
+    <File Include="Content/PagedList.css">
+      <publishTime>02/25/2018 15:41:50</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>01/26/2018 00:21:48</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>01/26/2018 00:21:32</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>01/26/2018 00:21:32</publishTime>
+    </File>
+    <File Include="Models/MDB.edmx.diagram">
+      <publishTime>02/25/2018 14:57:36</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>02/25/2018 15:41:50</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>01/26/2018 00:21:38</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>01/26/2018 00:21:39</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>01/26/2018 00:21:39</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>01/26/2018 00:21:39</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>01/26/2018 00:21:53</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>01/26/2018 00:21:53</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>01/26/2018 00:21:53</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>01/26/2018 00:21:53</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/auto.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/donut.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/excanvas.min.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/horizontal.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/jquery.flot.categories.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/jquery.flot.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/jquery.flot.orderBars.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/jquery.flot.pie.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/jquery.flot.resize.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/jquery.flot.stack.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/jquery.flot.time.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/line.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/pie.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/scatter.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/stacked-area.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/stacked-horizontal.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/flot/vertical.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/jquery.slimscroll.min.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/jquery.steps.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/mvpready-account.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/mvpready-admin.js">
+      <publishTime>01/26/2018 00:42:05</publishTime>
+    </File>
+    <File Include="Scripts/js/mvpready-core.js">
+      <publishTime>01/26/2018 00:41:20</publishTime>
+    </File>
+    <File Include="Scripts/js/mvpready-helpers.js">
+      <publishTime>01/26/2018 00:41:38</publishTime>
+    </File>
+    <File Include="Scripts/js/parsley.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/js/wizard.js">
+      <publishTime>01/26/2018 00:28:46</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>01/26/2018 00:21:45</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>01/26/2018 00:21:47</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>01/26/2018 00:21:47</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>01/26/2018 00:28:47</publishTime>
+    </File>
+    <File Include="Views/Account/Login.cshtml">
+      <publishTime>02/25/2018 15:14:31</publishTime>
+    </File>
+    <File Include="Views/Account/Manage.cshtml">
+      <publishTime>02/25/2018 15:21:10</publishTime>
+    </File>
+    <File Include="Views/Account/Register.cshtml">
+      <publishTime>01/26/2018 00:21:48</publishTime>
+    </File>
+    <File Include="Views/Account/_ChangePasswordPartial.cshtml">
+      <publishTime>02/25/2018 15:24:25</publishTime>
+    </File>
+    <File Include="Views/Account/_SetPasswordPartial.cshtml">
+      <publishTime>01/26/2018 00:21:48</publishTime>
+    </File>
+    <File Include="Views/Agency/Add.cshtml">
+      <publishTime>02/25/2018 17:22:20</publishTime>
+    </File>
+    <File Include="Views/Agency/Show.cshtml">
+      <publishTime>02/25/2018 17:11:09</publishTime>
+    </File>
+    <File Include="Views/Error/Index.cshtml">
+      <publishTime>02/25/2018 16:26:43</publishTime>
+    </File>
+    <File Include="Views/Home/About.cshtml">
+      <publishTime>01/26/2018 00:21:32</publishTime>
+    </File>
+    <File Include="Views/Home/Contact.cshtml">
+      <publishTime>01/26/2018 00:21:32</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>01/26/2018 00:53:01</publishTime>
+    </File>
+    <File Include="Views/Product/Show.cshtml">
+      <publishTime>02/25/2018 17:28:00</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>01/26/2018 00:21:48</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>02/25/2018 17:01:54</publishTime>
+    </File>
+    <File Include="Views/Shared/_LoginPartial.cshtml">
+      <publishTime>01/26/2018 00:21:48</publishTime>
+    </File>
+    <File Include="Views/Shared/_SubMenu.cshtml">
+      <publishTime>01/26/2018 01:53:17</publishTime>
+    </File>
+    <File Include="Views/Staff/Add.cshtml">
+      <publishTime>02/25/2018 16:19:11</publishTime>
+    </File>
+    <File Include="Views/Staff/Modify.cshtml">
+      <publishTime>02/25/2018 16:56:18</publishTime>
+    </File>
+    <File Include="Views/Staff/Show.cshtml">
+      <publishTime>02/25/2018 16:59:56</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>01/26/2018 00:21:32</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>01/26/2018 00:21:32</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>02/25/2018 17:29:09</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
