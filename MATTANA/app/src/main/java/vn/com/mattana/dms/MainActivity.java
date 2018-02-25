@@ -51,7 +51,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         View viewHeader = (View) navigationView.getHeaderView(0);
         txtName = (TextView) viewHeader.findViewById(R.id.name);
         txtCode = (TextView) viewHeader.findViewById(R.id.code);
-        txtType = (TextView) viewHeader.findViewById(R.id.type);
 
     }
 
@@ -76,4 +75,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+
+    public void checkInClick(View view) {
+
+    }
+
+    public void nearlyClick(View view){
+
+    }
 }

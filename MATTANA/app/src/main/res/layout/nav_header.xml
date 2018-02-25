@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@mipmap/backgroud_v2"
     android:gravity="center"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
@@ -17,7 +17,7 @@
         android:textSize="16dp"
         android:textStyle="bold"
         android:id="@+id/name"
-        android:text=""
+        android:text="LE HOAI NAM"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
@@ -28,16 +28,7 @@
         android:textSize="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text="09213" />
 
-    <TextView
-        android:id="@+id/type"
-        android:paddingTop="10dp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#FFFFFF"
-        android:textSize="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
 
 </LinearLayout>
