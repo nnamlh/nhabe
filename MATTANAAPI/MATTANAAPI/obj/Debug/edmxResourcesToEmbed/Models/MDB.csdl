@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AreaInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AreaName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Describes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MAgencies" Relationship="Self.FK__MAgency__AreaId__2B3F6F97" FromRole="AreaInfo" ToRole="MAgency" />
+  </EntityType>
+  <EntityType Name="CalendarInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CMonth" Type="Int32" />
+    <Property Name="CYear" Type="Int32" />
+    <Property Name="CWeek" Type="Int32" />
+    <Property Name="FDay" Type="Int32" />
+    <Property Name="TDay" Type="Int32" />
+    <Property Name="IsClock" Type="Int32" />
+    <Property Name="GroupNumber" Type="Int32" />
+    <NavigationProperty Name="MStaffs" Relationship="Self.CalendarWithStaff" FromRole="CalendarInfo" ToRole="MStaff" />
+  </EntityType>
+  <EntityType Name="CalendarType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="CalendarWork">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CDay" Type="Int32" />
+    <Property Name="InPlan" Type="Int32" />
+    <Property Name="TypeId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CInTime" Type="Time" Precision="7" />
+    <Property Name="COutTime" Type="Time" Precision="7" />
+    <Property Name="DayInWeek" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="Perform" Type="Int32" />
+    <Property Name="CDate" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="AgencyId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MAgency" Relationship="Self.FK__CalendarW__Agenc__4CA06362" FromRole="CalendarWork" ToRole="MAgency" />
+  </EntityType>
+  <EntityType Name="MAgency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Code" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Deputy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IdentityCard" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="AddressDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Province" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="AreaId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="IsLock" Type="Int32" />
+    <NavigationProperty Name="AreaInfo" Relationship="Self.FK__MAgency__AreaId__2B3F6F97" FromRole="MAgency" ToRole="AreaInfo" />
+    <NavigationProperty Name="CalendarWorks" Relationship="Self.FK__CalendarW__Agenc__4CA06362" FromRole="MAgency" ToRole="CalendarWork" />
+    <NavigationProperty Name="MStaffs" Relationship="Self.AgencyWithStaff" FromRole="MAgency" ToRole="MStaff" />
+  </EntityType>
+  <EntityType Name="MProduct">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Describes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PCode" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Unit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Int32" />
+  </EntityType>
+  <EntityType Name="MStaff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="MUser" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="GroupNumber" Type="Int32" />
+    <Property Name="IdentityCard" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="IsLock" Type="Int32" />
+    <NavigationProperty Name="MAgencies" Relationship="Self.AgencyWithStaff" FromRole="MStaff" ToRole="MAgency" />
+    <NavigationProperty Name="CalendarInfoes" Relationship="Self.CalendarWithStaff" FromRole="MStaff" ToRole="CalendarInfo" />
+  </EntityType>
+  <Association Name="FK__MAgency__AreaId__2B3F6F97">
+    <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="0..1" />
+    <End Role="MAgency" Type="Self.MAgency" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AreaInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MAgency">
+        <PropertyRef Name="AreaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Agenc__4CA06362">
+    <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
+    <End Role="CalendarWork" Type="Self.CalendarWork" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarWork">
+        <PropertyRef Name="AgencyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AgencyWithStaff">
+    <End Role="MAgency" Type="Self.MAgency" Multiplicity="*" />
+    <End Role="MStaff" Type="Self.MStaff" Multiplicity="*" />
+  </Association>
+  <Association Name="CalendarWithStaff">
+    <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="*" />
+    <End Role="MStaff" Type="Self.MStaff" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="MDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AreaInfoes" EntityType="Self.AreaInfo" />
+    <EntitySet Name="CalendarInfoes" EntityType="Self.CalendarInfo" />
+    <EntitySet Name="CalendarTypes" EntityType="Self.CalendarType" />
+    <EntitySet Name="CalendarWorks" EntityType="Self.CalendarWork" />
+    <EntitySet Name="MAgencies" EntityType="Self.MAgency" />
+    <EntitySet Name="MProducts" EntityType="Self.MProduct" />
+    <EntitySet Name="MStaffs" EntityType="Self.MStaff" />
+    <AssociationSet Name="FK__MAgency__AreaId__2B3F6F97" Association="Self.FK__MAgency__AreaId__2B3F6F97">
+      <End Role="AreaInfo" EntitySet="AreaInfoes" />
+      <End Role="MAgency" EntitySet="MAgencies" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Agenc__4CA06362" Association="Self.FK__CalendarW__Agenc__4CA06362">
+      <End Role="MAgency" EntitySet="MAgencies" />
+      <End Role="CalendarWork" EntitySet="CalendarWorks" />
+    </AssociationSet>
+    <AssociationSet Name="AgencyWithStaff" Association="Self.AgencyWithStaff">
+      <End Role="MAgency" EntitySet="MAgencies" />
+      <End Role="MStaff" EntitySet="MStaffs" />
+    </AssociationSet>
+    <AssociationSet Name="CalendarWithStaff" Association="Self.CalendarWithStaff">
+      <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
+      <End Role="MStaff" EntitySet="MStaffs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

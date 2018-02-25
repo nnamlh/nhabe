@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AgencyWithStaff">
+    <Key>
+      <PropertyRef Name="AgencyId" />
+      <PropertyRef Name="StaffId" />
+    </Key>
+    <Property Name="AgencyId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AreaInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="AreaName" Type="nvarchar(max)" />
+    <Property Name="Describes" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CalendarInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="CMonth" Type="int" />
+    <Property Name="CYear" Type="int" />
+    <Property Name="CWeek" Type="int" />
+    <Property Name="FDay" Type="int" />
+    <Property Name="TDay" Type="int" />
+    <Property Name="IsClock" Type="int" />
+    <Property Name="GroupNumber" Type="int" />
+  </EntityType>
+  <EntityType Name="CalendarType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CalendarWithStaff">
+    <Key>
+      <PropertyRef Name="CalendarId" />
+      <PropertyRef Name="StaffId" />
+    </Key>
+    <Property Name="CalendarId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CalendarWork">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="CDay" Type="int" />
+    <Property Name="InPlan" Type="int" />
+    <Property Name="TypeId" Type="nvarchar" MaxLength="128" />
+    <Property Name="Notes" Type="nvarchar(max)" />
+    <Property Name="CInTime" Type="time" Precision="7" />
+    <Property Name="COutTime" Type="time" Precision="7" />
+    <Property Name="DayInWeek" Type="nvarchar" MaxLength="32" />
+    <Property Name="Perform" Type="int" />
+    <Property Name="CDate" Type="varchar" MaxLength="32" />
+    <Property Name="AgencyId" Type="varchar" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="MAgency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="128" />
+    <Property Name="Store" Type="nvarchar(max)" />
+    <Property Name="Deputy" Type="nvarchar(max)" />
+    <Property Name="IdentityCard" Type="varchar" MaxLength="32" />
+    <Property Name="Phone" Type="varchar" MaxLength="16" />
+    <Property Name="AddressDetail" Type="nvarchar(max)" />
+    <Property Name="Province" Type="nvarchar" MaxLength="512" />
+    <Property Name="AreaId" Type="varchar" MaxLength="128" />
+    <Property Name="IsLock" Type="int" />
+  </EntityType>
+  <EntityType Name="MProduct">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="PName" Type="nvarchar(max)" />
+    <Property Name="Describes" Type="nvarchar(max)" />
+    <Property Name="PImage" Type="nvarchar(max)" />
+    <Property Name="PCode" Type="varchar" MaxLength="128" />
+    <Property Name="Price" Type="float" />
+    <Property Name="Unit" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsLock" Type="int" />
+  </EntityType>
+  <EntityType Name="MStaff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="512" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="16" />
+    <Property Name="MUser" Type="varchar" MaxLength="128" />
+    <Property Name="GroupNumber" Type="int" />
+    <Property Name="IdentityCard" Type="varchar" MaxLength="32" />
+    <Property Name="IsLock" Type="int" />
+  </EntityType>
+  <Association Name="FK__AgencyWit__Agenc__2E1BDC42">
+    <End Role="MAgency" Type="Self.MAgency" Multiplicity="1" />
+    <End Role="AgencyWithStaff" Type="Self.AgencyWithStaff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AgencyWithStaff">
+        <PropertyRef Name="AgencyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__AgencyWit__Staff__2F10007B">
+    <End Role="MStaff" Type="Self.MStaff" Multiplicity="1" />
+    <End Role="AgencyWithStaff" Type="Self.AgencyWithStaff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MStaff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AgencyWithStaff">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Agenc__4CA06362">
+    <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
+    <End Role="CalendarWork" Type="Self.CalendarWork" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarWork">
+        <PropertyRef Name="AgencyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Calen__46E78A0C">
+    <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="1" />
+    <End Role="CalendarWithStaff" Type="Self.CalendarWithStaff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CalendarInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarWithStaff">
+        <PropertyRef Name="CalendarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Staff__47DBAE45">
+    <End Role="MStaff" Type="Self.MStaff" Multiplicity="1" />
+    <End Role="CalendarWithStaff" Type="Self.CalendarWithStaff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MStaff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarWithStaff">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MAgency__AreaId__2B3F6F97">
+    <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="0..1" />
+    <End Role="MAgency" Type="Self.MAgency" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AreaInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MAgency">
+        <PropertyRef Name="AreaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MDBModelStoreContainer">
+    <EntitySet Name="AgencyWithStaff" EntityType="Self.AgencyWithStaff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AreaInfo" EntityType="Self.AreaInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CalendarInfo" EntityType="Self.CalendarInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CalendarType" EntityType="Self.CalendarType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CalendarWithStaff" EntityType="Self.CalendarWithStaff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CalendarWork" EntityType="Self.CalendarWork" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MAgency" EntityType="Self.MAgency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MProduct" EntityType="Self.MProduct" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MStaff" EntityType="Self.MStaff" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__AgencyWit__Agenc__2E1BDC42" Association="Self.FK__AgencyWit__Agenc__2E1BDC42">
+      <End Role="MAgency" EntitySet="MAgency" />
+      <End Role="AgencyWithStaff" EntitySet="AgencyWithStaff" />
+    </AssociationSet>
+    <AssociationSet Name="FK__AgencyWit__Staff__2F10007B" Association="Self.FK__AgencyWit__Staff__2F10007B">
+      <End Role="MStaff" EntitySet="MStaff" />
+      <End Role="AgencyWithStaff" EntitySet="AgencyWithStaff" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Agenc__4CA06362" Association="Self.FK__CalendarW__Agenc__4CA06362">
+      <End Role="MAgency" EntitySet="MAgency" />
+      <End Role="CalendarWork" EntitySet="CalendarWork" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Calen__46E78A0C" Association="Self.FK__CalendarW__Calen__46E78A0C">
+      <End Role="CalendarInfo" EntitySet="CalendarInfo" />
+      <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Staff__47DBAE45" Association="Self.FK__CalendarW__Staff__47DBAE45">
+      <End Role="MStaff" EntitySet="MStaff" />
+      <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MAgency__AreaId__2B3F6F97" Association="Self.FK__MAgency__AreaId__2B3F6F97">
+      <End Role="AreaInfo" EntitySet="AreaInfo" />
+      <End Role="MAgency" EntitySet="MAgency" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
