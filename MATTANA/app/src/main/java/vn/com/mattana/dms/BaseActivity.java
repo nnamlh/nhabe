@@ -74,4 +74,15 @@ public class BaseActivity extends AppCompatActivity {
         return retrofit.create(ApiInterface.class);
     }
 
+
+    // dialog
+    protected void showpDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    protected void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
 }

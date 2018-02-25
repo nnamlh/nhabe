@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#D32F2F</color>
+
+
+    <color name="gray_color">#E0E0E0</color>
+    <color name="white">#fff</color>
+
+    <color name="red">#D50000</color>
+    <color name="hover_error">#EF9A9A</color>
+    <color name="no_hover_error">#FFFFFF</color>
 </resources>

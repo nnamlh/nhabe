@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_customer"
+            android:icon="@mipmap/ic_agency"
+            android:visible="true"
+            android:title="Danh sách khách hàng" />
+        <item
+            android:id="@+id/nav_staffcalendar"
+            android:icon="@mipmap/ic_calendar"
+            android:visible="true"
+            android:title="Lịch công tác" />
+
+        <item
+            android:id="@+id/nav_order"
+            android:icon="@mipmap/ic_order"
+            android:visible="true"
+            android:title="Đơn hàng" />
+
+    </group>
+
+    <item android:title="Hổ trợ">
+        <menu>
+            <item
+                android:id="@+id/nav_callcenter"
+                android:icon="@mipmap/ic_call"
+                android:title="Giọi tổng đài" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@mipmap/ic_off"
+                android:title="Đăng xuất" />
+        </menu>
+    </item>
+
+</menu>

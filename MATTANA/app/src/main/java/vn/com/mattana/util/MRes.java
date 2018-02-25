@@ -21,5 +21,7 @@ public class MRes {
 
 
     // common
-    public final String baseUrl = "http://dmsapi.nongduochai.vn/api/";
+    public final String baseUrl = "http://221.133.7.58:68/api/";
+    public final String PREF_KEY_USER = "MUSER";
+    public final String PREF_KEY_TOKEN = "MTOKEN";
 }

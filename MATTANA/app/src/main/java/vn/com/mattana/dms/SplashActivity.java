@@ -2,12 +2,17 @@ package vn.com.mattana.dms;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
+
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -17,6 +22,12 @@ import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.com.mattana.model.api.ResultInfo;
+import vn.com.mattana.util.MRes;
 
 public class SplashActivity extends BaseActivity {
     boolean isSetting = false;
@@ -93,7 +104,14 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                commons.startActivity(SplashActivity.this, LoginActivity.class);
+                String user = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, null);
+                String token = prefsHelper.get(MRes.getInstance().PREF_KEY_TOKEN, null);
+                if (TextUtils.isEmpty(token) || TextUtils.isEmpty(user)) {
+                    commons.startActivity(SplashActivity.this, LoginActivity.class);
+                    finish();
+                } else {
+                    makeJsonRequest(user, token);
+                }
             }
         }, 100);
     }
@@ -106,4 +124,53 @@ public class SplashActivity extends BaseActivity {
             isSetting = false;
         }
     }
+
+
+    private void makeJsonRequest(final String user, final String token) {
+
+        Call<ResultInfo> call = apiInterface().checkSession(user, token);
+
+        call.enqueue(new Callback<ResultInfo>() {
+            @Override
+            public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+                if (response.body() != null) {
+                    if ("1".equals(response.body().getId())) {
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        commons.showAlertCancelHandle(SplashActivity.this, "Thông báo", "Đăng nhập để truy cập ứng dụng", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                commons.startActivity(SplashActivity.this, LoginActivity.class);
+                                finish();
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResultInfo> call, Throwable t) {
+                commons.showAlertCancelHandle(SplashActivity.this, "Thông báo", "Thử lại", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        makeJsonRequest(user, token);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+            }
+        });
+
+    }
+
 }
