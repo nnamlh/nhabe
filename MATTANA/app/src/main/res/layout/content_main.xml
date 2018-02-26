@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="vn.com.mattana.dms.MainActivity"
-    android:padding="30dp"
+    android:padding="20dp"
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_height="60dp"
                 android:src="@mipmap/ic_checkin"
                 android:id="@+id/imgcheckin"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"/>
 
@@ -40,7 +40,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/imgcheckin"
                 android:layout_marginLeft="10dp"
@@ -52,7 +52,6 @@
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
                 android:src="@mipmap/ic_right_arrow"/>
 
 
@@ -64,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:padding="5dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="45dp"
             android:onClick="nearlyClick"
             android:background="#FFC107">
 
@@ -73,7 +72,7 @@
                 android:layout_height="60dp"
                 android:src="@mipmap/ic_agency_nearly"
                 android:id="@+id/imgagency"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"/>
 
@@ -85,7 +84,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/imgagency"
                 android:layout_marginLeft="10dp"
@@ -97,7 +96,6 @@
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
                 android:src="@mipmap/ic_right_arrow"/>
 
 

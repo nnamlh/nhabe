@@ -10,20 +10,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CalendarInfoes">
-      <EntityTypeMapping TypeName="MDBModel.CalendarInfo">
-        <MappingFragment StoreEntitySet="CalendarInfo">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
-          <ScalarProperty Name="CYear" ColumnName="CYear" />
-          <ScalarProperty Name="CWeek" ColumnName="CWeek" />
-          <ScalarProperty Name="FDay" ColumnName="FDay" />
-          <ScalarProperty Name="TDay" ColumnName="TDay" />
-          <ScalarProperty Name="IsClock" ColumnName="IsClock" />
-          <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="CalendarTypes">
       <EntityTypeMapping TypeName="MDBModel.CalendarType">
         <MappingFragment StoreEntitySet="CalendarType">
@@ -35,6 +21,11 @@
     <EntitySetMapping Name="CalendarWorks">
       <EntityTypeMapping TypeName="MDBModel.CalendarWork">
         <MappingFragment StoreEntitySet="CalendarWork">
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+          <ScalarProperty Name="MUser" ColumnName="MUser" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CDay" ColumnName="CDay" />
           <ScalarProperty Name="InPlan" ColumnName="InPlan" />
@@ -52,6 +43,8 @@
     <EntitySetMapping Name="MAgencies">
       <EntityTypeMapping TypeName="MDBModel.MAgency">
         <MappingFragment StoreEntitySet="MAgency">
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Store" ColumnName="Store" />
@@ -100,13 +93,45 @@
         <ScalarProperty Name="Id" ColumnName="StaffId" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="CalendarWithStaff" TypeName="MDBModel.CalendarWithStaff" StoreEntitySet="CalendarWithStaff">
-      <EndProperty Name="CalendarInfo">
-        <ScalarProperty Name="Id" ColumnName="CalendarId" />
-      </EndProperty>
-      <EndProperty Name="MStaff">
-        <ScalarProperty Name="Id" ColumnName="StaffId" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="CalendarInfoes">
+      <EntityTypeMapping TypeName="MDBModel.CalendarInfo">
+        <MappingFragment StoreEntitySet="CalendarInfo">
+          <ScalarProperty Name="WeekOfYear" ColumnName="WeekOfYear" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="TDate" ColumnName="TDate" />
+          <ScalarProperty Name="FDate" ColumnName="FDate" />
+          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CalendarWithStaffs">
+      <EntityTypeMapping TypeName="MDBModel.CalendarWithStaff">
+        <MappingFragment StoreEntitySet="CalendarWithStaff">
+          <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="get_calendar_by_staff_byday" FunctionName="MDBModel.Store.get_calendar_by_staff_byday">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MDBModel.get_calendar_by_staff_byday_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
+          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
+          <ScalarProperty Name="Perform" ColumnName="Perform" />
+          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
+          <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
+          <ScalarProperty Name="StaffCheckName" ColumnName="StaffCheckName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

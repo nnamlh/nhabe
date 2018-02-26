@@ -12,6 +12,8 @@ namespace MATTANAAPI.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class MDBEntities : DbContext
     {
@@ -26,11 +28,33 @@ namespace MATTANAAPI.Models
         }
     
         public virtual DbSet<AreaInfo> AreaInfoes { get; set; }
-        public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
         public virtual DbSet<CalendarType> CalendarTypes { get; set; }
         public virtual DbSet<CalendarWork> CalendarWorks { get; set; }
         public virtual DbSet<MAgency> MAgencies { get; set; }
         public virtual DbSet<MProduct> MProducts { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
+        public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
+        public virtual DbSet<CalendarWithStaff> CalendarWithStaffs { get; set; }
+    
+        public virtual ObjectResult<get_calendar_by_staff_byday_Result> get_calendar_by_staff_byday(Nullable<int> day, Nullable<int> month, Nullable<int> year, string staffId)
+        {
+            var dayParameter = day.HasValue ?
+                new ObjectParameter("day", day) :
+                new ObjectParameter("day", typeof(int));
+    
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("month", month) :
+                new ObjectParameter("month", typeof(int));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("year", year) :
+                new ObjectParameter("year", typeof(int));
+    
+            var staffIdParameter = staffId != null ?
+                new ObjectParameter("staffId", staffId) :
+                new ObjectParameter("staffId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_calendar_by_staff_byday_Result>("get_calendar_by_staff_byday", dayParameter, monthParameter, yearParameter, staffIdParameter);
+        }
     }
 }

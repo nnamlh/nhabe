@@ -27,12 +27,38 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label=""
+            android:label="MATTANA DMS"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".checkin.CalendarActivity"></activity>
+        <activity
+            android:name=".checkin.CalendarActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".checkin.CheckInActivity"
+            android:label="Lịch công tác ngày"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".checkin.CheckInTaskActivity"
+            android:label="Ghé thăm"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".order.ProductActivity"
+            android:label="Sản phẩm"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".order.CompleteOrderActivity"
+            android:label="Đặt hàng"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

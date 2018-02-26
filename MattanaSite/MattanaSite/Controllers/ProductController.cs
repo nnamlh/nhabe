@@ -31,6 +31,36 @@ namespace MattanaSite.Controllers
             return View(product);
         }
 
+        [HttpGet]
+        public ActionResult Add()
+        {
+            AddMenu(1);
+
+            return View(new MProduct());
+        }
+
+        [HttpPost]
+        public ActionResult Add(MProduct info)
+        {
+            AddMenu(1);
+
+            var check = db.MProducts.Where(p => p.PCode == info.PCode).FirstOrDefault();
+
+            if (check != null)
+            {
+                ViewBag.MSG = "Mã đã tồn tại";
+                return View(info);
+            }
+
+            info.Id = Guid.NewGuid().ToString();
+
+            db.MProducts.Add(info);
+            db.SaveChanges();
+
+
+            return View(new MProduct());
+        }
+
         public override List<SubMenuInfo> Menu(int idxActive)
         {
             List<SubMenuInfo> menues = new List<SubMenuInfo>();

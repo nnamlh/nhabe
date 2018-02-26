@@ -25,7 +25,13 @@ namespace MATTANAAPI.Models
         public Nullable<int> Perform { get; set; }
         public string CDate { get; set; }
         public string AgencyId { get; set; }
+        public string MUser { get; set; }
+        public string StaffCode { get; set; }
+        public Nullable<int> CYear { get; set; }
+        public Nullable<int> CMonth { get; set; }
+        public string CalendarId { get; set; }
     
         public virtual MAgency MAgency { get; set; }
+        public virtual CalendarInfo CalendarInfo { get; set; }
     }
 }

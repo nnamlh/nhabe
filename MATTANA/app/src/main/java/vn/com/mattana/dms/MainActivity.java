@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
+import vn.com.mattana.dms.checkin.CheckInActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
     NavigationView navigationView;
@@ -77,7 +78,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
     public void checkInClick(View view) {
-
+        commons.startActivity(MainActivity.this, CheckInActivity.class);
     }
 
     public void nearlyClick(View view){

@@ -22,7 +22,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/11/2013 16:16:48</publishTime>
     </File>
     <File Include="bin/MattanaSite.dll">
-      <publishTime>02/26/2018 04:07:45</publishTime>
+      <publishTime>02/26/2018 11:35:44</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>01/26/2018 00:21:50</publishTime>
@@ -282,6 +282,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/_references.js">
       <publishTime>02/26/2018 02:13:03</publishTime>
     </File>
+    <File Include="Util/Cultures.cs">
+      <publishTime>02/26/2018 11:32:21</publishTime>
+    </File>
     <File Include="Views/Account/Login.cshtml">
       <publishTime>02/25/2018 15:14:31</publishTime>
     </File>
@@ -318,8 +321,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Home/Index.cshtml">
       <publishTime>01/26/2018 00:53:01</publishTime>
     </File>
+    <File Include="Views/Product/Add.cshtml">
+      <publishTime>02/26/2018 11:30:30</publishTime>
+    </File>
     <File Include="Views/Product/Show.cshtml">
-      <publishTime>02/25/2018 17:28:00</publishTime>
+      <publishTime>02/26/2018 11:33:52</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>01/26/2018 00:21:48</publishTime>

@@ -16,6 +16,7 @@ import vn.com.mattana.di.component.DaggerActivityComponent;
 import vn.com.mattana.di.module.ActivityModule;
 import vn.com.mattana.util.ApiInterface;
 import vn.com.mattana.util.Commons;
+import vn.com.mattana.util.MRes;
 import vn.com.mattana.util.RealmController;
 import vn.com.mattana.util.SharedPrefsHelper;
 
@@ -41,6 +42,9 @@ public class BaseActivity extends AppCompatActivity {
 
     protected Realm realmControl;
 
+    protected String user ;
+    protected String token ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,10 @@ public class BaseActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
         //
         realmControl = RealmController.getInstance().getRealm();
+
+        user = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, null);
+        token = prefsHelper.get(MRes.getInstance().PREF_KEY_TOKEN, null);
+
 
     }
 

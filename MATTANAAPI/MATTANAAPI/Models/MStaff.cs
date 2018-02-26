@@ -17,7 +17,7 @@ namespace MATTANAAPI.Models
         public MStaff()
         {
             this.MAgencies = new HashSet<MAgency>();
-            this.CalendarInfoes = new HashSet<CalendarInfo>();
+            this.CalendarWithStaffs = new HashSet<CalendarWithStaff>();
         }
     
         public string Id { get; set; }
@@ -29,6 +29,6 @@ namespace MATTANAAPI.Models
         public Nullable<int> IsLock { get; set; }
     
         public virtual ICollection<MAgency> MAgencies { get; set; }
-        public virtual ICollection<CalendarInfo> CalendarInfoes { get; set; }
+        public virtual ICollection<CalendarWithStaff> CalendarWithStaffs { get; set; }
     }
 }
