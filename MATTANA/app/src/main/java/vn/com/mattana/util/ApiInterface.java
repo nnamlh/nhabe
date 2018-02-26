@@ -45,6 +45,10 @@ public interface ApiInterface {
             @Query("user") String user,
             @Query("token") String token, @Query("workId") String workId, @Query("notes") String notes);
 
+    @GET("calendar/calendarwork")
+    Call<CWorkResult> calendarWork(
+            @Query("user") String user,@Query("day") int day,@Query("month") int month,@Query("year") int year);
+
     // product
     @GET("info/products")
     Call<List<ProductInfo>> products();

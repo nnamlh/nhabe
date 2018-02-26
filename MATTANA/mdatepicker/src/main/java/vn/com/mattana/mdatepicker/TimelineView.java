@@ -133,8 +133,8 @@ public class TimelineView extends RecyclerView {
             }
         }
         // Animate scroll
-       // int offset = getMeasuredWidth() / 2 - getChildAt(0).getMeasuredWidth() / 2;
-      //  layoutManager.scrollToPositionWithOffset(position, offset);
+       int offset = getMeasuredWidth() / 2 - getChildAt(0).getMeasuredWidth() / 2;
+        layoutManager.scrollToPositionWithOffset(position, offset);
     }
 
     public void centerOnSelection() {

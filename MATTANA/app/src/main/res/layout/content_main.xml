@@ -64,7 +64,7 @@
             android:layout_height="80dp"
             android:padding="5dp"
             android:layout_marginTop="45dp"
-            android:onClick="nearlyClick"
+            android:onClick="showCalendar"
             android:background="#FFC107">
 
             <ImageView
@@ -88,7 +88,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/imgagency"
                 android:layout_marginLeft="10dp"
-                android:text="KHÁCH HÀNG"/>
+                android:text="LỊCH CÔNG TÁC"/>
 
 
             <ImageView

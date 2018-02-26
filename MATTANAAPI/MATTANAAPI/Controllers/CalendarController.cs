@@ -205,5 +205,68 @@ namespace MATTANAAPI.Controllers
 
             return result;
         }
+
+        //
+        [HttpGet]
+        public CWorkResult CalendarWork(string user, int day, int month, int year)
+        {
+
+            var log = new MongoHistoryAPI()
+            {
+                APIUrl = "/api/calendar/calendarwork",
+                CreateTime = DateTime.Now,
+                Sucess = 1
+            };
+
+            var result = new CWorkResult()
+            {
+                id = "1",
+                msg = "success",
+                works = new List<CWorkInfo>()
+            };
+
+            try
+            {
+                var checkStaff = db.MStaffs.Where(p => p.MUser == user).FirstOrDefault();
+
+                if (checkStaff == null)
+                    throw new Exception("Sai thông tin");
+
+                var works = db.get_calendar_by_staff_byday(day, month, year, checkStaff.Id).ToList();
+
+                foreach (var item in works)
+                {
+                    result.works.Add(new CWorkInfo()
+                    {
+                        workId = item.Id,
+                        store = item.Store,
+                        phone = item.Phone,
+                        lng = item.Lng == null ? 0 : item.Lng,
+                        lat = item.Lat == null ? 0 : item.Lat,
+                        address = item.AddressDetail,
+                        code = item.Code,
+                        perform = item.Perform,
+                        inplan = item.InPlan,
+                        status = item.CInTime != null ? "Ghé thăm lúc: " + new DateTime(item.CInTime.Value.Ticks).ToString("HH:mm") + " - nhân viên: " + item.StaffCheckName : "Chưa ghé thăm"
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.id = "0";
+                result.msg = e.Message;
+                log.Sucess = 0;
+            }
+
+            log.ReturnInfo = new JavaScriptSerializer().Serialize(result);
+
+            mongoHelper.createHistoryAPI(log);
+
+            return result;
+
+        }
+
+
     }
 }

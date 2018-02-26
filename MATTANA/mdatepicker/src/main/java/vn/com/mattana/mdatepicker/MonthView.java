@@ -17,8 +17,8 @@ import java.util.Locale;
 
 public class MonthView extends RecyclerView {
 
-    private static String[] MONTHS = DateFormatSymbols.getInstance().getShortMonths();
-
+    //private static String[] MONTHS = DateFormatSymbols.getInstance().getShortMonths();
+    private static String[] MONTHS = {"TH1", "TH2", "TH3", "TH4", "TH5", "TH6", "TH7", "TH8", "TH9", "TH10", "TH11", "TH12"};
     private MonthAdapter adapter;
     private LinearLayoutManager layoutManager;
     private OnMonthSelectedListener onMonthSelectedListener;

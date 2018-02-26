@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
+import vn.com.mattana.dms.checkin.CalendarActivity;
 import vn.com.mattana.dms.checkin.CheckInActivity;
 import vn.com.mattana.util.MRes;
 
@@ -86,7 +87,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         commons.startActivity(MainActivity.this, CheckInActivity.class);
     }
 
-    public void nearlyClick(View view){
+    public void showCalendar(View view){
+         commons.startActivity(MainActivity.this, CalendarActivity.class);
 
     }
 }
