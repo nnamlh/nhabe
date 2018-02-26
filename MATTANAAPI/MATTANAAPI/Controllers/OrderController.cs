@@ -63,7 +63,10 @@ namespace MATTANAAPI.Controllers
                     PriceReal = 0,
                     StaffId = checkStaff.Id,
                     StatusId = "create",
-                    Code = newCode
+                    Code = newCode,
+                    CDay = DateTime.Now.Day,
+                    CMonth = DateTime.Now.Month,
+                    CYear = DateTime.Now.Year
                 };
 
                 db.MOrders.Add(order);

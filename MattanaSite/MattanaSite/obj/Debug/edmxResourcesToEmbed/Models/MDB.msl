@@ -114,5 +114,84 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="MOrders">
+      <EntityTypeMapping TypeName="MDBModel.MOrder">
+        <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="CDay" ColumnName="CDay" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CloseOrder" ColumnName="CloseOrder" />
+          <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="PriceReal" ColumnName="PriceReal" />
+          <ScalarProperty Name="PriceOrder" ColumnName="PriceOrder" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderNumbers">
+      <EntityTypeMapping TypeName="MDBModel.OrderNumber">
+        <MappingFragment StoreEntitySet="OrderNumber">
+          <ScalarProperty Name="CharId" ColumnName="CharId" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderStatus">
+      <EntityTypeMapping TypeName="MDBModel.OrderStatu">
+        <MappingFragment StoreEntitySet="OrderStatus">
+          <ScalarProperty Name="PreStt" ColumnName="PreStt" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductOrders">
+      <EntityTypeMapping TypeName="MDBModel.ProductOrder">
+        <MappingFragment StoreEntitySet="ProductOrder">
+          <ScalarProperty Name="QuantityReal" ColumnName="QuantityReal" />
+          <ScalarProperty Name="QuantityBuy" ColumnName="QuantityBuy" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="get_detail_calendar_by_calendarid" FunctionName="MDBModel.Store.get_detail_calendar_by_calendarid">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MDBModel.get_detail_calendar_by_calendarid_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CDay" ColumnName="CDay" />
+          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
+          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
+          <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
+          <ScalarProperty Name="Perform" ColumnName="Perform" />
+          <ScalarProperty Name="CDate" ColumnName="CDate" />
+          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+          <ScalarProperty Name="MUser" ColumnName="MUser" />
+          <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
+          <ScalarProperty Name="StaffCheckName" ColumnName="StaffCheckName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

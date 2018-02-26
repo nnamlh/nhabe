@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MATTANAAPI.Models
+namespace MattanaSite.Models
 {
     using System;
     using System.Collections.Generic;

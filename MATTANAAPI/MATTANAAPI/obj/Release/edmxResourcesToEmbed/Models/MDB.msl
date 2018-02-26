@@ -136,6 +136,9 @@
     <EntitySetMapping Name="MOrders">
       <EntityTypeMapping TypeName="MDBModel.MOrder">
         <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="CDay" ColumnName="CDay" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />
           <ScalarProperty Name="CloseOrder" ColumnName="CloseOrder" />
           <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />

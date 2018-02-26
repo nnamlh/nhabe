@@ -101,6 +101,9 @@
           <Property Name="ModifyTime" Type="datetime" />
           <Property Name="CloseOrder" Type="int" />
           <Property Name="Notes" Type="nvarchar(max)" />
+          <Property Name="CDay" Type="int" />
+          <Property Name="CMonth" Type="int" />
+          <Property Name="CYear" Type="int" />
         </EntityType>
         <EntityType Name="MProduct">
           <Key>
@@ -645,6 +648,9 @@
           <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MOrder" ToRole="MStaff" />
           <NavigationProperty Name="OrderStatu" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="MOrder" ToRole="OrderStatu" />
           <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="MOrder" ToRole="ProductOrder" />
+          <Property Name="CDay" Type="Int32" />
+          <Property Name="CMonth" Type="Int32" />
+          <Property Name="CYear" Type="Int32" />
         </EntityType>
         <EntityType Name="OrderNumber">
           <Key>
@@ -876,6 +882,9 @@
           <EntitySetMapping Name="MOrders">
             <EntityTypeMapping TypeName="MDBModel.MOrder">
               <MappingFragment StoreEntitySet="MOrder">
+                <ScalarProperty Name="CYear" ColumnName="CYear" />
+                <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+                <ScalarProperty Name="CDay" ColumnName="CDay" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="CloseOrder" ColumnName="CloseOrder" />
                 <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />

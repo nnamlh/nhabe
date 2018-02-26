@@ -96,6 +96,9 @@
     <Property Name="ModifyTime" Type="datetime" />
     <Property Name="CloseOrder" Type="int" />
     <Property Name="Notes" Type="nvarchar(max)" />
+    <Property Name="CDay" Type="int" />
+    <Property Name="CMonth" Type="int" />
+    <Property Name="CYear" Type="int" />
   </EntityType>
   <EntityType Name="MProduct">
     <Key>

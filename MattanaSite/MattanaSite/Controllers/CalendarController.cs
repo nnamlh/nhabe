@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace MattanaSite.Controllers
 {
@@ -16,11 +17,59 @@ namespace MattanaSite.Controllers
         MDBEntities db = new MDBEntities();
         //
         // GET: /Calendar/
-        public ActionResult Show()
+        [HttpGet]
+        public ActionResult Show( int? page, string staffId = "", string fdate = "", string tdate = "", string status = "create")
         {
-            return View();
+            AddMenu(0);
+
+
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+
+            ViewBag.Staff = db.MStaffs.ToList();
+
+            DateTime fromDate;
+
+            DateTime toDate;
+
+            if (String.IsNullOrEmpty(fdate) || String.IsNullOrEmpty(tdate))
+            {
+                var currentDate = DateTime.Now;
+                fromDate = currentDate;
+                toDate = currentDate.AddDays(5);
+            }
+            else
+            {
+                fromDate = DateTime.ParseExact(fdate, "dd/MM/yyyy", null);
+                toDate = DateTime.ParseExact(tdate, "dd/MM/yyyy", null);
+            }
+
+            ViewBag.FDate = fromDate;
+            ViewBag.TDate = toDate;
+
+          //  var calendars = db.CalendarWithStaffs.Where(p => p.StaffId.Contains(staffId)).Select(p => p.CalendarInfo).OrderByDescending(p => p.FDate).ToList();
+
+            var data = (from log in db.CalendarWithStaffs
+                              where DbFunctions.TruncateTime(log.CalendarInfo.FDate)
+                                                 >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CalendarInfo.FDate)
+                                                 <= DbFunctions.TruncateTime(toDate) && log.StaffId.Contains(staffId)
+                              select log.CalendarInfo).OrderByDescending(p => p.FDate).ToPagedList(pageNumber, pageSize);
+
+
+            return View(data);
         }
 
+
+        [HttpGet]
+        public ActionResult ShowDetail(string id)
+        {
+
+            ViewBag.CStaff = db.CalendarInfoes.Find(id);
+
+            var detail = db.get_detail_calendar_by_calendarid(id).ToList();
+
+            return View(detail);
+        }
 
         [HttpGet]
         public ActionResult Add()
@@ -166,14 +215,14 @@ namespace MattanaSite.Controllers
             menues.Add(new SubMenuInfo()
             {
                 Name = "Xem lịch",
-                Url = "/",
+                Url = "/calendar/show",
                 Active = 0
             });
 
             menues.Add(new SubMenuInfo()
             {
                 Name = "Thêm lịch",
-                Url = "",
+                Url = "/calendar/add",
                 Active = 0
             });
 

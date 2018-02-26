@@ -59,6 +59,7 @@ N:\nhabe\MattanaSite\MattanaSite\bin\MattanaSite.pdb
 N:\nhabe\MattanaSite\MattanaSite\bin\Antlr3.Runtime.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\EntityFramework.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\EntityFramework.SqlServer.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\EPPlus.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.AspNet.Identity.Core.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -74,6 +75,8 @@ N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.Owin.Security.Twitter.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.Web.Infrastructure.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\Newtonsoft.Json.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\Owin.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.Mvc.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Helpers.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Mvc.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Optimization.dll
@@ -82,6 +85,8 @@ N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.WebPages.Deployment.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.WebPages.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.WebPages.Razor.dll
 N:\nhabe\MattanaSite\MattanaSite\bin\WebGrease.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.Mvc.xml
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Helpers.xml
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Mvc.xml
 N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Optimization.xml
@@ -108,8 +113,3 @@ N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.Owin.Security.MicrosoftAccount.xm
 N:\nhabe\MattanaSite\MattanaSite\obj\Debug\MattanaSite.csprojResolveAssemblyReference.cache
 N:\nhabe\MattanaSite\MattanaSite\obj\Debug\MattanaSite.dll
 N:\nhabe\MattanaSite\MattanaSite\obj\Debug\MattanaSite.pdb
-N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.dll
-N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.Mvc.dll
-N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.xml
-N:\nhabe\MattanaSite\MattanaSite\bin\PagedList.Mvc.xml
-N:\nhabe\MattanaSite\MattanaSite\bin\EPPlus.dll

@@ -12,22 +12,10 @@ namespace MattanaSite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MProduct
+    public partial class OrderNumber
     {
-        public MProduct()
-        {
-            this.ProductOrders = new HashSet<ProductOrder>();
-        }
-    
         public string Id { get; set; }
-        public string PName { get; set; }
-        public string Describes { get; set; }
-        public string PImage { get; set; }
-        public string PCode { get; set; }
-        public Nullable<double> Price { get; set; }
-        public string Unit { get; set; }
-        public Nullable<int> IsLock { get; set; }
-    
-        public virtual ICollection<ProductOrder> ProductOrders { get; set; }
+        public Nullable<int> Number { get; set; }
+        public Nullable<int> CharId { get; set; }
     }
 }

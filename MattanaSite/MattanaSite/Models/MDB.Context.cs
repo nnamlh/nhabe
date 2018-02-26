@@ -12,6 +12,8 @@ namespace MattanaSite.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class MDBEntities : DbContext
     {
@@ -33,5 +35,18 @@ namespace MattanaSite.Models
         public virtual DbSet<MStaff> MStaffs { get; set; }
         public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
         public virtual DbSet<CalendarWithStaff> CalendarWithStaffs { get; set; }
+        public virtual DbSet<MOrder> MOrders { get; set; }
+        public virtual DbSet<OrderNumber> OrderNumbers { get; set; }
+        public virtual DbSet<OrderStatu> OrderStatus { get; set; }
+        public virtual DbSet<ProductOrder> ProductOrders { get; set; }
+    
+        public virtual ObjectResult<get_detail_calendar_by_calendarid_Result> get_detail_calendar_by_calendarid(string calendarId)
+        {
+            var calendarIdParameter = calendarId != null ?
+                new ObjectParameter("calendarId", calendarId) :
+                new ObjectParameter("calendarId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_detail_calendar_by_calendarid_Result>("get_detail_calendar_by_calendarid", calendarIdParameter);
+        }
     }
 }

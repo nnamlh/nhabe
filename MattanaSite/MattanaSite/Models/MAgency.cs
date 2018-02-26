@@ -18,6 +18,7 @@ namespace MattanaSite.Models
         {
             this.CalendarWorks = new HashSet<CalendarWork>();
             this.MStaffs = new HashSet<MStaff>();
+            this.MOrders = new HashSet<MOrder>();
         }
     
         public string Id { get; set; }
@@ -36,5 +37,6 @@ namespace MattanaSite.Models
         public virtual AreaInfo AreaInfo { get; set; }
         public virtual ICollection<CalendarWork> CalendarWorks { get; set; }
         public virtual ICollection<MStaff> MStaffs { get; set; }
+        public virtual ICollection<MOrder> MOrders { get; set; }
     }
 }

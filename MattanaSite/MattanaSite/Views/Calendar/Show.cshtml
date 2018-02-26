@@ -1,0 +1,114 @@
+﻿@model PagedList.IPagedList<MattanaSite.Models.CalendarInfo>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Show";
+    var staff = ViewBag.Staff as IEnumerable<MattanaSite.Models.MStaff>;
+}
+
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Lịch công việc đã tạo
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+
+        <div class="row">
+            <p class="">@ViewBag.MSG</p>
+            <form method="get">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Từ ngày</label>
+                        <input type="text" class="form-control datetime" name="fdate" value="@ViewBag.FDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Tới ngày</label>
+                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Nhân viên</label>
+                        <select class="form-control selectpicker" data-live-search="true" name="staffChoose" required>
+                            <option value="">Tất cả</option>
+                            @foreach (var item in staff)
+                            {
+                                <option data-tokens="@item.Id @item.FullName" value="@item.Id">@item.FullName - @item.Id</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Xem</button>
+                </div>
+
+            </form>
+
+            <div class="col-sm-12">
+                <br />
+                <fieldset>
+                    <table class="table table-striped table-bordered thumbnail-table">
+                        <thead>
+                            <tr>
+                                <th>Nhân viên</th>
+                                <th>Từ ngày</th>
+                                <th>Đến ngày</th>
+                                <th>Tuần thứ</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @foreach (var cStaff in item.CalendarWithStaffs.ToList())
+                                        {
+                                            <p>@cStaff.MStaff.FullName - @cStaff.StaffId</p><br />
+                                        }
+                                    </td>
+                                    <td>@item.FDate.Value.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.TDate.Value.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.WeekOfYear</td>
+                                    <td><a href="/calendar/showdetail/@item.Id" target="_blank">Chi tiêt</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("show",
+                                                                     new { page, search = ViewBag.SearchText }))
+                </fieldset>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section styles {
+    <!-- bootstrap select-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <link href="~/content/bootstrap-datepicker.min.css" rel="stylesheet">
+}
+
+@section scripts {
+    <!-- bootstrap select js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+
+    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/scripts/bootstrap-datepicker.vi.min.js"></script>
+    <script type="text/javascript">
+        $('.datetime').datepicker({
+            language: "vi",
+            format: 'dd/mm/yyyy',
+            orientation: "bottom auto"
+        });
+
+    </script>
+}

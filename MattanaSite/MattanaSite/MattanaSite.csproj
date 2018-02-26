@@ -177,6 +177,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
     <Compile Include="Global.asax.cs">
@@ -196,6 +197,9 @@
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CalendarWork.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\get_detail_calendar_by_calendarid_Result.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityCommon.cs" />
@@ -218,10 +222,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MOrder.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MProduct.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MStaff.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderNumber.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderStatu.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductOrder.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -337,6 +353,9 @@
     <Content Include="Views\Product\Show.cshtml" />
     <Content Include="Views\Calendar\Add.cshtml" />
     <Content Include="Views\Product\Add.cshtml" />
+    <Content Include="Views\Calendar\Show.cshtml" />
+    <Content Include="Views\Calendar\ShowDetail.cshtml" />
+    <Content Include="Views\Order\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
