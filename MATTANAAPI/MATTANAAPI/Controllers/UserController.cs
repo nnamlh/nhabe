@@ -100,7 +100,7 @@ namespace MATTANAAPI.Controllers
 
             mongoHelper.checkAndCreateAutHistory(user.UserName, authToke, "", "", "");
 
-            return new LoginResult { id = "1", msg = "login success", token = authToke, user = UserName };
+            return new LoginResult { id = "1", msg = "login success", token = authToke, user = UserName , code = check.Id, name = check.FullName};
         }
         #endregion
 
@@ -139,6 +139,35 @@ namespace MATTANAAPI.Controllers
             return result;
 
         }
+        #endregion
+
+
+        #region location
+
+        [HttpGet]
+        public ResultInfo SaveLocation(double lat, double lng, string user, string name, string code)
+        {
+
+            MongoLocationStaff data = new MongoLocationStaff()
+            {
+                Lat = lat,
+                Lng = lng,
+                Name = name,
+                Code = code,
+                Time = DateTime.Now,
+                User = user
+            };
+
+            mongoHelper.createLocationStaff(data);
+
+            return new ResultInfo()
+            {
+                id = "1",
+                msg = "ok"
+            };
+        }
+
+
         #endregion
 
 

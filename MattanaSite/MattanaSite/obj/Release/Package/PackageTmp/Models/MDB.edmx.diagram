@@ -19,6 +19,15 @@
         <AssociationConnector Association="MDBModel.FK__CalendarW__Calen__5441852A" />
         <AssociationConnector Association="MDBModel.FK__CalendarW__Staff__5535A963" />
         <AssociationConnector Association="MDBModel.FK__CalendarW__Calen__5629CD9C" />
+        <EntityTypeShape EntityType="MDBModel.MOrder" Width="1.5" PointX="13.875" PointY="4.25" />
+        <EntityTypeShape EntityType="MDBModel.OrderNumber" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MDBModel.OrderStatu" Width="1.5" PointX="11.625" PointY="2.75" />
+        <EntityTypeShape EntityType="MDBModel.ProductOrder" Width="1.5" PointX="16.125" PointY="7" />
+        <AssociationConnector Association="MDBModel.FK__MOrder__AgencyId__628FA481" />
+        <AssociationConnector Association="MDBModel.FK__MOrder__StaffId__6383C8BA" />
+        <AssociationConnector Association="MDBModel.FK__MOrder__StatusId__6477ECF3" />
+        <AssociationConnector Association="MDBModel.FK__ProductOr__Order__6754599E" />
+        <AssociationConnector Association="MDBModel.FK__ProductOr__Produ__68487DD7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -60,7 +60,7 @@ public class LoginActivity extends BaseActivity {
 
                 if (response.body() != null) {
                     if ("1".equals(response.body().getId())) {
-                        loginSuccess(response.body().getUser(), response.body().getToken());
+                        loginSuccess(response.body().getUser(), response.body().getToken(), response.body().getName(), response.body().getCode());
                     } else {
                         commons.makeToast(getApplicationContext(), response.body().getMsg()).show();
                     }
@@ -75,7 +75,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    protected void loginSuccess(String user, String token) {
+    protected void loginSuccess(String user, String token, String name, String code) {
 
         String oldUser = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, "");
 
@@ -86,7 +86,8 @@ public class LoginActivity extends BaseActivity {
 
         prefsHelper.put(MRes.getInstance().PREF_KEY_USER, user);
         prefsHelper.put(MRes.getInstance().PREF_KEY_TOKEN, token);
-
+        prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, name);
+        prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, code);
         commons.startActivity(LoginActivity.this, MainActivity.class);
 
         finish();

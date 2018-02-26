@@ -1,6 +1,9 @@
 package vn.com.mattana.dms;
 
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +17,7 @@ import vn.com.mattana.app.AppController;
 import vn.com.mattana.di.component.ActivityComponent;
 import vn.com.mattana.di.component.DaggerActivityComponent;
 import vn.com.mattana.di.module.ActivityModule;
+import vn.com.mattana.service.BackgroundLocationService;
 import vn.com.mattana.util.ApiInterface;
 import vn.com.mattana.util.Commons;
 import vn.com.mattana.util.MRes;
@@ -60,10 +64,22 @@ public class BaseActivity extends AppCompatActivity {
 
         user = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, null);
         token = prefsHelper.get(MRes.getInstance().PREF_KEY_TOKEN, null);
+        if (!isMyServiceRunning(BackgroundLocationService.class)) {
+            Intent intentSv = new Intent(BaseActivity.this, BackgroundLocationService.class);
+            startService(intentSv);
+        }
 
 
     }
-
+    protected boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
     //
     protected void createToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);

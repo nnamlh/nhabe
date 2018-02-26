@@ -13,6 +13,12 @@ public class LoginResult extends ResultInfo {
     @SerializedName("user")
     private String user;
 
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("code")
+    private String code;
+
     public String getToken() {
         return token;
     }
@@ -27,5 +33,21 @@ public class LoginResult extends ResultInfo {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

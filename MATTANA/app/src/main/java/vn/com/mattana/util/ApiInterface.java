@@ -23,6 +23,11 @@ public interface ApiInterface {
             @Query("user") String user,
             @Query("token") String token);
 
+    @GET("user/savelocation")
+    Call<ResultInfo> saveLocation(
+            @Query("user") String user,
+            @Query("name") String name, @Query("code") String code, @Query("lat") double lat, @Query("lng") double lng);
+
 
     // checkin
     @GET("calendar/showwork")

@@ -16,6 +16,10 @@ namespace MATTANAAPI.Models
 
         public string user { get; set; }
 
+        public string name { get; set; }
+
+        public string code { get; set; }
+
 
     }
 }

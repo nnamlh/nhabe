@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import vn.com.mattana.dms.checkin.CheckInActivity;
+import vn.com.mattana.util.MRes;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
     NavigationView navigationView;
@@ -25,7 +26,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     TextView txtCode;
 
-    TextView txtType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +53,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         txtName = (TextView) viewHeader.findViewById(R.id.name);
         txtCode = (TextView) viewHeader.findViewById(R.id.code);
 
+        String name = prefsHelper.get(MRes.getInstance().PREF_KEY_NAME, null);
+        String code = prefsHelper.get(MRes.getInstance().PREF_KEY_CODE, null);
+
+        txtName.setText(name);
+        txtCode.setText("Mã NV: " + code);
     }
 
 

@@ -31,7 +31,8 @@ public class MRes {
     public final String baseUrl = "http://221.133.7.58:68/api/";
     public final String PREF_KEY_USER = "MUSER";
     public final String PREF_KEY_TOKEN = "MTOKEN";
-
+    public final String PREF_KEY_NAME = "MNAME";
+    public final String PREF_KEY_CODE = "MCODE";
     // check in
     public DAgencyInfo agency;
 

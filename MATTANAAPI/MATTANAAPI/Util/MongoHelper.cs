@@ -38,6 +38,13 @@ namespace MATTANAAPI.Util
 
         }
 
+        public void createLocationStaff(MongoLocationStaff data)
+        {
+            var collection = db.GetCollection<MongoLocationStaff>("LocationStaff");
+            collection.InsertOneAsync(data);
+        }
+
+
         public bool checkLoginSession(string user, string token)
         {
             var collection = db.GetCollection<MongoAPIAuthHistory>("APIAuthHistory");

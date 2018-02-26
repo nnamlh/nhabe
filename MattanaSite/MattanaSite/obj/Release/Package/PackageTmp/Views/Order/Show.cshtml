@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MattanaSite.Models.MOrder>
+@{
+    ViewBag.Title = "Đơn hàng";
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Danh sách đơn hàng
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <p class="">@ViewBag.MSG</p>
+            <form method="get">
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Từ ngày</label>
+                        <input type="text" class="form-control datetime" name="fdate" value="@ViewBag.FDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Tới ngày</label>
+                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Nhân viên</label>
+                        <select class="form-control selectpicker" data-live-search="true" name="staff" >
+                            <option value="">Tất cả</option>
+                            @foreach (var item in ViewBag.Staff)
+                            {
+                                <option data-tokens="@item.Id @item.FullName" value="@item.Id">@item.FullName - @item.Id</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Xem</button>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <select class="form-control selectpicker" data-live-search="true" name="stt" >
+                            @foreach (var item in ViewBag.Status)
+                            {
+                                if (item.Id == ViewBag.CSTT)
+                                {
+                                    <option data-tokens="@item.Name" value="@item.Id" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option data-tokens="@item.Name" value="@item.Id">@item.Name</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+            </form>
+
+
+            <div class="col-sm-12">
+                <br />
+                <table class="table table-striped table-bordered thumbnail-table">
+                    <thead>
+                        <tr>
+                            <th>Mã hàng</th>
+                            <th>Ngày tạo</th>
+                            <th>Nhân viên</th>
+                            <th>Đại lý</th>
+                            <th>Giá trị đơn hàng</th>
+                            <th>Số mặt hàng</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Code</td>
+                                <td>@item.CreateTime.Value.ToString("dd/MM/yyyy")</td>
+                                <td>@item.MStaff.FullName - @item.MStaff.Id</td>
+                                <td>@item.MAgency.Store</td>
+                                <td>@item.PriceOrder.Value.ToString("C", MattanaSite.Util.Cultures.VietNam)</td>
+                                <td>@item.ProductOrders.Count()</td>
+                                <td><a>Chi tiết</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section styles {
+    <!-- bootstrap select-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <link href="~/content/bootstrap-datepicker.min.css" rel="stylesheet">
+}
+@section scripts {
+    <!-- bootstrap select js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+
+    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/scripts/bootstrap-datepicker.vi.min.js"></script>
+    <script type="text/javascript">
+        $('.datetime').datepicker({
+            language: "vi",
+            format: 'dd/mm/yyyy',
+            orientation: "bottom auto"
+        });
+
+    </script>
+}
