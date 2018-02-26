@@ -3,10 +3,13 @@ package vn.com.mattana.util;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
+import vn.com.mattana.model.api.order.CompleteSend;
 import vn.com.mattana.model.api.order.ProductInfo;
 
 /**
@@ -40,5 +43,10 @@ public interface ApiInterface {
     // product
     @GET("info/products")
     Call<List<ProductInfo>> products();
+
+    // order
+    @POST("order/createorder")
+    Call<ResultInfo> createOrder(@Body CompleteSend info);
+
 
 }

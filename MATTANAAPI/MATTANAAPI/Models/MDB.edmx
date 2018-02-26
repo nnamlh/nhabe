@@ -86,6 +86,22 @@
           <Property Name="Lat" Type="float" />
           <Property Name="Lng" Type="float" />
         </EntityType>
+        <EntityType Name="MOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="128" />
+          <Property Name="AgencyId" Type="varchar" MaxLength="128" />
+          <Property Name="StaffId" Type="varchar" MaxLength="128" />
+          <Property Name="PriceOrder" Type="float" />
+          <Property Name="PriceReal" Type="float" />
+          <Property Name="StatusId" Type="varchar" MaxLength="128" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="ModifyTime" Type="datetime" />
+          <Property Name="CloseOrder" Type="int" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="MProduct">
           <Key>
             <PropertyRef Name="Id" />
@@ -110,6 +126,32 @@
           <Property Name="GroupNumber" Type="int" />
           <Property Name="IdentityCard" Type="varchar" MaxLength="32" />
           <Property Name="IsLock" Type="int" />
+        </EntityType>
+        <EntityType Name="OrderNumber">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Number" Type="int" />
+          <Property Name="CharId" Type="int" />
+        </EntityType>
+        <EntityType Name="OrderStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="OrderId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProductId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Price" Type="float" />
+          <Property Name="QuantityBuy" Type="int" />
+          <Property Name="QuantityReal" Type="int" />
         </EntityType>
         <Association Name="FK__AgencyWit__Agenc__2E1BDC42">
           <End Role="MAgency" Type="Self.MAgency" Multiplicity="1" />
@@ -195,6 +237,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__MOrder__AgencyId__628FA481">
+          <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
+          <End Role="MOrder" Type="Self.MOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAgency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOrder">
+              <PropertyRef Name="AgencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MOrder__StaffId__6383C8BA">
+          <End Role="MStaff" Type="Self.MStaff" Multiplicity="0..1" />
+          <End Role="MOrder" Type="Self.MOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MStaff">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOrder">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MOrder__StatusId__6477ECF3">
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
+          <End Role="MOrder" Type="Self.MOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOrder">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductOr__Order__6754599E">
+          <End Role="MOrder" Type="Self.MOrder" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductOr__Produ__68487DD7">
+          <End Role="MProduct" Type="Self.MProduct" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="get_calendar_by_staff_byday" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="day" Type="int" Mode="In" />
           <Parameter Name="month" Type="int" Mode="In" />
@@ -209,8 +311,12 @@
           <EntitySet Name="CalendarWithStaff" EntityType="Self.CalendarWithStaff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CalendarWork" EntityType="Self.CalendarWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAgency" EntityType="Self.MAgency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MOrder" EntityType="Self.MOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MProduct" EntityType="Self.MProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MStaff" EntityType="Self.MStaff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderNumber" EntityType="Self.OrderNumber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__AgencyWit__Agenc__2E1BDC42" Association="Self.FK__AgencyWit__Agenc__2E1BDC42">
             <End Role="MAgency" EntitySet="MAgency" />
             <End Role="AgencyWithStaff" EntitySet="AgencyWithStaff" />
@@ -238,6 +344,26 @@
           <AssociationSet Name="FK__MAgency__AreaId__2B3F6F97" Association="Self.FK__MAgency__AreaId__2B3F6F97">
             <End Role="AreaInfo" EntitySet="AreaInfo" />
             <End Role="MAgency" EntitySet="MAgency" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MOrder__AgencyId__628FA481" Association="Self.FK__MOrder__AgencyId__628FA481">
+            <End Role="MAgency" EntitySet="MAgency" />
+            <End Role="MOrder" EntitySet="MOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MOrder__StaffId__6383C8BA" Association="Self.FK__MOrder__StaffId__6383C8BA">
+            <End Role="MStaff" EntitySet="MStaff" />
+            <End Role="MOrder" EntitySet="MOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MOrder__StatusId__6477ECF3" Association="Self.FK__MOrder__StatusId__6477ECF3">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="MOrder" EntitySet="MOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductOr__Order__6754599E" Association="Self.FK__ProductOr__Order__6754599E">
+            <End Role="MOrder" EntitySet="MOrder" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductOr__Produ__68487DD7" Association="Self.FK__ProductOr__Produ__68487DD7">
+            <End Role="MProduct" EntitySet="MProduct" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -302,6 +428,7 @@
           <NavigationProperty Name="MStaffs" Relationship="Self.AgencyWithStaff" FromRole="MAgency" ToRole="MStaff" />
           <Property Name="Lat" Type="Double" />
           <Property Name="Lng" Type="Double" />
+          <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MAgency" ToRole="MOrder" />
         </EntityType>
         <EntityType Name="MProduct">
           <Key>
@@ -315,6 +442,7 @@
           <Property Name="Price" Type="Double" />
           <Property Name="Unit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="IsLock" Type="Int32" />
+          <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -329,6 +457,7 @@
           <Property Name="IsLock" Type="Int32" />
           <NavigationProperty Name="MAgencies" Relationship="Self.AgencyWithStaff" FromRole="MStaff" ToRole="MAgency" />
           <NavigationProperty Name="CalendarWithStaffs" Relationship="MDBModel.FK__CalendarW__Staff__5535A963" FromRole="MStaff" ToRole="CalendarWithStaff" />
+          <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MStaff" ToRole="MOrder" />
         </EntityType>
         <Association Name="FK__MAgency__AreaId__2B3F6F97">
           <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="0..1" />
@@ -397,6 +526,30 @@
             <Parameter Name="year" Mode="In" Type="Int32" />
             <Parameter Name="staffId" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="MOrders" EntityType="MDBModel.MOrder" />
+          <EntitySet Name="OrderNumbers" EntityType="MDBModel.OrderNumber" />
+          <EntitySet Name="OrderStatus" EntityType="MDBModel.OrderStatu" />
+          <EntitySet Name="ProductOrders" EntityType="MDBModel.ProductOrder" />
+          <AssociationSet Name="FK__MOrder__AgencyId__628FA481" Association="MDBModel.FK__MOrder__AgencyId__628FA481">
+            <End Role="MAgency" EntitySet="MAgencies" />
+            <End Role="MOrder" EntitySet="MOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MOrder__StaffId__6383C8BA" Association="MDBModel.FK__MOrder__StaffId__6383C8BA">
+            <End Role="MStaff" EntitySet="MStaffs" />
+            <End Role="MOrder" EntitySet="MOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MOrder__StatusId__6477ECF3" Association="MDBModel.FK__MOrder__StatusId__6477ECF3">
+            <End Role="OrderStatu" EntitySet="OrderStatus" />
+            <End Role="MOrder" EntitySet="MOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductOr__Order__6754599E" Association="MDBModel.FK__ProductOr__Order__6754599E">
+            <End Role="MOrder" EntitySet="MOrders" />
+            <End Role="ProductOrder" EntitySet="ProductOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductOr__Produ__68487DD7" Association="MDBModel.FK__ProductOr__Produ__68487DD7">
+            <End Role="MProduct" EntitySet="MProducts" />
+            <End Role="ProductOrder" EntitySet="ProductOrders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CalendarInfo">
           <Key>
@@ -473,6 +626,115 @@
           <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
           <Property Type="String" Name="StaffCheckName" Nullable="true" MaxLength="512" />
         </ComplexType>
+        <EntityType Name="MOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="AgencyId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="StaffId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="PriceOrder" Type="Double" />
+          <Property Name="PriceReal" Type="Double" />
+          <Property Name="StatusId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+          <Property Name="CloseOrder" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MAgency" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MOrder" ToRole="MAgency" />
+          <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MOrder" ToRole="MStaff" />
+          <NavigationProperty Name="OrderStatu" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="MOrder" ToRole="OrderStatu" />
+          <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="MOrder" ToRole="ProductOrder" />
+        </EntityType>
+        <EntityType Name="OrderNumber">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Number" Type="Int32" />
+          <Property Name="CharId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="OrderStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="OrderStatu" ToRole="MOrder" />
+        </EntityType>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="OrderId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ProductId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="QuantityBuy" Type="Int32" />
+          <Property Name="QuantityReal" Type="Int32" />
+          <NavigationProperty Name="MOrder" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="ProductOrder" ToRole="MOrder" />
+          <NavigationProperty Name="MProduct" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="ProductOrder" ToRole="MProduct" />
+        </EntityType>
+        <Association Name="FK__MOrder__AgencyId__628FA481">
+          <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="0..1" />
+          <End Type="MDBModel.MOrder" Role="MOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAgency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOrder">
+              <PropertyRef Name="AgencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MOrder__StaffId__6383C8BA">
+          <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="0..1" />
+          <End Type="MDBModel.MOrder" Role="MOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MStaff">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOrder">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MOrder__StatusId__6477ECF3">
+          <End Type="MDBModel.OrderStatu" Role="OrderStatu" Multiplicity="0..1" />
+          <End Type="MDBModel.MOrder" Role="MOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOrder">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductOr__Order__6754599E">
+          <End Type="MDBModel.MOrder" Role="MOrder" Multiplicity="1" />
+          <End Type="MDBModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductOr__Produ__68487DD7">
+          <End Type="MDBModel.MProduct" Role="MProduct" Multiplicity="1" />
+          <End Type="MDBModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -611,6 +873,51 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="MOrders">
+            <EntityTypeMapping TypeName="MDBModel.MOrder">
+              <MappingFragment StoreEntitySet="MOrder">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="CloseOrder" ColumnName="CloseOrder" />
+                <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="PriceReal" ColumnName="PriceReal" />
+                <ScalarProperty Name="PriceOrder" ColumnName="PriceOrder" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderNumbers">
+            <EntityTypeMapping TypeName="MDBModel.OrderNumber">
+              <MappingFragment StoreEntitySet="OrderNumber">
+                <ScalarProperty Name="CharId" ColumnName="CharId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatus">
+            <EntityTypeMapping TypeName="MDBModel.OrderStatu">
+              <MappingFragment StoreEntitySet="OrderStatus">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductOrders">
+            <EntityTypeMapping TypeName="MDBModel.ProductOrder">
+              <MappingFragment StoreEntitySet="ProductOrder">
+                <ScalarProperty Name="QuantityReal" ColumnName="QuantityReal" />
+                <ScalarProperty Name="QuantityBuy" ColumnName="QuantityBuy" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

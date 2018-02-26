@@ -35,6 +35,10 @@ namespace MATTANAAPI.Models
         public virtual DbSet<MStaff> MStaffs { get; set; }
         public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
         public virtual DbSet<CalendarWithStaff> CalendarWithStaffs { get; set; }
+        public virtual DbSet<MOrder> MOrders { get; set; }
+        public virtual DbSet<OrderNumber> OrderNumbers { get; set; }
+        public virtual DbSet<OrderStatu> OrderStatus { get; set; }
+        public virtual DbSet<ProductOrder> ProductOrders { get; set; }
     
         public virtual ObjectResult<get_calendar_by_staff_byday_Result> get_calendar_by_staff_byday(Nullable<int> day, Nullable<int> month, Nullable<int> year, string staffId)
         {

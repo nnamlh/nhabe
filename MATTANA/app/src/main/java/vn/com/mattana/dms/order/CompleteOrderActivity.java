@@ -10,12 +10,22 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.com.mattana.adapter.CompleteOrderAdapter;
 import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
+import vn.com.mattana.model.api.ResultInfo;
+import vn.com.mattana.model.api.order.CompleteProduct;
+import vn.com.mattana.model.api.order.CompleteSend;
 import vn.com.mattana.model.api.order.ProductInfo;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.view.DividerItemDecoration;
@@ -54,7 +64,57 @@ public class CompleteOrderActivity extends BaseActivity {
 
 
     public void orderClick(View view) {
+        if (MRes.getInstance().getProductOrder().size() == 0)
+        {
+            commons.makeToast(CompleteOrderActivity.this, "Chọn sản phẩm").show();
+            return;
+        }
 
+        showpDialog();
+
+        CompleteSend info = new CompleteSend();
+        info.setUser(user);
+        info.setToken(token);
+        info.setAgencyId(MRes.getInstance().agency.getCode());
+
+        final List<CompleteProduct> completeProducts = new ArrayList<>();
+
+        for (ProductInfo productInfo : MRes.getInstance().getProductOrder()) {
+            CompleteProduct cProduct = new CompleteProduct();
+            cProduct.setId(productInfo.getId());
+            cProduct.setQuantity(productInfo.getQuantityBuy());
+            completeProducts.add(cProduct);
+        }
+
+        info.setProducts(completeProducts);
+
+        Call<ResultInfo> call = apiInterface().createOrder(info);
+
+        call.enqueue(new Callback<ResultInfo>() {
+            @Override
+            public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+
+                if(response.body() != null && response.body().getId().equals("1")) {
+                    commons.showAlertInfo(CompleteOrderActivity.this, "Thông báo", "Đã tạo xong đơn hàng", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            MRes.getInstance().clearProductOrder();
+                            finish();
+                        }
+                    });
+                } else {
+                    commons.makeToast(CompleteOrderActivity.this, "Lỗi xảy ra").show();
+                }
+
+                hidepDialog();
+            }
+
+            @Override
+            public void onFailure(Call<ResultInfo> call, Throwable t) {
+                hidepDialog();
+                commons.showToastDisconnect(CompleteOrderActivity.this);
+            }
+        });
     }
 
 

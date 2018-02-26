@@ -201,6 +201,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,6 +230,7 @@
     <Compile Include="Models\IdentityInfo.cs" />
     <Compile Include="Models\IdentityLogin.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IdentityOrder.cs" />
     <Compile Include="Models\MAgency.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
@@ -248,10 +250,22 @@
       <DependentUpon>MDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\MongoEntity.cs" />
+    <Compile Include="Models\MOrder.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MProduct.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MStaff.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderNumber.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderStatu.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductOrder.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

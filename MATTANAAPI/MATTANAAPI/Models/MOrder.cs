@@ -12,22 +12,28 @@ namespace MATTANAAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MProduct
+    public partial class MOrder
     {
-        public MProduct()
+        public MOrder()
         {
             this.ProductOrders = new HashSet<ProductOrder>();
         }
     
         public string Id { get; set; }
-        public string PName { get; set; }
-        public string Describes { get; set; }
-        public string PImage { get; set; }
-        public string PCode { get; set; }
-        public Nullable<double> Price { get; set; }
-        public string Unit { get; set; }
-        public Nullable<int> IsLock { get; set; }
+        public string Code { get; set; }
+        public string AgencyId { get; set; }
+        public string StaffId { get; set; }
+        public Nullable<double> PriceOrder { get; set; }
+        public Nullable<double> PriceReal { get; set; }
+        public string StatusId { get; set; }
+        public Nullable<System.DateTime> CreateTime { get; set; }
+        public Nullable<System.DateTime> ModifyTime { get; set; }
+        public Nullable<int> CloseOrder { get; set; }
+        public string Notes { get; set; }
     
+        public virtual MAgency MAgency { get; set; }
+        public virtual MStaff MStaff { get; set; }
+        public virtual OrderStatu OrderStatu { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace MATTANAAPI.Models
         {
             this.MAgencies = new HashSet<MAgency>();
             this.CalendarWithStaffs = new HashSet<CalendarWithStaff>();
+            this.MOrders = new HashSet<MOrder>();
         }
     
         public string Id { get; set; }
@@ -30,5 +31,6 @@ namespace MATTANAAPI.Models
     
         public virtual ICollection<MAgency> MAgencies { get; set; }
         public virtual ICollection<CalendarWithStaff> CalendarWithStaffs { get; set; }
+        public virtual ICollection<MOrder> MOrders { get; set; }
     }
 }
