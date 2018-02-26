@@ -58,8 +58,29 @@ namespace MattanaSite.Controllers
             if (check == null)
                 return Redirect("/error");
 
+            ViewBag.StatusAppove = db.OrderStatus.Where(p => p.PreStt == check.StatusId).FirstOrDefault();
+
 
             return View(check);
+        }
+
+        [HttpPost]
+        public ActionResult Change(string orderId, string status)
+        {
+            var check = db.MOrders.Find(orderId);
+
+            if (check == null)
+                return Redirect("/error");
+
+            check.ModifyTime = DateTime.Now;
+
+            check.StatusId = status;
+
+            db.Entry(check).State = EntityState.Modified;
+
+            db.SaveChanges();
+
+            return Redirect("/order/showdetail/" + orderId);
         }
 
         public override List<Models.SubMenuInfo> Menu(int idxActive)

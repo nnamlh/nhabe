@@ -90,7 +90,7 @@
                                 <td>@item.MAgency.Store</td>
                                 <td>@item.PriceOrder.Value.ToString("C", MattanaSite.Util.Cultures.VietNam)</td>
                                 <td>@item.ProductOrders.Count()</td>
-                                <td><a>Chi tiết</a></td>
+                                <td><a href="/order/showdetail/@item.Id" target="_blank">Chi tiết</a></td>
                             </tr>
                         }
                     </tbody>

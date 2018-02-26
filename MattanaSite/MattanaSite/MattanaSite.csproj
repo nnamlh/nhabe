@@ -356,6 +356,7 @@
     <Content Include="Views\Calendar\Show.cshtml" />
     <Content Include="Views\Calendar\ShowDetail.cshtml" />
     <Content Include="Views\Order\Show.cshtml" />
+    <Content Include="Views\Order\ShowDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
