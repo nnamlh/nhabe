@@ -10,6 +10,7 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -164,19 +165,21 @@ public class BackgroundLocationService extends Service implements
         String name = prefsHelper.get(MRes.getInstance().PREF_KEY_NAME, null);
         String code = prefsHelper.get(MRes.getInstance().PREF_KEY_CODE, null);
 
-        Call<ResultInfo> call = apiService.saveLocation(user, name, code, lat, lng);
+        if (!TextUtils.isEmpty(user)) {
+            Call<ResultInfo> call = apiService.saveLocation(user, name, code, lat, lng);
 
-        call.enqueue(new Callback<ResultInfo>() {
-            @Override
-            public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+            call.enqueue(new Callback<ResultInfo>() {
+                @Override
+                public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<ResultInfo> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ResultInfo> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     // Define the callback method that receives location updates

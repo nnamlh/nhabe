@@ -1,6 +1,7 @@
 package vn.com.mattana.dms;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,7 @@ import io.realm.RealmList;
 import vn.com.mattana.dms.checkin.CalendarActivity;
 import vn.com.mattana.dms.checkin.CheckInActivity;
 import vn.com.mattana.dms.order.ShowOrderActivity;
+import vn.com.mattana.service.BackgroundLocationService;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.util.RealmController;
 
@@ -79,6 +81,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     prefsHelper.put(MRes.getInstance().PREF_KEY_TOKEN, "");
                     prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, "");
                     prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, "");
+
+                    if (isMyServiceRunning(BackgroundLocationService.class)) {
+                        Intent intentSv = new Intent(MainActivity.this, BackgroundLocationService.class);
+                        stopService(intentSv);
+                    }
 
                     commons.startActivity(MainActivity.this, LoginActivity.class);
                     finish();
