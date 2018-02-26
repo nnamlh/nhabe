@@ -1,5 +1,6 @@
 package vn.com.mattana.dms;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,10 +12,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
+import io.realm.RealmList;
 import vn.com.mattana.dms.checkin.CalendarActivity;
 import vn.com.mattana.dms.checkin.CheckInActivity;
 import vn.com.mattana.dms.order.ShowOrderActivity;
 import vn.com.mattana.util.MRes;
+import vn.com.mattana.util.RealmController;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
     NavigationView navigationView;
@@ -67,6 +70,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             commons.startActivity(MainActivity.this, CalendarActivity.class);
         } else if (id == R.id.nav_order) {
             commons.startActivity(MainActivity.this, ShowOrderActivity.class);
+        } else if (id == R.id.nav_logout) {
+            commons.showAlertCancel(MainActivity.this, "Cảnh báo", "Bạn muuốn đăng xuất tài khoản này ?", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    RealmController.getInstance().clearAll();
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_USER, "");
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_TOKEN, "");
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, "");
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, "");
+
+                    commons.startActivity(MainActivity.this, LoginActivity.class);
+                    finish();
+                }
+            });
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

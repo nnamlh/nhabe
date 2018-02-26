@@ -10,8 +10,8 @@
     <ImageView
         android:id="@+id/image"
         android:layout_centerInParent="true"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@mipmap/ic_logo"/>
+        android:layout_width="256dp"
+        android:layout_height="128dp"
+        android:src="@mipmap/logofull"/>
 
 </RelativeLayout>
