@@ -46,7 +46,7 @@ namespace MATTANAAPI.Controllers
                 if (checkStaff == null)
                     throw new Exception("Sai thông tin");
 
-                var checkAgency = db.MAgencies.Where(p=> p.Code == paser.agencyId).FirstOrDefault();
+                var checkAgency = db.MAgencies.Where(p => p.Code == paser.agencyId).FirstOrDefault();
 
                 if (checkAgency == null)
                     throw new Exception("Sai thông tin");
@@ -160,6 +160,109 @@ namespace MATTANAAPI.Controllers
 
         }
 
+        // show order
+        [HttpGet]
+        public ShowOrderResult ShowOrder(string user)
+        {
+            var log = new MongoHistoryAPI()
+             {
+                 APIUrl = "/api/calendar/showorder",
+                 CreateTime = DateTime.Now,
+                 Sucess = 1
+             };
 
+            var result = new ShowOrderResult()
+             {
+                 id = "1",
+                 msg = "success",
+                 orders = new List<ShowOrderInfo>()
+             };
+
+            try
+            {
+                var checkUser = db.MStaffs.Where(p => p.MUser == user).FirstOrDefault();
+
+                if (checkUser == null)
+                    throw new Exception("Sai thiing tin");
+
+                var orders = db.MOrders.Where(p => p.StaffId == checkUser.Id).OrderByDescending(p=> p.CreateTime).ToList();
+
+                foreach (var item in orders)
+                {
+                    result.orders.Add(new ShowOrderInfo()
+                    {
+                        code = item.Code,
+                        orderPrice = item.PriceOrder.Value.ToString("C", Cultures.VietNam),
+                        productNumber = item.ProductOrders.Count(),
+                        agency = item.MAgency.Code,
+                        status = item.OrderStatu.Name,
+                        store = item.MAgency.Store,
+                        phone = item.MAgency.Phone,
+                        address = item.MAgency.AddressDetail,
+                        close = (int) item.CloseOrder,
+                        orderId = item.Id,
+                        createTime = item.CreateTime.Value.ToString("dd/MM/yyyy")
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.id = "0";
+                result.msg = e.Message;
+                log.Sucess = 0;
+            }
+
+            log.ReturnInfo = new JavaScriptSerializer().Serialize(result);
+
+            mongoHelper.createHistoryAPI(log);
+
+            return result;
+        }
+
+        [HttpGet]
+        public List<ShowProductOrderInfo> ShowProductOrder(string orderId)
+        {
+
+             var log = new MongoHistoryAPI()
+             {
+                 APIUrl = "/api/calendar/showproductorder",
+                 CreateTime = DateTime.Now,
+                 Sucess = 1
+             };
+
+             var result = new List<ShowProductOrderInfo>();
+
+            try
+            {
+                var checkOrder = db.MOrders.Find(orderId);
+                if (checkOrder == null)
+                    throw new Exception("Sai thông tin");
+
+                foreach (var item in checkOrder.ProductOrders)
+                {
+                    result.Add(new ShowProductOrderInfo()
+                    {
+                        code = item.MProduct.PCode,
+                        name = item.MProduct.PName,
+                        price = item.Price.Value.ToString("C", Cultures.VietNam),
+                        priceTotal = (item.QuantityBuy * item.Price).Value.ToString("C", Cultures.VietNam),
+                        quantityBuy = (int)item.QuantityBuy
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                log.Sucess = 0;
+            }
+
+            log.ReturnInfo = new JavaScriptSerializer().Serialize(result);
+
+            mongoHelper.createHistoryAPI(log);
+
+            return result;
+
+        }
     }
 }

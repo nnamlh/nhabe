@@ -270,6 +270,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\Cultures.cs" />
     <Compile Include="Util\MongoHelper.cs" />
     <Compile Include="Util\MRes.cs" />
     <Compile Include="Util\XString.cs" />

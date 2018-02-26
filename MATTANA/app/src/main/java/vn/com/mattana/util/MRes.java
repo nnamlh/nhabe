@@ -4,7 +4,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.com.mattana.model.api.checkin.CWorkInfo;
 import vn.com.mattana.model.api.order.ProductInfo;
+import vn.com.mattana.model.api.order.ShowOrderInfo;
 import vn.com.mattana.model.data.DAgencyInfo;
 
 /**
@@ -36,7 +38,7 @@ public class MRes {
     // check in
     public DAgencyInfo agency;
 
-
+    public ShowOrderInfo orderInfo;
     //
     public String formatMoneyToText(double value) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();

@@ -11,6 +11,8 @@ import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
 import vn.com.mattana.model.api.order.CompleteSend;
 import vn.com.mattana.model.api.order.ProductInfo;
+import vn.com.mattana.model.api.order.ShowOrderProductInfo;
+import vn.com.mattana.model.api.order.ShowOrderResult;
 
 /**
  * Created by HAI on 2/25/2018.
@@ -57,5 +59,9 @@ public interface ApiInterface {
     @POST("order/createorder")
     Call<ResultInfo> createOrder(@Body CompleteSend info);
 
+    @GET("order/showorder")
+    Call<ShowOrderResult> showOrder(@Query("user") String user);
 
+    @GET("order/showproductorder")
+    Call<List<ShowOrderProductInfo>> showOrderProducts(@Query("orderId") String orderId);
 }

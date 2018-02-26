@@ -73,7 +73,7 @@ public class SplashActivity extends BaseActivity {
 
 
         Dexter.withActivity(SplashActivity.this).withPermissions(
-                android.Manifest.permission.ACCESS_FINE_LOCATION).withListener(new MultiplePermissionsListener() {
+                android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.WAKE_LOCK, android.Manifest.permission.RECEIVE_BOOT_COMPLETED,android.Manifest.permission.ACCESS_COARSE_LOCATION).withListener(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
                 if (report.areAllPermissionsGranted()) {

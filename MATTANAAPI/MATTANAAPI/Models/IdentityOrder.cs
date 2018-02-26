@@ -22,4 +22,48 @@ namespace MATTANAAPI.Models
 
         public int quantity { get; set; }
     }
+
+    public class ShowOrderResult : ResultInfo
+    {
+        public List<ShowOrderInfo> orders { get; set; }
+    }
+
+
+    public class ShowOrderInfo
+    {
+        public string orderId { get; set; }
+        public string code { get; set; }
+
+        public string status { get; set; }
+
+        public int close { get; set; }
+
+        public string orderPrice { get; set; }
+
+        public string store { get; set; }
+
+        public string agency { get; set; }
+
+        public string address { get; set; }
+
+        public string phone { get; set; }
+
+        public int? productNumber { get; set; }
+
+        public string createTime { get; set; }
+    }
+
+    public class ShowProductOrderInfo
+    {
+        public string name { get; set; }
+
+        public string code { get; set; }
+
+        public string price { get; set; }
+
+        public int quantityBuy { get; set; }
+
+        public string priceTotal { get; set; }
+
+    }
 }

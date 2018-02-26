@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vn.com.mattana.dms">
+
     <!-- Used to start logging after re-boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,8 +37,8 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".checkin.CalendarActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="Lịch công tác"/>
+            android:label="Lịch công tác"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".checkin.CheckInActivity"
             android:label="Lịch công tác ngày"
@@ -66,9 +67,15 @@
         <service
             android:name="vn.com.mattana.service.BackgroundLocationService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" />
 
-        </service>
+        <activity
+            android:name=".order.ShowOrderActivity"
+            android:label="Đơn hàng"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".order.ShowOrderDetailActivity"
+            android:label="Chi tiết đơn hàng"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
