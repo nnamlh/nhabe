@@ -56,5 +56,9 @@ namespace MATTANAAPI.Models
         public string Name { get; set; }
 
         public string Code { get; set; }
+
+        public string Device { get; set; }
+
+        public string OS { get; set; }
     }
 }

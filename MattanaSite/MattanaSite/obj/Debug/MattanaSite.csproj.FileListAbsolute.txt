@@ -113,3 +113,15 @@ N:\nhabe\MattanaSite\MattanaSite\bin\Microsoft.Owin.Security.MicrosoftAccount.xm
 N:\nhabe\MattanaSite\MattanaSite\obj\Debug\MattanaSite.csprojResolveAssemblyReference.cache
 N:\nhabe\MattanaSite\MattanaSite\obj\Debug\MattanaSite.dll
 N:\nhabe\MattanaSite\MattanaSite\obj\Debug\MattanaSite.pdb
+N:\nhabe\MattanaSite\MattanaSite\bin\DnsClient.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Bson.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.Core.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.Legacy.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Buffers.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\DnsClient.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Bson.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.Core.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.Legacy.xml

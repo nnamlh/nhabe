@@ -67,6 +67,8 @@ namespace MattanaSite.Controllers
 
             // Return the week of our adjusted day
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-        } 
+        }
+
+        
 	}
 }

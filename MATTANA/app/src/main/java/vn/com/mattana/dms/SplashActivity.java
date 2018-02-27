@@ -2,17 +2,13 @@ package vn.com.mattana.dms;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
-
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -20,9 +16,7 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,10 +64,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void checkAndRequestPermissions() {
-
-
         Dexter.withActivity(SplashActivity.this).withPermissions(
-                android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.WAKE_LOCK, android.Manifest.permission.RECEIVE_BOOT_COMPLETED,android.Manifest.permission.ACCESS_COARSE_LOCATION).withListener(new MultiplePermissionsListener() {
+                android.Manifest.permission.ACCESS_FINE_LOCATION).withListener(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
                 if (report.areAllPermissionsGranted()) {
@@ -82,7 +74,6 @@ public class SplashActivity extends BaseActivity {
 
                 // check for permanent denial of any permission
                 if (report.isAnyPermissionPermanentlyDenied()) {
-                    // show alert dialog navigating to Settings
                     showSettingsDialog();
                 }
             }
@@ -96,7 +87,7 @@ public class SplashActivity extends BaseActivity {
             public void onError(DexterError error) {
                 Toast.makeText(getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT).show();
             }
-        }).onSameThread().check();
+        }).check();
 
     }
 

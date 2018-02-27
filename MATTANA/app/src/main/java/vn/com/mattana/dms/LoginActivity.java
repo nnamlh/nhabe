@@ -1,12 +1,9 @@
 package vn.com.mattana.dms;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -18,7 +15,6 @@ import vn.com.mattana.util.RealmController;
 import vn.com.mattana.util.ServiceGenerator;
 
 public class LoginActivity extends BaseActivity {
-
 
     @BindView(R.id.epass)
     EditText ePass;
@@ -88,6 +84,7 @@ public class LoginActivity extends BaseActivity {
         prefsHelper.put(MRes.getInstance().PREF_KEY_TOKEN, token);
         prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, name);
         prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, code);
+
         commons.startActivity(LoginActivity.this, MainActivity.class);
 
         finish();

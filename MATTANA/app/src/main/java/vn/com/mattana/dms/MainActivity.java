@@ -11,13 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import butterknife.ButterKnife;
-import io.realm.RealmList;
 import vn.com.mattana.dms.checkin.CalendarActivity;
 import vn.com.mattana.dms.checkin.CheckInActivity;
 import vn.com.mattana.dms.order.ShowOrderActivity;
-import vn.com.mattana.service.BackgroundLocationService;
+import vn.com.mattana.service.LocationUpdatesService;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.util.RealmController;
 
@@ -82,9 +80,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, "");
                     prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, "");
 
-                    if (isMyServiceRunning(BackgroundLocationService.class)) {
-                        Intent intentSv = new Intent(MainActivity.this, BackgroundLocationService.class);
-                        stopService(intentSv);
+                    if (isMyServiceRunning(LocationUpdatesService.class)) {
+                        Intent intentsv = new Intent(MainActivity.this, LocationUpdatesService.class);
+                        stopService(intentsv);
                     }
 
                     commons.startActivity(MainActivity.this, LoginActivity.class);
@@ -116,4 +114,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
          commons.startActivity(MainActivity.this, CalendarActivity.class);
 
     }
+
+
 }
