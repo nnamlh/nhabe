@@ -1,7 +1,6 @@
 package vn.com.mattana.dms;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,17 +14,16 @@ import butterknife.ButterKnife;
 import vn.com.mattana.dms.checkin.CalendarActivity;
 import vn.com.mattana.dms.checkin.CheckInActivity;
 import vn.com.mattana.dms.order.ShowOrderActivity;
-import vn.com.mattana.service.LocationUpdatesService;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.util.RealmController;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = MainActivity.class.getName();
     NavigationView navigationView;
 
     TextView txtName;
 
     TextView txtCode;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +35,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         createNavDraw();
 
     }
+
 
 
     private void createNavDraw() {
@@ -82,11 +81,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, "");
                     prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, "");
 
-                   if(mService != null)
-                   {
-                       mService.removeLocationUpdates();
-                       prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
-                   }
+                    if (mService != null) {
+                        mService.removeLocationUpdates();
+                        prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
+                    }
 
                     commons.startActivity(MainActivity.this, LoginActivity.class);
                     finish();
@@ -117,6 +115,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         commons.startActivity(MainActivity.this, CalendarActivity.class);
 
     }
+
 
 
 }

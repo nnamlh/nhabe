@@ -1,25 +1,35 @@
 package vn.com.mattana.dms;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import javax.inject.Inject;
 
@@ -43,6 +53,7 @@ import vn.com.mattana.util.Utils;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private static final String TAG =BaseActivity.class.getName() ;
     @Inject
     protected Retrofit retrofit;
     @Inject
@@ -62,6 +73,8 @@ public class BaseActivity extends AppCompatActivity {
     protected String user;
     protected String token;
 
+    private static final int REQUEST_CHECK_SETTINGS = 0x1;
+
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
 
@@ -70,6 +83,8 @@ public class BaseActivity extends AppCompatActivity {
 
     // Tracks the bound state of the service.
     private boolean mBound = false;
+
+
     // Monitors the state of the connection to the service.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -116,8 +131,8 @@ public class BaseActivity extends AppCompatActivity {
         user = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, null);
         token = prefsHelper.get(MRes.getInstance().PREF_KEY_TOKEN, null);
 
-
     }
+
 
     /**
      * Return the current state of the permissions needed.
@@ -235,5 +250,64 @@ public class BaseActivity extends AppCompatActivity {
                 .setAction(getString(actionStringId), listener).show();
     }
 
+    protected boolean checkLocation() {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+        boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+        return  statusOfGPS;
+    }
+
+    protected void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(BaseActivity.this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Cho phép lấy thông tin GPS từ điện thoại.")
+                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivityForResult(myIntent, REQUEST_CHECK_SETTINGS);
+                    }
+                })
+                .setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    }
+                });
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.i(TAG, "User agreed to make required location settings changes.");
+                        if(mService != null) {
+                            mService.getLastLocation();
+                            mService.requestLocationUpdates();
+                        }
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Log.i(TAG, "User chose not to make required location settings changes.");
+                        commons.showAlertCancel(BaseActivity.this, "Cảnh báo", "Ứng dụng cần mở GPS khi sử dụng", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    // Show the dialog by calling startResolutionForResult(), and check the
+                                    // result in onActivityResult().
+                                    Status status = new Status(LocationSettingsStatusCodes.RESOLUTION_REQUIRED);
+                                    status.startResolutionForResult(BaseActivity.this, REQUEST_CHECK_SETTINGS);
+
+                                } catch (IntentSender.SendIntentException sie) {
+                                    Log.i(TAG, "PendingIntent unable to execute request.");
+                                }
+                            }
+                        });
+                        break;
+                }
+                break;
+        }
+    }
 }
