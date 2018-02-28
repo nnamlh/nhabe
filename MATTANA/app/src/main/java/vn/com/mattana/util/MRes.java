@@ -29,7 +29,14 @@ public class MRes {
         }
         return instance;
     }
-
+    // broadcast receiver intent filters
+    public final String REGISTRATION_COMPLETE = "registrationComplete";
+    public final String PUSH_NOTIFICATION = "pushNotification";
+    // global topic to receive app wide push notifications
+    public final String TOPIC_GLOBAL = "global";
+    // id to handle the notification in the notification tray
+    public final int NOTIFICATION_ID = 100;
+    public final String SHARED_PREF = "ah_firebase";
 
     // common
     public final String baseUrl = "http://221.133.7.58:68/api/";

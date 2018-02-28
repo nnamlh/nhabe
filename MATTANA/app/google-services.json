@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "404068987075",
+    "firebase_url": "https://dmslite-196506.firebaseio.com",
+    "project_id": "dmslite-196506",
+    "storage_bucket": "dmslite-196506.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404068987075:android:be6463f83d01ae57",
+        "android_client_info": {
+          "package_name": "vn.com.mattana.dms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404068987075-d5jflcrkj9dn6ld5gu499rqakqgbrof5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2AVNAd5BNt7feSOV2GbWfNkAMQU2g-Rs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

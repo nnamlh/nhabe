@@ -74,6 +74,7 @@
             android:name=".order.FilterOrderActivity"
             android:label="Lọc đơn hàng"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".NoticeActivity"></activity>
     </application>
 
 </manifest>
