@@ -3,7 +3,7 @@
     package="vn.com.mattana.dms">
 
     <!-- Used to start logging after re-boot -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="vn.com.mattana.app.AppController"
@@ -11,9 +11,10 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -58,7 +59,6 @@
             android:name=".order.CompleteOrderActivity"
             android:label="Đặt hàng"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".order.ShowOrderActivity"
             android:label="Đơn hàng"
@@ -68,8 +68,12 @@
             android:label="Chi tiết đơn hàng"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service
-            android:name="vn.com.mattana.service.LocationUpdatesService" />
+        <service android:name="vn.com.mattana.service.LocationUpdatesService" />
+
+        <activity
+            android:name=".order.FilterOrderActivity"
+            android:label="Lọc đơn hàng"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

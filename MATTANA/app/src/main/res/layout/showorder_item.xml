@@ -12,7 +12,8 @@
         android:textColor="#000000"
         android:id="@+id/txtcode"
         android:text="00001"
-        android:textSize="16dp" />
+        android:textStyle="bold"
+        android:textSize="14dp" />
 
 
     <TextView
@@ -25,26 +26,35 @@
         android:text="Đại lý: hoài nam"
         android:textSize="14dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#000000"
-        android:id="@+id/txtnumber"
         android:layout_marginTop="5dp"
-        android:text="Số SL đặt: 5"
-        android:textSize="14dp" />
+        android:orientation="horizontal">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#000000"
-        android:id="@+id/txtmoney"
-        android:layout_marginTop="5dp"
-        android:text="Số tiền: 21221"
-        android:textSize="14dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#000000"
+            android:id="@+id/txtnumber"
+
+            android:text="Số SL đặt: 5"
+            android:textSize="14dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#2196F3"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/txtmoney"
+            android:text="Số tiền: 21221"
+            android:textSize="14dp" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:textColor="#000000"
+        android:textColor="#E53935"
         android:id="@+id/txtstatus"
         android:layout_marginTop="5dp"
         android:text="Số tiền: 21221"

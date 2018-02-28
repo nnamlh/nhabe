@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".order.FilterOrderActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Từ ngày"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/fromdate"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-light"
+            android:inputType="datetime"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/input_text"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Từ ngày"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/todate"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-light"
+            android:inputType="datetime"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/input_text"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Trạng thái"
+            android:textSize="12dp" />
+
+        <Spinner
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-light"
+            android:paddingLeft="5dp"
+            android:background="@drawable/input_text"
+            android:textColor="#000" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:text="LẤY ĐƠN HÀNG"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:layout_marginLeft="-5dp"
+            android:onClick="filterClick"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

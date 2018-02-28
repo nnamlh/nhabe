@@ -7,6 +7,7 @@ using System.Web.Http;
 using MATTANAAPI.Models;
 using MATTANAAPI.Util;
 using System.Web.Script.Serialization;
+using System.Data.Entity;
 
 namespace MATTANAAPI.Controllers
 {
@@ -162,9 +163,9 @@ namespace MATTANAAPI.Controllers
 
         // show order
         [HttpGet]
-        public ShowOrderResult ShowOrder(string user)
+        public ShowOrderResult ShowOrder(string user, string fDate, string tDate, string status)
         {
-            var log = new MongoHistoryAPI()
+            var history = new MongoHistoryAPI()
              {
                  APIUrl = "/api/calendar/showorder",
                  CreateTime = DateTime.Now,
@@ -183,9 +184,37 @@ namespace MATTANAAPI.Controllers
                 var checkUser = db.MStaffs.Where(p => p.MUser == user).FirstOrDefault();
 
                 if (checkUser == null)
-                    throw new Exception("Sai thiing tin");
+                    throw new Exception("Sai thông tin");
 
-                var orders = db.MOrders.Where(p => p.StaffId == checkUser.Id).OrderByDescending(p=> p.CreateTime).ToList();
+                DateTime fromDate = DateTime.ParseExact(fDate, "d/M/yyyy", null);
+
+                DateTime toDate = DateTime.ParseExact(tDate, "d/M/yyyy", null);
+
+                var orders = new List<MOrder>();
+                if (status == "all")
+                {
+                    orders = (from log in db.MOrders
+                              where DbFunctions.TruncateTime(log.CreateTime)
+                                                 >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
+                                                 <= DbFunctions.TruncateTime(toDate)
+                              select log).OrderByDescending(p => p.CreateTime).ToList();
+                }
+                else
+                {
+                    orders = (from log in db.MOrders
+                              where DbFunctions.TruncateTime(log.CreateTime)
+                                                 >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
+                                                 <= DbFunctions.TruncateTime(toDate) && log.StatusId == status
+                              select log).OrderByDescending(p => p.CreateTime).ToList();
+                }
+
+
+
+
+
+
+
+                //var orders = db.MOrders.Where(p => p.StaffId == checkUser.Id).OrderByDescending(p=> p.CreateTime).ToList();
 
                 foreach (var item in orders)
                 {
@@ -199,7 +228,7 @@ namespace MATTANAAPI.Controllers
                         store = item.MAgency.Store,
                         phone = item.MAgency.Phone,
                         address = item.MAgency.AddressDetail,
-                        close = (int) item.CloseOrder,
+                        close = (int)item.CloseOrder,
                         orderId = item.Id,
                         createTime = item.CreateTime.Value.ToString("dd/MM/yyyy")
                     });
@@ -210,12 +239,12 @@ namespace MATTANAAPI.Controllers
             {
                 result.id = "0";
                 result.msg = e.Message;
-                log.Sucess = 0;
+                history.Sucess = 0;
             }
 
-            log.ReturnInfo = new JavaScriptSerializer().Serialize(result);
+            history.ReturnInfo = new JavaScriptSerializer().Serialize(result);
 
-            mongoHelper.createHistoryAPI(log);
+            mongoHelper.createHistoryAPI(history);
 
             return result;
         }
@@ -224,14 +253,14 @@ namespace MATTANAAPI.Controllers
         public List<ShowProductOrderInfo> ShowProductOrder(string orderId)
         {
 
-             var log = new MongoHistoryAPI()
-             {
-                 APIUrl = "/api/calendar/showproductorder",
-                 CreateTime = DateTime.Now,
-                 Sucess = 1
-             };
+            var log = new MongoHistoryAPI()
+            {
+                APIUrl = "/api/calendar/showproductorder",
+                CreateTime = DateTime.Now,
+                Sucess = 1
+            };
 
-             var result = new List<ShowProductOrderInfo>();
+            var result = new List<ShowProductOrderInfo>();
 
             try
             {

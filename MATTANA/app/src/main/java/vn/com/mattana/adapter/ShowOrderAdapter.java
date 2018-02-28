@@ -35,10 +35,10 @@ public class ShowOrderAdapter extends RecyclerView.Adapter<ShowOrderAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
        ShowOrderInfo showOrderInfo = showOrderInfoList.get(position);
-       holder.code.setText(showOrderInfo.getCode());
+       holder.code.setText("Mã đơn: " + showOrderInfo.getCode());
        holder.store.setText("Đại lý: " + showOrderInfo.getStore());
        holder.time.setText("Ngày đặt: " + showOrderInfo.getCreateTime());
-       holder.number.setText("Số SP đặt: " + showOrderInfo.getProductNumber());
+       holder.number.setText(showOrderInfo.getProductNumber() + " SP");
        holder.price.setText("Tổng tiền: " + showOrderInfo.getOrderPrice());
        holder.status.setText(showOrderInfo.getStatus());
     }

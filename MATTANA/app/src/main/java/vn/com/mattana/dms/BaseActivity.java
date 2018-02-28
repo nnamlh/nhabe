@@ -31,6 +31,12 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import io.realm.Realm;
@@ -53,7 +59,7 @@ import vn.com.mattana.util.Utils;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private static final String TAG =BaseActivity.class.getName() ;
+    private static final String TAG = BaseActivity.class.getName();
     @Inject
     protected Retrofit retrofit;
     @Inject
@@ -96,19 +102,18 @@ public class BaseActivity extends AppCompatActivity {
             mBound = true;
 
             if (checkPermissions()) {
-              if (prefsHelper.get(MRes.getInstance().PREF_UPDATE, false))
-              {
-                  mService.getLastLocation();
-                  mService.requestLocationUpdates();
+                if (prefsHelper.get(MRes.getInstance().PREF_UPDATE, false)) {
+                    mService.getLastLocation();
+                    mService.requestLocationUpdates();
 
-                  prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
-              }else {
-                  if (!MRes.getInstance().isRunUpdate){
-                      mService.getLastLocation();
-                      mService.requestLocationUpdates();
-                      MRes.getInstance().isRunUpdate = true;
-                  }
-              }
+                    prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
+                } else {
+                    if (!MRes.getInstance().isRunUpdate) {
+                        mService.getLastLocation();
+                        mService.requestLocationUpdates();
+                        MRes.getInstance().isRunUpdate = true;
+                    }
+                }
             }
         }
 
@@ -119,7 +124,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     };
 
- //   protected Location location = MRes.getInstance().location;
+    //   protected Location location = MRes.getInstance().location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,9 +233,10 @@ public class BaseActivity extends AppCompatActivity {
             MRes.getInstance().location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
             if (MRes.getInstance().location != null) {
 
+                /*
                 Toast.makeText(BaseActivity.this, Utils.getLocationText(MRes.getInstance().location),
                         Toast.LENGTH_SHORT).show();
-
+                */
             }
         }
     }
@@ -262,10 +268,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected boolean checkLocation() {
-        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        return  statusOfGPS;
+        return statusOfGPS;
     }
 
     protected void showAlertLocation() {
@@ -282,7 +288,7 @@ public class BaseActivity extends AppCompatActivity {
                 .setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                       finish();
+                        finish();
                     }
                 });
         dialog.setCancelable(false);
@@ -317,6 +323,26 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                 }
                 break;
+        }
+    }
+
+    protected int countDayInMonth(int year, int month) {
+        String startDateString = String.format("%d/01/%d", month, year);
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        Date startDate;
+        try {
+            startDate = df.parse(startDateString);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+
+            calendar.add(Calendar.MONTH, 1);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.add(Calendar.DATE, -1);
+
+            return calendar.get(Calendar.DAY_OF_MONTH);
+
+        } catch (ParseException e) {
+            return 1;
         }
     }
 }

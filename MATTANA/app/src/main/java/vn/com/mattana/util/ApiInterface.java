@@ -60,7 +60,7 @@ public interface ApiInterface {
     Call<ResultInfo> createOrder(@Body CompleteSend info);
 
     @GET("order/showorder")
-    Call<ShowOrderResult> showOrder(@Query("user") String user);
+    Call<ShowOrderResult> showOrder(@Query("user") String user, @Query("fDate") String fDate, @Query("tDate") String tDate, @Query("status") String status);
 
     @GET("order/showproductorder")
     Call<List<ShowOrderProductInfo>> showOrderProducts(@Query("orderId") String orderId);
