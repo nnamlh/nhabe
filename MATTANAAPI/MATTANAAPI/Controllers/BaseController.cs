@@ -34,6 +34,20 @@ namespace MATTANAAPI.Controllers
 
         }
 
+        protected bool isAdmin(string user)
+        {
+            var checkUser = db.AspNetUsers.Where(p => p.UserName == user).FirstOrDefault();
+
+            var role = checkUser.AspNetRoles.FirstOrDefault();
+
+            if (role == null)
+                return false;
+
+            if (role.Name.Equals("Admin"))
+                return true;
+
+            return false;
+        }
 
         protected UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 

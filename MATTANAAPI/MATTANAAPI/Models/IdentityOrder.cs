@@ -36,6 +36,12 @@ namespace MATTANAAPI.Models
 
         public string status { get; set; }
 
+        public string statusCode { get; set; }
+
+        public string nextStatus { get; set; }
+
+        public string nextStatusCode { get; set; }
+
         public int close { get; set; }
 
         public string orderPrice { get; set; }

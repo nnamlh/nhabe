@@ -12,59 +12,59 @@ import java.util.List;
 
 import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
+import vn.com.mattana.dms.order.ShowOrderDetailActivity;
 import vn.com.mattana.model.api.order.ShowOrderProductInfo;
 
 /**
  * Created by HAI on 2/27/2018.
  */
 
-public class ShowOrderProductAdapter extends BaseAdapter {
+public class ShowOrderProductAdapter extends RecyclerView.Adapter<ShowOrderProductAdapter.MyViewHolder>{
 
     List<ShowOrderProductInfo> orderProductInfos;
-    LayoutInflater inflater;
+    ShowOrderDetailActivity activity;
 
-    public ShowOrderProductAdapter(List<ShowOrderProductInfo> orderProductInfos, Activity activity) {
+    public ShowOrderProductAdapter(List<ShowOrderProductInfo> orderProductInfos, ShowOrderDetailActivity activity) {
         this.orderProductInfos = orderProductInfos;
-        inflater = activity.getLayoutInflater();
-
+        this.activity = activity;
     }
 
     @Override
-    public int getCount() {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.showorder_product_item, parent, false);
+
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        ShowOrderProductInfo productInfo = orderProductInfos.get(position);
+        holder.name.setText(productInfo.getName());
+        holder.code.setText("Mã SP: " + productInfo.getCode());
+
+        holder.quantity.setText("SL: " + productInfo.getQuantityBuy());
+
+        holder.total.setText("Tổng tiền: " + productInfo.getPriceTotal());
+    }
+
+    @Override
+    public int getItemCount() {
         return orderProductInfos.size();
     }
 
-    @Override
-    public Object getItem(int i) {
-        return orderProductInfos.get(i);
-    }
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView name, code, quantity, total;
 
-    @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
-        if (view == null)
-            view = inflater.inflate(R.layout.showorder_product_item, null);
-        TextView name, code, quantity, price, total;
-        name = (TextView) view.findViewById(R.id.ename);
-        code = (TextView) view.findViewById(R.id.ecode);
-        price = (TextView) view.findViewById(R.id.eprice);
-        quantity = (TextView) view.findViewById(R.id.equantity);
-        total = (TextView) view.findViewById(R.id.emoney);
 
-        ShowOrderProductInfo productInfo = orderProductInfos.get(position);
-        name.setText(productInfo.getName());
-        code.setText("Mã SP: " + productInfo.getCode());
-
-        quantity.setText("SL: " + productInfo.getQuantityBuy());
-
-        price.setText("Giá bán lẻ: " + productInfo.getPrice());
-
-        total.setText("Tổng tiền: " + productInfo.getPriceTotal());
-        return view;
+        public MyViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.ename);
+            code = (TextView) view.findViewById(R.id.ecode);
+            quantity = (TextView) view.findViewById(R.id.equantity);
+            total = (TextView) view.findViewById(R.id.emoney);
+        }
     }
 
 

@@ -28,6 +28,9 @@
         <AssociationConnector Association="MDBModel.FK__MOrder__StatusId__6477ECF3" />
         <AssociationConnector Association="MDBModel.FK__ProductOr__Order__6754599E" />
         <AssociationConnector Association="MDBModel.FK__ProductOr__Produ__68487DD7" />
+        <EntityTypeShape EntityType="MDBModel.AspNetRole" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MDBModel.AspNetUser" Width="1.5" PointX="7.375" PointY="0.75" />
+        <AssociationConnector Association="MDBModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

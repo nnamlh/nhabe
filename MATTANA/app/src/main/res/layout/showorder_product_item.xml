@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="10dp"
@@ -27,34 +27,32 @@
         android:textColor="#000000"
         android:textSize="14dp" />
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal">
+
     <TextView
         android:id="@+id/equantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-light"
         android:text="Số lượng: 500"
         android:textColor="#000000"
         android:textSize="14dp" />
 
-    <TextView
-        android:id="@+id/eprice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Đơn giá : "
-        android:textColor="#000000"
-        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/emoney"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-light"
         android:text="Tổng tiền: "
-        android:textColor="#000000"
+        android:layout_marginLeft="10dp"
+        android:textColor="#E53935"
         android:textSize="14dp" />
+
+</LinearLayout>
 
 </LinearLayout>

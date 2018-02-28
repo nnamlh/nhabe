@@ -20,6 +20,8 @@ namespace MATTANAAPI.Models
 
         public string code { get; set; }
 
+        public string role { get; set; }
+
 
     }
 }

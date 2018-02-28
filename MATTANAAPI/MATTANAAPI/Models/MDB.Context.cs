@@ -39,6 +39,8 @@ namespace MATTANAAPI.Models
         public virtual DbSet<OrderNumber> OrderNumbers { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }
         public virtual DbSet<ProductOrder> ProductOrders { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     
         public virtual ObjectResult<get_calendar_by_staff_byday_Result> get_calendar_by_staff_byday(Nullable<int> day, Nullable<int> month, Nullable<int> year, string staffId)
         {

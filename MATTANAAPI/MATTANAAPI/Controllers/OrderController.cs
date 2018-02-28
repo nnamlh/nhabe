@@ -190,29 +190,29 @@ namespace MATTANAAPI.Controllers
 
                 DateTime toDate = DateTime.ParseExact(tDate, "d/M/yyyy", null);
 
-                var orders = new List<MOrder>();
                 if (status == "all")
+                    status = "";
+
+
+
+                var orders = new List<MOrder>();
+
+                if (isAdmin(user))
                 {
-                    orders = (from log in db.MOrders
-                              where DbFunctions.TruncateTime(log.CreateTime)
-                                                 >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
-                                                 <= DbFunctions.TruncateTime(toDate)
-                              select log).OrderByDescending(p => p.CreateTime).ToList();
+                    orders= (from log in db.MOrders
+                     where DbFunctions.TruncateTime(log.CreateTime)
+                                        >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
+                                        <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status)
+                     select log).OrderByDescending(p => p.CreateTime).ToList();
                 }
                 else
                 {
                     orders = (from log in db.MOrders
                               where DbFunctions.TruncateTime(log.CreateTime)
                                                  >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
-                                                 <= DbFunctions.TruncateTime(toDate) && log.StatusId == status
+                                                 <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status) && log.StaffId == checkUser.Id
                               select log).OrderByDescending(p => p.CreateTime).ToList();
                 }
-
-
-
-
-
-
 
                 //var orders = db.MOrders.Where(p => p.StaffId == checkUser.Id).OrderByDescending(p=> p.CreateTime).ToList();
 

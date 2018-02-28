@@ -210,6 +210,12 @@
     <Compile Include="Models\AreaInfo.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CalendarInfo.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>

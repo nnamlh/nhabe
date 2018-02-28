@@ -100,7 +100,12 @@ namespace MATTANAAPI.Controllers
 
             mongoHelper.checkAndCreateAutHistory(user.UserName, authToke, "", "", "");
 
-            return new LoginResult { id = "1", msg = "login success", token = authToke, user = UserName , code = check.Id, name = check.FullName};
+            string role = "User";
+
+            if (isAdmin(UserName))
+                role = "Admin";
+
+            return new LoginResult { id = "1", msg = "login success", token = authToke, user = UserName , code = check.Id, name = check.FullName, role = role};
         }
         #endregion
 

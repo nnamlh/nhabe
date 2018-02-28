@@ -12,17 +12,19 @@ namespace MATTANAAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderStatu
+    public partial class AspNetUser
     {
-        public OrderStatu()
+        public AspNetUser()
         {
-            this.MOrders = new HashSet<MOrder>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
         public string Id { get; set; }
-        public string Name { get; set; }
-        public string PreStt { get; set; }
+        public string UserName { get; set; }
+        public string PasswordHash { get; set; }
+        public string SecurityStamp { get; set; }
+        public string Discriminator { get; set; }
     
-        public virtual ICollection<MOrder> MOrders { get; set; }
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }

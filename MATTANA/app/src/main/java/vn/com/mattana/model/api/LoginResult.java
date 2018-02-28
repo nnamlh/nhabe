@@ -19,6 +19,9 @@ public class LoginResult extends ResultInfo {
     @SerializedName("code")
     private String code;
 
+    @SerializedName("role")
+    private String role;
+
     public String getToken() {
         return token;
     }
@@ -49,5 +52,13 @@ public class LoginResult extends ResultInfo {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

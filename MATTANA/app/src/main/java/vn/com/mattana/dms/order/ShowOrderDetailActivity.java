@@ -1,5 +1,7 @@
 package vn.com.mattana.dms.order;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,71 +18,70 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.com.mattana.adapter.ShowOrderProductAdapter;
+import vn.com.mattana.adapter.ViewPagerAdapter;
 import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
+import vn.com.mattana.dms.checkin.CheckInActivity;
 import vn.com.mattana.model.api.order.ShowOrderInfo;
 import vn.com.mattana.model.api.order.ShowOrderProductInfo;
 import vn.com.mattana.util.MRes;
+import vn.com.mattana.view.CheckInPlanFragment;
+import vn.com.mattana.view.CheckOutPlanFragment;
 import vn.com.mattana.view.DividerItemDecoration;
 import vn.com.mattana.view.NonScrollListView;
+import vn.com.mattana.view.OrderDetailFragment;
+import vn.com.mattana.view.OrderProductFragment;
 
 public class ShowOrderDetailActivity extends BaseActivity {
 
-    @BindView(R.id.estore)
-    EditText store;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
-    @BindView(R.id.ephone)
-    EditText phone;
+    OrderDetailFragment orderDetailView;
 
-    @BindView(R.id.eaddress)
-    EditText address;
+    OrderProductFragment orderProductView;
 
-
-    @BindView(R.id.emoney)
-    EditText money;
-
-    @BindView(R.id.edatecreate)
-    EditText time;
-
-    @BindView(R.id.estatus)
-    EditText status;
-
-    @BindView(R.id.list)
-    NonScrollListView list;
-
-    List<ShowOrderProductInfo> orderProductInfos;
-
-    ShowOrderProductAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_order_detail);
-        ButterKnife.bind(this);
+
         createToolbar();
+
         ShowOrderInfo info = MRes.getInstance().orderInfo;
         getSupportActionBar().setTitle("Đơn hàng: " + info.getCode());
 
-        store.setText(info.getStore());
-        phone.setText(info.getPhone());
-        address.setText(info.getAddress());
-        money.setText(info.getOrderPrice());
-        time.setText(info.getCreateTime());
-        status.setText(info.getStatus());
 
-        orderProductInfos = new ArrayList<>();
-
-        adapter = new ShowOrderProductAdapter(orderProductInfos, this);
-
-
-        list.setAdapter(adapter);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        createTab();
 
         makeData();
+    }
+    private void createTab() {
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        orderProductView = new OrderProductFragment();
+        orderProductView.setActivity(this);
+        adapter.addFragment(orderProductView, "SẢN PHẨM ĐẶT");
+
+
+        orderDetailView = new OrderDetailFragment();
+        adapter.addFragment(orderDetailView, "CHI TIẾT");
+
+        viewPager.setAdapter(adapter);
+
     }
 
     private void makeData() {
         showpDialog();
-        orderProductInfos.clear();
+
         Call<List<ShowOrderProductInfo>> call = apiInterface().showOrderProducts(MRes.getInstance().orderInfo.getOrderId());
 
         call.enqueue(new Callback<List<ShowOrderProductInfo>>() {
@@ -88,8 +89,7 @@ public class ShowOrderDetailActivity extends BaseActivity {
             public void onResponse(Call<List<ShowOrderProductInfo>> call, Response<List<ShowOrderProductInfo>> response) {
 
                 if (response.body() != null) {
-                    orderProductInfos.addAll(response.body());
-                    adapter.notifyDataSetChanged();
+                    orderProductView.setData(response.body());
                 }
                 hidepDialog();
             }

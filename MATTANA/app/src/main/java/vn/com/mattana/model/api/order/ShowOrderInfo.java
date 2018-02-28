@@ -30,6 +30,12 @@ public class ShowOrderInfo {
     private int productNumber ;
     @SerializedName("createTime")
     private String createTime ;
+    @SerializedName("statusCode")
+    private String statusCode ;
+    @SerializedName("nextStatus")
+    private String nextStatus ;
+    @SerializedName("nextStatusCode")
+    private String nextStatusCode ;
 
     public String getOrderId() {
         return orderId;
@@ -117,5 +123,29 @@ public class ShowOrderInfo {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getNextStatus() {
+        return nextStatus;
+    }
+
+    public void setNextStatus(String nextStatus) {
+        this.nextStatus = nextStatus;
+    }
+
+    public String getNextStatusCode() {
+        return nextStatusCode;
+    }
+
+    public void setNextStatusCode(String nextStatusCode) {
+        this.nextStatusCode = nextStatusCode;
     }
 }
