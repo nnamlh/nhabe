@@ -35,6 +35,8 @@ public class MRes {
     public final String PREF_KEY_TOKEN = "MTOKEN";
     public final String PREF_KEY_NAME = "MNAME";
     public final String PREF_KEY_CODE = "MCODE";
+
+    public final String PREF_UPDATE = "LOCATION_UPDATE";
     // check in
     public DAgencyInfo agency;
 

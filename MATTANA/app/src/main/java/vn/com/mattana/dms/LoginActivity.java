@@ -85,6 +85,8 @@ public class LoginActivity extends BaseActivity {
         prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, name);
         prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, code);
 
+        prefsHelper.put(MRes.getInstance().PREF_UPDATE, true);
+
         commons.startActivity(LoginActivity.this, MainActivity.class);
 
         finish();

@@ -1,8 +1,10 @@
 package vn.com.mattana.service;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Binder;
@@ -11,9 +13,11 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -40,9 +44,9 @@ public class LocationUpdatesService extends Service {
 
     private static final String TAG = LocationUpdatesService.class.getSimpleName();
 
-    public  static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
+    public static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
 
-    public  static final String EXTRA_LOCATION = PACKAGE_NAME + ".location";
+    public static final String EXTRA_LOCATION = PACKAGE_NAME + ".location";
 
     private final IBinder mBinder = new LocalBinder();
 
@@ -84,6 +88,9 @@ public class LocationUpdatesService extends Service {
 
     SharedPrefsHelper prefsHelper;
 
+    private boolean firstTime = true;
+
+
     public LocationUpdatesService() {
     }
 
@@ -98,14 +105,14 @@ public class LocationUpdatesService extends Service {
                 onNewLocation(locationResult.getLastLocation());
             }
         };
-
+        firstTime = true;
         createLocationRequest();
-        getLastLocation();
+      //  getLastLocation();
 
         HandlerThread handlerThread = new HandlerThread(TAG);
         handlerThread.start();
         mServiceHandler = new Handler(handlerThread.getLooper());
-        Retrofit retrofit =new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(MRes.getInstance().baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -115,11 +122,11 @@ public class LocationUpdatesService extends Service {
 
         prefsHelper = new SharedPrefsHelper(getApplication().getSharedPreferences("mattana-prefs", Context.MODE_PRIVATE));
 
-        requestLocationUpdates();
+      //  requestLocationUpdates();
 
     }
 
-    private  void makeUpdate(double lat, double lng) {
+    private void makeUpdate(double lat, double lng) {
         String user = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, null);
         String name = prefsHelper.get(MRes.getInstance().PREF_KEY_NAME, null);
         String code = prefsHelper.get(MRes.getInstance().PREF_KEY_CODE, null);
@@ -177,7 +184,6 @@ public class LocationUpdatesService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         Log.i(TAG, "Last client unbound from service");
-
         return true;
     }
 
@@ -186,40 +192,43 @@ public class LocationUpdatesService extends Service {
         mServiceHandler.removeCallbacksAndMessages(null);
     }
 
-    /**
-     * Makes a request for location updates. Note that in this sample we merely log the
-     * {@link SecurityException}.
-     */
-    public void requestLocationUpdates() {
-        Log.i(TAG, "Requesting location updates");
-        Utils.setRequestingLocationUpdates(this, true);
-        startService(new Intent(getApplicationContext(), LocationUpdatesService.class));
-        try {
-            mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                    mLocationCallback, Looper.myLooper());
-        } catch (SecurityException unlikely) {
-            Utils.setRequestingLocationUpdates(this, false);
-            Log.e(TAG, "Lost location permission. Could not request updates. " + unlikely);
-        }
+    private boolean checkPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    /**
-     * Removes location updates. Note that in this sample we merely log the
-     * {@link SecurityException}.
-     */
+    public void requestLocationUpdates() {
+
+           Log.i(TAG, "Requesting location updates");
+           Utils.setRequestingLocationUpdates(this, true);
+           startService(new Intent(getApplicationContext(), LocationUpdatesService.class));
+           try {
+               mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                       mLocationCallback, Looper.myLooper());
+
+           } catch (SecurityException unlikely) {
+               Log.e(TAG, "Lost location permission. Could not request updates. " + unlikely);
+           }
+
+
+    }
+
+
     public void removeLocationUpdates() {
         Log.i(TAG, "Removing location updates");
         try {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
             Utils.setRequestingLocationUpdates(this, false);
             stopSelf();
+            firstTime = true;
         } catch (SecurityException unlikely) {
             Utils.setRequestingLocationUpdates(this, true);
             Log.e(TAG, "Lost location permission. Could not remove updates. " + unlikely);
         }
     }
 
-    private void getLastLocation() {
+    public void getLastLocation() {
         try {
             mFusedLocationClient.getLastLocation()
                     .addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -240,15 +249,36 @@ public class LocationUpdatesService extends Service {
     private void onNewLocation(Location location) {
         Log.i(TAG, "New location: " + location);
 
+        boolean isUpdate = false;
+
+        if (mLocation == null)
+        {
+            isUpdate = true;
+            mLocation = location;
+        }
+
+        float distance = location.distanceTo(mLocation);
+
+        if (distance >= 10)
+            isUpdate = true;
+
         mLocation = location;
 
         // Notify anyone listening for broadcasts about the new location.
         Intent intent = new Intent(ACTION_BROADCAST);
         intent.putExtra(EXTRA_LOCATION, location);
+
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 
+        if (firstTime)
+        {
+            isUpdate = true;
+            firstTime = false;
+        }
+
         // send location to server
-        makeUpdate(location.getLatitude(), location.getLongitude());
+        if (isUpdate)
+            makeUpdate(location.getLatitude(), location.getLongitude());
     }
 
     /**

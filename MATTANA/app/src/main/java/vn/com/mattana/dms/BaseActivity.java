@@ -1,5 +1,6 @@
 package vn.com.mattana.dms;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -8,15 +9,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
+
 import javax.inject.Inject;
+
 import io.realm.Realm;
 import retrofit2.Retrofit;
 import vn.com.mattana.app.AppController;
@@ -35,7 +41,7 @@ import vn.com.mattana.util.Utils;
  * Created by HAI on 2/24/2018.
  */
 
-public class BaseActivity extends AppCompatActivity  {
+public class BaseActivity extends AppCompatActivity {
 
     @Inject
     protected Retrofit retrofit;
@@ -53,14 +59,14 @@ public class BaseActivity extends AppCompatActivity  {
 
     protected Realm realmControl;
 
-    protected String user ;
-    protected String token ;
+    protected String user;
+    protected String token;
 
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
 
     // A reference to the service used to get location updates.
-    private LocationUpdatesService mService = null;
+    protected LocationUpdatesService mService = null;
 
     // Tracks the bound state of the service.
     private boolean mBound = false;
@@ -71,7 +77,18 @@ public class BaseActivity extends AppCompatActivity  {
         public void onServiceConnected(ComponentName name, IBinder service) {
             LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
             mService = binder.getService();
+
             mBound = true;
+
+            if (checkPermissions()) {
+              if (prefsHelper.get(MRes.getInstance().PREF_UPDATE, false))
+              {
+                  mService.getLastLocation();
+                  mService.requestLocationUpdates();
+
+                  prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
+              }
+            }
         }
 
         @Override
@@ -100,10 +117,15 @@ public class BaseActivity extends AppCompatActivity  {
         token = prefsHelper.get(MRes.getInstance().PREF_KEY_TOKEN, null);
 
 
-        if (!isMyServiceRunning(LocationUpdatesService.class)) {
-            Intent intentSv = new Intent(BaseActivity.this, LocationUpdatesService.class);
-            startService(intentSv);
-        }
+    }
+
+    /**
+     * Return the current state of the permissions needed.
+     */
+    protected boolean checkPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
     //
@@ -119,6 +141,7 @@ public class BaseActivity extends AppCompatActivity  {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
+
     // api
     protected ApiInterface apiInterface() {
         return retrofit.create(ApiInterface.class);
@@ -133,6 +156,7 @@ public class BaseActivity extends AppCompatActivity  {
         }
         return false;
     }
+
     // dialog
     protected void showpDialog() {
         if (!pDialog.isShowing())
@@ -180,7 +204,7 @@ public class BaseActivity extends AppCompatActivity  {
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Location location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+            BaseActivity.this.location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
             if (location != null) {
 
                 Toast.makeText(BaseActivity.this, Utils.getLocationText(location),
@@ -192,14 +216,24 @@ public class BaseActivity extends AppCompatActivity  {
 
     protected double getLat() {
         if (location != null)
-            return  location.getLatitude();
-        return  0;
+            return location.getLatitude();
+        return 0;
     }
 
-    private double getLng() {
-        if(location != null)
-            return  location.getLongitude();
-        return  0;
+    protected double getLng() {
+        if (location != null)
+            return location.getLongitude();
+        return 0;
     }
+
+    protected void showSnackbar(final int mainTextStringId, final int actionStringId,
+                                View.OnClickListener listener) {
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(actionStringId), listener).show();
+    }
+
 
 }

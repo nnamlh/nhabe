@@ -19,12 +19,13 @@ import vn.com.mattana.service.LocationUpdatesService;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.util.RealmController;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     NavigationView navigationView;
 
     TextView txtName;
 
     TextView txtCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
         createToolbar();
         createNavDraw();
+
     }
 
 
@@ -66,7 +68,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
         if (id == R.id.nav_customer) {
 
-        } else if(id == R.id.nav_calendar) {
+        } else if (id == R.id.nav_calendar) {
             commons.startActivity(MainActivity.this, CalendarActivity.class);
         } else if (id == R.id.nav_order) {
             commons.startActivity(MainActivity.this, ShowOrderActivity.class);
@@ -80,10 +82,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, "");
                     prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, "");
 
-                    if (isMyServiceRunning(LocationUpdatesService.class)) {
-                        Intent intentsv = new Intent(MainActivity.this, LocationUpdatesService.class);
-                        stopService(intentsv);
-                    }
+                   if(mService != null)
+                   {
+                       mService.removeLocationUpdates();
+                       prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
+                   }
 
                     commons.startActivity(MainActivity.this, LoginActivity.class);
                     finish();
@@ -110,8 +113,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         commons.startActivity(MainActivity.this, CheckInActivity.class);
     }
 
-    public void showCalendar(View view){
-         commons.startActivity(MainActivity.this, CalendarActivity.class);
+    public void showCalendar(View view) {
+        commons.startActivity(MainActivity.this, CalendarActivity.class);
 
     }
 
