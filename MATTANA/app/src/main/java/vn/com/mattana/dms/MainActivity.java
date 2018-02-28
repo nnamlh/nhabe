@@ -59,6 +59,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         txtName.setText(name);
         txtCode.setText("Mã NV: " + code);
+
+        locationRequire();
     }
 
 

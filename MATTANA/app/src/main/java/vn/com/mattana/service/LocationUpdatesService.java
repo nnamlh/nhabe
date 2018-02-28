@@ -2,11 +2,14 @@ package vn.com.mattana.service;
 
 import android.Manifest;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -91,8 +94,17 @@ public class LocationUpdatesService extends Service {
     private boolean firstTime = true;
 
 
-    public LocationUpdatesService() {
-    }
+    private BroadcastReceiver gpsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().matches(LocationManager.PROVIDERS_CHANGED_ACTION)) {
+                if (checkLocation() && checkPermissions()) {
+                    getLastLocation();
+                    requestLocationUpdates();
+                }
+            }
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -107,7 +119,6 @@ public class LocationUpdatesService extends Service {
         };
         firstTime = true;
         createLocationRequest();
-      //  getLastLocation();
 
         HandlerThread handlerThread = new HandlerThread(TAG);
         handlerThread.start();
@@ -121,8 +132,8 @@ public class LocationUpdatesService extends Service {
 
 
         prefsHelper = new SharedPrefsHelper(getApplication().getSharedPreferences("mattana-prefs", Context.MODE_PRIVATE));
+        registerReceiver(gpsReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
 
-      //  requestLocationUpdates();
 
     }
 
@@ -190,6 +201,7 @@ public class LocationUpdatesService extends Service {
     @Override
     public void onDestroy() {
         mServiceHandler.removeCallbacksAndMessages(null);
+        unregisterReceiver(gpsReceiver);
     }
 
     private boolean checkPermissions() {
@@ -198,18 +210,25 @@ public class LocationUpdatesService extends Service {
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
+    protected boolean checkLocation() {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        return statusOfGPS;
+    }
+
     public void requestLocationUpdates() {
 
-           Log.i(TAG, "Requesting location updates");
-           Utils.setRequestingLocationUpdates(this, true);
-           startService(new Intent(getApplicationContext(), LocationUpdatesService.class));
-           try {
-               mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                       mLocationCallback, Looper.myLooper());
+        Log.i(TAG, "Requesting location updates");
+        Utils.setRequestingLocationUpdates(this, true);
+        startService(new Intent(getApplicationContext(), LocationUpdatesService.class));
+        try {
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                    mLocationCallback, Looper.myLooper());
 
-           } catch (SecurityException unlikely) {
-               Log.e(TAG, "Lost location permission. Could not request updates. " + unlikely);
-           }
+        } catch (SecurityException unlikely) {
+            Log.e(TAG, "Lost location permission. Could not request updates. " + unlikely);
+        }
 
 
     }
@@ -251,8 +270,7 @@ public class LocationUpdatesService extends Service {
 
         boolean isUpdate = false;
 
-        if (mLocation == null)
-        {
+        if (mLocation == null) {
             isUpdate = true;
             mLocation = location;
         }
@@ -270,8 +288,7 @@ public class LocationUpdatesService extends Service {
 
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 
-        if (firstTime)
-        {
+        if (firstTime) {
             isUpdate = true;
             firstTime = false;
         }

@@ -62,28 +62,9 @@ public class CheckInPlanFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         workInfos = new ArrayList<>();
         workInfos.addAll(activity.workInfos);
-        adapter = new CWorkAdapter(workInfos);
+        adapter = new CWorkAdapter(workInfos, activity);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                CWorkInfo info = workInfos.get(position);
-                DAgencyInfo agencyInfo = new DAgencyInfo();
-                agencyInfo.setCode(info.getCode());
-                agencyInfo.setAddress(info.getAddress());
-                agencyInfo.setPhone(info.getPhone());
-                agencyInfo.setStore(info.getStore());
-                agencyInfo.setLat(info.getLat());
-                agencyInfo.setLng(info.getLng());
-                MRes.getInstance().agency = agencyInfo;
-                activity.makeCheckIn(info.getWorkId());
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
 
         refeshList();
 
@@ -100,8 +81,13 @@ public class CheckInPlanFragment extends Fragment {
         return view;
     }
 
-    private void refeshList() {
+    public void updateLocation(int postion, double lat, double lng) {
+        workInfos.get(postion).setLat(lat);
+        workInfos.get(postion).setLng(lng);
+        adapter.notifyDataSetChanged();
+    }
 
+    private void refeshList() {
         adapter.notifyDataSetChanged();
     }
 }

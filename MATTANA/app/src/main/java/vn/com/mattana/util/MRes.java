@@ -1,5 +1,7 @@
 package vn.com.mattana.util;
 
+import android.location.Location;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,10 @@ public class MRes {
     public final String PREF_KEY_CODE = "MCODE";
 
     public final String PREF_UPDATE = "LOCATION_UPDATE";
+
+    public Location location;
+
+    public boolean isRunUpdate = false;
     // check in
     public DAgencyInfo agency;
 

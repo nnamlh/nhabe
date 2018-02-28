@@ -21,12 +21,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:textColor="#000000"
-        android:layout_below="@id/txtname"
+        android:textColor="#2196F3"
+        android:layout_toRightOf="@id/txtname"
         android:id="@+id/txtcode"
-        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
         android:text="ass"
-        android:textSize="14dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:textColor="#000000"
+        android:textColor="#D32F2F"
         android:layout_below="@id/txtaddress"
         android:id="@+id/txtstatus"
         android:layout_marginTop="10dp"
@@ -66,13 +67,54 @@
         android:textSize="12dp" />
 
 
+
+
     <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:id="@+id/imglocation"
-        android:src="@mipmap/ic_location_on"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:visibility="gone"
         android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/enotice"
+        android:layout_below="@id/txtstatus"
+        android:text="Bạn chưa thể ghé thăm"
+        android:visibility="gone"
+        android:textSize="12dp"
+        android:textColor="#1E88E5"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:id="@+id/btncheckin"
+        android:layout_below="@id/enotice"
+        android:text="Ghé thăm"
+        android:layout_marginLeft="-3dp"
+        android:textSize="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:textColor="#fff"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:id="@+id/btnupdatelocation"
+        android:layout_below="@id/enotice"
+        android:text="Cập nhật tọa độ"
+        android:layout_marginLeft="-5dp"
+        android:textSize="10dp"
+        android:textColor="#fff"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.AppCompat.Button.Colored" />
+
+
 
 </RelativeLayout>

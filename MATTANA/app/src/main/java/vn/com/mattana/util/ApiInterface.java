@@ -64,4 +64,8 @@ public interface ApiInterface {
 
     @GET("order/showproductorder")
     Call<List<ShowOrderProductInfo>> showOrderProducts(@Query("orderId") String orderId);
+
+
+    @GET("info/updateagencylocation")
+    Call<ResultInfo> updateLocation(@Query("lat") double lat, @Query("lng") double lng, @Query("agencyCode") String agencyCode);
 }

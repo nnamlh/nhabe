@@ -37,9 +37,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         CWorkInfo info = workInfos.get(position);
         holder.name.setText(info.getStore());
-        holder.code.setText(info.getCode());
-        holder.phone.setText(info.getPhone());
-        holder.address.setText(info.getAddress());
+        holder.code.setText("("+info.getCode()+ ")");
+        holder.phone.setText("Điện thoại: " + info.getPhone());
+        holder.address.setText("Địa chỉ: "+ info.getAddress());
         holder.status.setText(info.getStatus());
 
         if (info.getPerform() == 1) {
@@ -58,6 +58,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, code, phone, address, status;
         public ImageView imgLocation;
+
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.txtname);

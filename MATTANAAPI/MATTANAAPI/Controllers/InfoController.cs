@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using MATTANAAPI.Models;
 using MATTANAAPI.Util;
+using System.Web.Script.Serialization;
 
 namespace MATTANAAPI.Controllers
 {
@@ -35,6 +36,49 @@ namespace MATTANAAPI.Controllers
 
 
             return results;
+
+        }
+
+        [HttpGet]
+        public ResultInfo UpdateAgencyLocation(double lat, double lng, string agencyCode)
+        {
+                var log = new MongoHistoryAPI()
+        {
+            APIUrl = "/api/info/updateagencylocation",
+            CreateTime = DateTime.Now,
+            Sucess = 1
+        };
+
+            var result = new ResultInfo()
+            {
+                id = "1",
+                msg = "success"
+            };
+
+            try
+            {
+                var checkAgency = db.MAgencies.Where(p => p.Code == agencyCode).FirstOrDefault();
+
+                if (checkAgency == null)
+                    throw new Exception("Sai thông tin");
+
+                checkAgency.Lat = lat;
+                checkAgency.Lng = lng;
+                db.Entry(checkAgency).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                result.id = "0";
+                result.msg = e.Message;
+                log.Sucess = 0;
+            }
+
+            log.ReturnInfo = new JavaScriptSerializer().Serialize(result);
+
+            mongoHelper.createHistoryAPI(log);
+
+            return result;
 
         }
 

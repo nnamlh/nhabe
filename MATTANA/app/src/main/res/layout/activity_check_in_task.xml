@@ -78,6 +78,7 @@
             android:text="Hoàn thành ghé thăm"
             android:textColor="@color/white"
             android:textSize="18dp"
+            android:layout_marginLeft="-5dp"
             android:onClick="finishClick"
             style="@style/Widget.AppCompat.Button.Colored"/>
 

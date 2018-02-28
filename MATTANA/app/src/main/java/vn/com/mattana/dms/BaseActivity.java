@@ -102,6 +102,12 @@ public class BaseActivity extends AppCompatActivity {
                   mService.requestLocationUpdates();
 
                   prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
+              }else {
+                  if (!MRes.getInstance().isRunUpdate){
+                      mService.getLastLocation();
+                      mService.requestLocationUpdates();
+                      MRes.getInstance().isRunUpdate = true;
+                  }
               }
             }
         }
@@ -113,7 +119,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     };
 
-    protected Location location;
+ //   protected Location location = MRes.getInstance().location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,10 +225,10 @@ public class BaseActivity extends AppCompatActivity {
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            BaseActivity.this.location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
-            if (location != null) {
+            MRes.getInstance().location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+            if (MRes.getInstance().location != null) {
 
-                Toast.makeText(BaseActivity.this, Utils.getLocationText(location),
+                Toast.makeText(BaseActivity.this, Utils.getLocationText(MRes.getInstance().location),
                         Toast.LENGTH_SHORT).show();
 
             }
@@ -230,14 +236,14 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected double getLat() {
-        if (location != null)
-            return location.getLatitude();
+        if (MRes.getInstance().location != null)
+            return MRes.getInstance().location.getLatitude();
         return 0;
     }
 
     protected double getLng() {
-        if (location != null)
-            return location.getLongitude();
+        if (MRes.getInstance().location != null)
+            return MRes.getInstance().location.getLongitude();
         return 0;
     }
 
@@ -250,6 +256,11 @@ public class BaseActivity extends AppCompatActivity {
                 .setAction(getString(actionStringId), listener).show();
     }
 
+    protected void locationRequire() {
+        if (!checkLocation())
+            showAlertLocation();
+    }
+
     protected boolean checkLocation() {
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
         boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -257,11 +268,11 @@ public class BaseActivity extends AppCompatActivity {
         return  statusOfGPS;
     }
 
-    protected void showAlert() {
+    protected void showAlertLocation() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(BaseActivity.this);
         dialog.setTitle("Enable Location")
                 .setMessage("Cho phép lấy thông tin GPS từ điện thoại.")
-                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                         Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -271,8 +282,10 @@ public class BaseActivity extends AppCompatActivity {
                 .setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                       finish();
                     }
                 });
+        dialog.setCancelable(false);
         dialog.show();
     }
 
@@ -284,10 +297,6 @@ public class BaseActivity extends AppCompatActivity {
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Log.i(TAG, "User agreed to make required location settings changes.");
-                        if(mService != null) {
-                            mService.getLastLocation();
-                            mService.requestLocationUpdates();
-                        }
                         break;
                     case Activity.RESULT_CANCELED:
                         Log.i(TAG, "User chose not to make required location settings changes.");

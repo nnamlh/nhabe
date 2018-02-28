@@ -7,36 +7,26 @@
     android:padding="30dp"
     tools:context="vn.com.mattana.dms.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/lpass"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/input_login"
-        android:gravity="center">
 
-        <EditText
-            android:id="@+id/epass"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:background="@null"
-            android:fontFamily="sans-serif-light"
-            android:hint="Nhập mật khẩu"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:textAlignment="center"
-            android:textColor="#000"
-            android:textColorHint="@color/gray_color" />
-
-    </LinearLayout>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:id="@+id/title"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-light"
+        android:text="ĐĂNG NHẬP"/>
 
     <LinearLayout
         android:id="@+id/layoutinput"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_above="@id/lpass"
-        android:layout_marginBottom="20dp"
+        android:layout_below="@id/title"
+        android:layout_marginTop="35dp"
         android:background="@drawable/input_login"
         android:gravity="center">
 
@@ -57,6 +47,31 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/lpass"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/layoutinput"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/input_login"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/epass"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:fontFamily="sans-serif-light"
+            android:hint="Nhập mật khẩu"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textColorHint="@color/gray_color" />
+
+    </LinearLayout>
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -70,11 +85,10 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="256dp"
-        android:layout_height="128dp"
-        android:layout_above="@id/layoutinput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
         android:src="@mipmap/logofull" />
 
 
