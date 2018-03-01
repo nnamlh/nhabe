@@ -19,6 +19,12 @@
             android:visible="true"
             android:title="Đơn hàng" />
 
+        <item
+            android:id="@+id/nav_notice"
+            android:icon="@mipmap/ic_notice"
+            android:visible="true"
+            android:title="Thông báo" />
+
     </group>
 
     <item android:title="Hổ trợ">

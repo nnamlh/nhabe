@@ -88,7 +88,9 @@
             android:name=".order.FilterOrderActivity"
             android:label="Lọc đơn hàng"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".NoticeActivity"></activity>
+        <activity android:name=".NoticeActivity"
+            android:label="Thông báo"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

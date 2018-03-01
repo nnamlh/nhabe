@@ -22,7 +22,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2018 11:06:04</publishTime>
     </File>
     <File Include="bin/MATTANAAPI.dll">
-      <publishTime>03/01/2018 11:19:05</publishTime>
+      <publishTime>03/01/2018 14:15:36</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>02/25/2018 11:06:08</publishTime>
@@ -81,6 +81,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Owin.dll">
       <publishTime>02/25/2018 11:06:08</publishTime>
     </File>
+    <File Include="bin/PagedList.dll">
+      <publishTime>03/01/2018 13:45:20</publishTime>
+    </File>
+    <File Include="bin/PagedList.Mvc.dll">
+      <publishTime>03/01/2018 13:45:20</publishTime>
+    </File>
     <File Include="bin/System.Buffers.dll">
       <publishTime>02/25/2018 17:43:37</publishTime>
     </File>
@@ -120,6 +126,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/WebGrease.dll">
       <publishTime>02/25/2018 11:06:02</publishTime>
     </File>
+    <File Include="Content/PagedList.css">
+      <publishTime>03/01/2018 13:45:21</publishTime>
+    </File>
     <File Include="favicon.ico">
       <publishTime>02/25/2018 11:05:43</publishTime>
     </File>
@@ -130,10 +139,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/01/2018 03:15:48</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>02/25/2018 17:43:43</publishTime>
+      <publishTime>03/01/2018 13:45:22</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/26/2018 16:17:37</publishTime>
+      <publishTime>03/01/2018 14:15:37</publishTime>
     </File>
   </ItemGroup>
 </Project>

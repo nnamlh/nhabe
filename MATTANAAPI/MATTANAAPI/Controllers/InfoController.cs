@@ -7,6 +7,8 @@ using System.Web.Http;
 using MATTANAAPI.Models;
 using MATTANAAPI.Util;
 using System.Web.Script.Serialization;
+using PagedList;
+
 
 namespace MATTANAAPI.Controllers
 {
@@ -82,5 +84,46 @@ namespace MATTANAAPI.Controllers
 
         }
 
+
+        [HttpGet]
+        public List<NoticeInfo> Notices(string user, int? page)
+        {
+            List<NoticeInfo> result = new List<NoticeInfo>();
+
+            DateTime current = DateTime.Now;
+            DateTime fDate = current.AddMonths(-3);
+
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+
+            var data = mongoHelper.getNotices(user, fDate, current).OrderByDescending(p => p.Time).ToPagedList(pageNumber, pageSize);
+
+            foreach (var item in data)
+            {
+                result.Add(new NoticeInfo()
+                {
+                    id = item.Id.ToString(),
+                    message = item.Message,
+                    read = item.Read,
+                    time = item.Time.Value.ToString("dd/MM/yyyy HH:mm"),
+                    title = item.Title
+                });
+            }
+
+            return result;
+
+        }
+
+        [HttpGet]
+        public ResultInfo UpdateNoticeRead(string id)
+        {
+            mongoHelper.updateNotice(id);
+
+            return new ResultInfo()
+            {
+                id = "1",
+                msg = "success"
+            };
+        }
     }
 }

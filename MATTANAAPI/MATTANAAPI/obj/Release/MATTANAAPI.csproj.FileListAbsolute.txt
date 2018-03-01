@@ -71,3 +71,7 @@ N:\nhabe\MATTANAAPI\MATTANAAPI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 N:\nhabe\MATTANAAPI\MATTANAAPI\obj\Release\MATTANAAPI.dll
 N:\nhabe\MATTANAAPI\MATTANAAPI\obj\Release\MATTANAAPI.pdb
 N:\nhabe\MATTANAAPI\MATTANAAPI\obj\Release\MATTANAAPI.csprojResolveAssemblyReference.cache
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.dll
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.Mvc.dll
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.xml
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.Mvc.xml

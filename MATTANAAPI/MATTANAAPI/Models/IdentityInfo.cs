@@ -10,7 +10,6 @@ namespace MATTANAAPI.Models
 
     }
 
-
     public class ProductInfoResult
     {
         public string id { get; set; }
@@ -22,5 +21,18 @@ namespace MATTANAAPI.Models
         public string describes { get; set; }
 
         public double? price { get; set; }
+    }
+
+    public class NoticeInfo
+    {
+        public string id { get; set; }
+
+        public string title { get; set; }
+
+        public string message { get; set; }
+
+        public string time { get; set; }
+
+        public int read { get; set; }
     }
 }

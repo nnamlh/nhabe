@@ -6,12 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using System.Data.Entity;
+using MattanaSite.Util;
 
 namespace MattanaSite.Controllers
 {
     public class OrderController : MainController
     {
         MDBEntities db = new MDBEntities();
+        MongoHelper mongoHelp = new MongoHelper();
         //
         // GET: /Order/
         [HttpGet]
@@ -74,11 +76,15 @@ namespace MattanaSite.Controllers
 
             check.ModifyTime = DateTime.Now;
 
+            var checkStatus = db.OrderStatus.Find(status);
+
             check.StatusId = status;
 
             db.Entry(check).State = EntityState.Modified;
 
             db.SaveChanges();
+
+            Utils.send(check.MStaff.MUser, "Đơn hàng", "Đơn hàng " + check.Code + " \nCủa đại lý: " + check.MAgency.Store + " \nĐã thay đổi trạng thái: " + checkStatus.Name, mongoHelp);
 
             return Redirect("/order/showdetail/" + orderId);
         }

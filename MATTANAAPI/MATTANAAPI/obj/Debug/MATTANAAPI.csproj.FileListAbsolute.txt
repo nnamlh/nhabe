@@ -132,3 +132,7 @@ N:\nhabe\MATTANAAPI\MATTANAAPI\bin\MongoDB.Bson.xml
 N:\nhabe\MATTANAAPI\MATTANAAPI\bin\MongoDB.Driver.xml
 N:\nhabe\MATTANAAPI\MATTANAAPI\bin\MongoDB.Driver.Core.xml
 N:\nhabe\MATTANAAPI\MATTANAAPI\bin\MongoDB.Driver.Legacy.xml
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.dll
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.Mvc.dll
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.xml
+N:\nhabe\MATTANAAPI\MATTANAAPI\bin\PagedList.Mvc.xml

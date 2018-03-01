@@ -9,6 +9,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import vn.com.mattana.model.api.MainLoadResult;
 import vn.com.mattana.model.api.MainLoadSend;
+import vn.com.mattana.model.api.NoticeResult;
 import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
 import vn.com.mattana.model.api.order.CompleteSend;
@@ -78,4 +79,12 @@ public interface ApiInterface {
 
     @GET("user/logout")
     Call<ResultInfo> logOut(@Query("user") String user, @Query("token") String token);
+
+
+    // notice
+    @GET("info/notices")
+    Call<List<NoticeResult>> notices(@Query("user") String user, @Query("page") int page);
+
+    @GET("info/updatenoticeread")
+    Call<ResultInfo> updateNoticeRead(@Query("id") String id);
 }

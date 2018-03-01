@@ -1,4 +1,5 @@
 ﻿using MATTANAAPI.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -109,6 +110,29 @@ namespace MATTANAAPI.Util
             }
         }
 
+        public List<NoticeMongo> getNotices(string user, DateTime fDate, DateTime tDate)
+        {
+            var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
+            var builder = Builders<NoticeMongo>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<NoticeMongo>(builder.Eq("User", user) & builder.Gte("Time", fDate) & builder.Lt("Time", tDate)).ToList();
+
+            return data;
+        }
+
+        public void updateNotice(string id)
+        {
+            var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
+            var builder = Builders<NoticeMongo>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<NoticeMongo>(builder.Eq("Id", new ObjectId(id))).FirstOrDefault();
+
+            if (data != null)
+            {
+                var update = Builders<NoticeMongo>.Update.Set("Read", 1);
+                var result = collection.UpdateOneAsync(Builders<NoticeMongo>.Filter.Eq("Id", new ObjectId(id)), update);
+            }
+        }
 
         public void updateStateAuthToken(string user)
         {
@@ -138,6 +162,36 @@ namespace MATTANAAPI.Util
             };
 
             collection.InsertOneAsync(data);
+        }
+
+        public string findFirebaseId(string user)
+        {
+            var collection = db.GetCollection<FirebaseMongo>("FirebaseInfo");
+            var builder = Builders<FirebaseMongo>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<FirebaseMongo>(builder.Eq("User", user)).FirstOrDefault();
+
+            if (data != null)
+                return data.FirebaseId;
+
+            return "";
+
+        }
+
+        public void saveNoticeHistory(string user, string message)
+        {
+            var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
+
+            var notice = new NoticeMongo()
+            {
+                Message = message,
+                User = user,
+                Time = DateTime.Now,
+                Type = "notice",
+                Read = 0
+            };
+
+            collection.InsertOneAsync(notice);
         }
 
     }
