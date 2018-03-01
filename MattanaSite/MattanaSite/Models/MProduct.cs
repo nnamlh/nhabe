@@ -27,6 +27,7 @@ namespace MattanaSite.Models
         public Nullable<double> Price { get; set; }
         public string Unit { get; set; }
         public Nullable<int> IsLock { get; set; }
+        public Nullable<int> Size { get; set; }
     
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }

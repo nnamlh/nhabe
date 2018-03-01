@@ -41,7 +41,7 @@ namespace MattanaSite.Controllers
 
             var responseString = Utils.sendRequestFirebase(json);
 
-            mongoHelp.saveNoticeHistory(user, messenge);
+            mongoHelp.saveNoticeHistory(user,title, messenge);
 
             ViewBag.MSG = "Đã gửi";
             return View(db.MStaffs.ToList());

@@ -39,7 +39,7 @@ namespace MattanaSite.Util
       
         }
 
-        public void saveNoticeHistory(string user, string message)
+        public void saveNoticeHistory(string user,string title, string message)
         {
             var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
 
@@ -47,6 +47,7 @@ namespace MattanaSite.Util
             {
                 Message = message,
                 User = user,
+                Title = title,
                 Time = DateTime.Now,
                 Type = "notice",
                 Read = 0

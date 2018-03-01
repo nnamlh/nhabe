@@ -48,5 +48,10 @@ namespace MattanaSite.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_detail_calendar_by_calendarid_Result>("get_detail_calendar_by_calendarid", calendarIdParameter);
         }
+    
+        public virtual ObjectResult<show_user_role_Result> show_user_role()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<show_user_role_Result>("show_user_role");
+        }
     }
 }

@@ -104,6 +104,7 @@
           <Property Name="CDay" Type="int" />
           <Property Name="CMonth" Type="int" />
           <Property Name="CYear" Type="int" />
+          <Property Name="SuggestDate" Type="datetime" />
         </EntityType>
         <EntityType Name="MProduct">
           <Key>
@@ -117,6 +118,7 @@
           <Property Name="Price" Type="float" />
           <Property Name="Unit" Type="nvarchar" MaxLength="128" />
           <Property Name="IsLock" Type="int" />
+          <Property Name="Size" Type="int" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -304,6 +306,7 @@
         <Function Name="get_detail_calendar_by_calendarid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="calendarId" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="show_user_role" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="MDBModelStoreContainer">
           <EntitySet Name="AgencyWithStaff" EntityType="Self.AgencyWithStaff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AreaInfo" EntityType="Self.AreaInfo" Schema="dbo" store:Type="Tables" />
@@ -444,6 +447,7 @@
           <Property Name="Unit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="IsLock" Type="Int32" />
           <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
+          <Property Name="Size" Type="Int32" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -548,6 +552,7 @@
           <FunctionImport Name="get_detail_calendar_by_calendarid" ReturnType="Collection(MDBModel.get_detail_calendar_by_calendarid_Result)">
           <Parameter Name="calendarId" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="show_user_role" ReturnType="Collection(MDBModel.show_user_role_Result)" />
         </EntityContainer>
         <EntityType Name="CalendarInfo">
           <Key>
@@ -631,6 +636,7 @@
           <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MOrder" ToRole="MStaff" />
           <NavigationProperty Name="OrderStatu" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="MOrder" ToRole="OrderStatu" />
           <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="MOrder" ToRole="ProductOrder" />
+          <Property Name="SuggestDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="OrderNumber">
           <Key>
@@ -748,6 +754,13 @@
           <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
           <Property Type="String" Name="StaffCheckName" Nullable="true" MaxLength="512" />
         </ComplexType>
+        <ComplexType Name="show_user_role_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="512" />
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="UserName" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="UserId" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -814,6 +827,7 @@
           <EntitySetMapping Name="MProducts">
             <EntityTypeMapping TypeName="MDBModel.MProduct">
               <MappingFragment StoreEntitySet="MProduct">
+                <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="IsLock" ColumnName="IsLock" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PName" ColumnName="PName" />
@@ -870,6 +884,7 @@
           <EntitySetMapping Name="MOrders">
             <EntityTypeMapping TypeName="MDBModel.MOrder">
               <MappingFragment StoreEntitySet="MOrder">
+                <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
                 <ScalarProperty Name="CYear" ColumnName="CYear" />
                 <ScalarProperty Name="CMonth" ColumnName="CMonth" />
                 <ScalarProperty Name="CDay" ColumnName="CDay" />
@@ -943,6 +958,16 @@
                 <ScalarProperty Name="Lng" ColumnName="Lng" />
                 <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
                 <ScalarProperty Name="StaffCheckName" ColumnName="StaffCheckName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="show_user_role" FunctionName="MDBModel.Store.show_user_role">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MDBModel.show_user_role_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

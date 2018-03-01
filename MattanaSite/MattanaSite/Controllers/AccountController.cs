@@ -292,7 +292,7 @@ namespace MattanaSite.Controllers
 
         #region nhan vien
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterStaff(RegisterViewModel model, string staffId)
         {

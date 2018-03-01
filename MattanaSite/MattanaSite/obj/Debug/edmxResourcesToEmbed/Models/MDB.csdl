@@ -73,6 +73,7 @@
     <Property Name="Unit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="IsLock" Type="Int32" />
     <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
+    <Property Name="Size" Type="Int32" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>
@@ -177,6 +178,7 @@
     <FunctionImport Name="get_detail_calendar_by_calendarid" ReturnType="Collection(MDBModel.get_detail_calendar_by_calendarid_Result)">
       <Parameter Name="calendarId" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="show_user_role" ReturnType="Collection(MDBModel.show_user_role_Result)" />
   </EntityContainer>
   <EntityType Name="CalendarInfo">
     <Key>
@@ -260,6 +262,7 @@
     <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MOrder" ToRole="MStaff" />
     <NavigationProperty Name="OrderStatu" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="MOrder" ToRole="OrderStatu" />
     <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="MOrder" ToRole="ProductOrder" />
+    <Property Name="SuggestDate" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="OrderNumber">
     <Key>
@@ -376,5 +379,12 @@
     <Property Type="Double" Name="Lng" Nullable="true" />
     <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
     <Property Type="String" Name="StaffCheckName" Nullable="true" MaxLength="512" />
+  </ComplexType>
+  <ComplexType Name="show_user_role_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="512" />
+    <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="UserName" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="UserId" Nullable="false" />
   </ComplexType>
 </Schema>

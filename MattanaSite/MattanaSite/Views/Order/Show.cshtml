@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MattanaSite.Models.MOrder>
+﻿@model PagedList.IPagedList<MattanaSite.Models.MOrder>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Đơn hàng";
 }
@@ -36,7 +37,15 @@
                             <option value="">Tất cả</option>
                             @foreach (var item in ViewBag.Staff)
                             {
-                                <option data-tokens="@item.Id @item.FullName" value="@item.Id">@item.FullName - @item.Id</option>
+                                if (ViewBag.StaffChoose == item.Id)
+                                {
+                                    <option data-tokens="@item.Id @item.FullName" value="@item.Id" selected>@item.FullName - @item.Id</option>
+                                }
+                                else
+                                {
+                                     <option data-tokens="@item.Id @item.FullName" value="@item.Id">@item.FullName - @item.Id</option>
+
+                                }
                             }
                         </select>
                     </div>
@@ -72,7 +81,7 @@
                     <thead>
                         <tr>
                             <th>Mã hàng</th>
-                            <th>Ngày tạo</th>
+                            <th>Ngày đặt</th>
                             <th>Nhân viên</th>
                             <th>Đại lý</th>
                             <th>Giá trị đơn hàng</th>
@@ -90,11 +99,14 @@
                                 <td>@item.MAgency.Store</td>
                                 <td>@item.PriceOrder.Value.ToString("C", MattanaSite.Util.Cultures.VietNam)</td>
                                 <td>@item.ProductOrders.Count()</td>
-                                <td><a href="/order/showdetail/@item.Id" target="_blank">Chi tiết</a></td>
+                                <td><a href="/order/showdetail/@item.Id" target="_blank">Chi tiết</a> &nbsp;|<a href="/order/excelorderform?orderId=@item.Id">Tải đơn hàng</a></td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("show", new { page, stt = ViewBag.CSTT, fdate = ViewBag.FDate.ToString("dd/MM/yyyy"), 
+               tdate = ViewBag.TDate.ToString("dd/MM/yyyy"), staff = ViewBag.StaffChoose }))
             </div>
         </div>
 

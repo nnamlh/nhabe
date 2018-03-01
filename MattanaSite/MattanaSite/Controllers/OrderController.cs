@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using PagedList;
 using System.Data.Entity;
 using MattanaSite.Util;
+using System.IO;
+using OfficeOpenXml;
 
 namespace MattanaSite.Controllers
 {
@@ -27,8 +29,9 @@ namespace MattanaSite.Controllers
             if (String.IsNullOrEmpty(fdate) || String.IsNullOrEmpty(tdate))
             {
                 var currentDate = DateTime.Now;
-                fromDate = new DateTime(currentDate.Year, currentDate.Month, 1);
-                toDate = fromDate.AddDays(GetDaysInMonth(currentDate.Year, currentDate.Month));
+                toDate = new DateTime(currentDate.Year, currentDate.Month, 1);
+
+                fromDate = toDate.AddMonths(-1);
             }
             else
             {
@@ -45,7 +48,7 @@ namespace MattanaSite.Controllers
             var data = (from log in db.MOrders
                         where DbFunctions.TruncateTime(log.CreateTime)
                                            >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
-                                           <= DbFunctions.TruncateTime(toDate) && log.StatusId == stt && log.StatusId.Contains(staff)
+                                           <= DbFunctions.TruncateTime(toDate) && log.StatusId == stt && log.StaffId.Contains(staff)
                         select log).OrderByDescending(p => p.CreateTime).ToPagedList(pageNumber, pageSize);
 
 
@@ -96,6 +99,105 @@ namespace MattanaSite.Controllers
             return null;
 
 
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDelivery(string productId, string orderId, int quantity)
+        {
+            if(quantity < 0)
+                return Json(new { id = 0 }, JsonRequestBehavior.AllowGet);
+
+            var check = db.ProductOrders.Where(p => p.ProductId == productId && p.OrderId == orderId).FirstOrDefault();
+
+            if (check != null)
+            {
+                check.QuantityReal = quantity;
+                db.Entry(check).State = EntityState.Modified;
+                db.SaveChanges();
+
+                double? total = 0;
+
+                var orders = db.MOrders.Find(orderId);
+
+                foreach (var item in orders.ProductOrders)
+                {
+                    total += (item.QuantityReal * item.Price);
+                }
+
+                orders.PriceReal = total;
+                db.Entry(orders).State = EntityState.Modified;
+                db.SaveChanges();
+
+                Util.Utils.send(User.Identity.Name, "Đơn hàng " + orders.Code, "Đơn hàng " + orders.Code + "\nĐã thay đổi số lượng thực: " + quantity, mongoHelp);
+
+                return Json(new { money = (check.QuantityReal * check.Price).Value.ToString("C", Cultures.VietNam), total = total.Value.ToString("C", Cultures.VietNam) }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { id = 0 }, JsonRequestBehavior.AllowGet);
+        }
+
+        /**
+         * xuat excel
+         */
+        public ActionResult ExcelOrderForm(string orderId)
+        {
+            var order = db.MOrders.Find(orderId);
+
+            if(order == null)
+                return Redirect("/error");
+
+            string pathRoot = Server.MapPath("~/MTemplates/orderform.xlsx");
+            string name = "orderform" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xlsx";
+            string pathTo = Server.MapPath("~/Temp/" + name);
+
+            System.IO.File.Copy(pathRoot, pathTo);
+
+            try
+            {
+                FileInfo newFile = new FileInfo(pathTo);
+ 
+                using (ExcelPackage package = new ExcelPackage(newFile))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets["donhang"];
+
+                    worksheet.Cells[3, 6].Value = order.Code;
+                    worksheet.Cells[4, 6].Value = order.CreateTime.Value.ToString("dd/MM/yyyy");
+                    worksheet.Cells[5, 6].Value = order.MAgency.AddressDetail;
+                    worksheet.Cells[6, 6].Value = order.MAgency.Deputy;
+                    worksheet.Cells[7, 6].Value = order.SuggestDate != null ? order.SuggestDate.Value.ToString("dd/MM/yyyy") : "";
+
+                    worksheet.Cells[5, 3].Value = order.MStaff.FullName;
+                    worksheet.Cells[6, 3].Value = order.MStaff.GroupNumber;
+                    worksheet.Cells[7, 3].Value = order.MAgency.Code;
+
+                    var products = order.ProductOrders.ToList();
+
+                    for (int i = 0; i < products.Count(); i++)
+                    {
+                        worksheet.Cells[i + 13, 1].Value = i + 1;
+                        worksheet.Cells[i + 13, 2].Value = products[i].MProduct.PName;
+                        worksheet.Cells[i + 13, 3].Value = products[i].MProduct.PCode;
+                        worksheet.Cells[i + 13, 5].Value = products[i].MProduct.Size;
+                        worksheet.Cells[i + 13, 6].Value = products[i].MProduct.Price;
+                        worksheet.Cells[i + 13, 7].Value = products[i].Price;
+                        worksheet.Cells[i + 13, 8].Value = products[i].QuantityBuy;
+                        worksheet.Cells[i + 13, 9].Value = products[i].Price * products[i].QuantityBuy;
+                        worksheet.Cells[i + 13, 10].Value = products[i].QuantityReal;
+                        worksheet.Cells[i + 13, 11].Value = products[i].Price * products[i].QuantityReal;
+
+                    }
+
+                    package.Save();
+                }
+
+            }
+            catch
+            {
+                return Redirect("/error");
+            }
+
+
+            return File(pathTo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", string.Format("don_hang-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".{0}", "xlsx"));
         }
     }
 }

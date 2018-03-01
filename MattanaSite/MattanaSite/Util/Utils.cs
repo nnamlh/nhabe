@@ -26,7 +26,7 @@ namespace MattanaSite.Util
             var responseString = sendRequestFirebase(json);
 
             if (responseString != "") {
-                mongoHelp.saveNoticeHistory(user, messenge);
+                mongoHelp.saveNoticeHistory(user,title, messenge);
                 return true;
             }
 
