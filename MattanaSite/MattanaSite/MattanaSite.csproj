@@ -218,6 +218,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
@@ -401,6 +402,7 @@
     <Content Include="Views\Calendar\ShowDetail.cshtml" />
     <Content Include="Views\Order\Show.cshtml" />
     <Content Include="Views\Order\ShowDetail.cshtml" />
+    <Content Include="Views\Notification\Send.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

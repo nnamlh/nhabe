@@ -125,3 +125,9 @@ N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Bson.xml
 N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.xml
 N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.Core.xml
 N:\nhabe\MattanaSite\MattanaSite\bin\MongoDB.Driver.Legacy.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Net.Http.Formatting.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Http.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Http.WebHost.dll
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Net.Http.Formatting.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Http.xml
+N:\nhabe\MattanaSite\MattanaSite\bin\System.Web.Http.WebHost.xml

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -49,6 +51,7 @@ import vn.com.mattana.service.LocationUpdatesService;
 import vn.com.mattana.util.ApiInterface;
 import vn.com.mattana.util.Commons;
 import vn.com.mattana.util.MRes;
+import vn.com.mattana.util.NotificationUtils;
 import vn.com.mattana.util.RealmController;
 import vn.com.mattana.util.SharedPrefsHelper;
 import vn.com.mattana.util.Utils;
@@ -58,6 +61,10 @@ import vn.com.mattana.util.Utils;
  */
 
 public class BaseActivity extends AppCompatActivity {
+
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private android.support.v7.app.AlertDialog.Builder dNotification;
 
     private static final String TAG = BaseActivity.class.getName();
     @Inject
@@ -124,6 +131,36 @@ public class BaseActivity extends AppCompatActivity {
         }
     };
 
+    private void fireBaseBroadcast() {
+        // show dialog notification
+        dNotification = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
+        dNotification.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // checking for type intent filter
+                if (intent.getAction().equals(MRes.getInstance().REGISTRATION_COMPLETE)) {
+                    FirebaseMessaging.getInstance().subscribeToTopic(MRes.getInstance().TOPIC_GLOBAL);
+                } else if (intent.getAction().equals(MRes.getInstance().PUSH_NOTIFICATION)) {
+                    String message = intent.getStringExtra("message");
+                    String title = intent.getStringExtra("title");
+                    showNotification(title, message);
+                }
+            }
+        };
+
+    }
+    private void showNotification(String title, String messenge) {
+
+        dNotification.setTitle(title);
+        dNotification.setMessage(messenge);
+        dNotification.show();
+    }
     //   protected Location location = MRes.getInstance().location;
 
     @Override
@@ -141,7 +178,7 @@ public class BaseActivity extends AppCompatActivity {
 
         user = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, null);
         token = prefsHelper.get(MRes.getInstance().PREF_KEY_TOKEN, null);
-
+        fireBaseBroadcast();
     }
 
 
@@ -206,10 +243,20 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver,
                 new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
+
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(MRes.getInstance().REGISTRATION_COMPLETE));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(MRes.getInstance().PUSH_NOTIFICATION));
+
+        NotificationUtils.clearNotifications(getApplicationContext());
     }
 
     @Override
     protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
         super.onPause();
     }
@@ -223,7 +270,12 @@ public class BaseActivity extends AppCompatActivity {
 
         super.onStop();
     }
+    protected String getFirebaseReg() {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(MRes.getInstance().SHARED_PREF, 0);
+        String token = pref.getString("regId", "");
 
+        return  token;
+    }
     /**
      * Receiver for broadcasts sent by {@link LocationUpdatesService}.
      */

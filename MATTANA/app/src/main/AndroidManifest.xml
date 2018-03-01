@@ -70,6 +70,20 @@
 
         <service android:name="vn.com.mattana.service.LocationUpdatesService" />
 
+        <!-- Firebase Notifications -->
+        <service android:name="vn.com.mattana.service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="vn.com.mattana.service.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- ./Firebase Notifications -->
+
         <activity
             android:name=".order.FilterOrderActivity"
             android:label="Lọc đơn hàng"

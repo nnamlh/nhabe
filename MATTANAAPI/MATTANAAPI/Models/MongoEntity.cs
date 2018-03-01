@@ -61,4 +61,28 @@ namespace MATTANAAPI.Models
 
         public string OS { get; set; }
     }
+
+    public class FirebaseMongo
+    {
+        public ObjectId Id { get; set; }
+
+        public string User { get; set; }
+
+        public string FirebaseId { get; set; }
+
+        public Nullable<System.DateTime> Time { get; set; }
+    }
+
+    public class NoticeMongo
+    {
+        public ObjectId Id { get; set; }
+
+        public string User { get; set; }
+
+        public string Message { get; set; }
+
+        public string Type { get; set; }
+
+        public Nullable<System.DateTime> Time { get; set; }
+    }
 }

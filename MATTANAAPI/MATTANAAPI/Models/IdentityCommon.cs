@@ -26,4 +26,15 @@ namespace MATTANAAPI.Models
 
     }
 
+
+    public class MainInfoRequest : RequestInfo
+    {
+        public string firebaseId { get; set; }
+    }
+
+    public class MainInfoResult : ResultInfo
+    {
+        
+    }
+
 }

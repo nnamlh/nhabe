@@ -7,6 +7,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import vn.com.mattana.model.api.MainLoadResult;
+import vn.com.mattana.model.api.MainLoadSend;
 import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
 import vn.com.mattana.model.api.order.CompleteSend;
@@ -68,4 +70,12 @@ public interface ApiInterface {
 
     @GET("info/updateagencylocation")
     Call<ResultInfo> updateLocation(@Query("lat") double lat, @Query("lng") double lng, @Query("agencyCode") String agencyCode);
+
+
+    // mai
+    @POST("user/mainload")
+    Call<MainLoadResult> mainLoad(@Body MainLoadSend info);
+
+    @GET("user/logout")
+    Call<ResultInfo> logOut(@Query("user") String user, @Query("token") String token);
 }

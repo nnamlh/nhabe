@@ -105,7 +105,7 @@ namespace MATTANAAPI.Controllers
             if (isAdmin(UserName))
                 role = "Admin";
 
-            return new LoginResult { id = "1", msg = "login success", token = authToke, user = UserName , code = check.Id, name = check.FullName, role = role};
+            return new LoginResult { id = "1", msg = "login success", token = authToke, user = UserName, code = check.Id, name = check.FullName, role = role };
         }
         #endregion
 
@@ -174,6 +174,70 @@ namespace MATTANAAPI.Controllers
 
 
         #endregion
+
+
+        #region main load
+
+        [HttpPost]
+        public MainInfoResult MainLoad()
+        {
+
+            var log = new MongoHistoryAPI()
+            {
+                APIUrl = "/api/user/mainload",
+                CreateTime = DateTime.Now,
+                Sucess = 1
+            };
+
+            var result = new MainInfoResult()
+           {
+               id = "1",
+               msg = "success"
+           };
+
+            try
+            {
+                var requestContent = Request.Content.ReadAsStringAsync().Result;
+                var jsonserializer = new JavaScriptSerializer();
+                var paser = jsonserializer.Deserialize<MainInfoRequest>(requestContent);
+                log.Content = new JavaScriptSerializer().Serialize(paser);
+
+                if (!mongoHelper.checkLoginSession(paser.user, paser.token))
+                    throw new Exception("Tài khoản bạn đã bị đăng nhập trên thiết bị khác");
+
+                mongoHelper.checkAndUpdateFirebase(paser.user, paser.firebaseId);
+
+            }
+            catch (Exception e)
+            {
+                result.id = "0";
+                result.msg = e.Message;
+                log.Sucess = 0;
+            }
+
+            log.ReturnInfo = new JavaScriptSerializer().Serialize(result);
+
+            mongoHelper.createHistoryAPI(log);
+
+            return result;
+
+        }
+
+        #endregion
+
+        [HttpGet]
+        public ResultInfo LogOut(string user, string token)
+        {
+            mongoHelper.checkAndUpdateFirebase(user, "");
+
+            mongoHelper.saveLogout(user, token);
+
+            return new ResultInfo()
+            {
+                id = "1",
+                msg = "success"
+            };
+        }
 
 
     }

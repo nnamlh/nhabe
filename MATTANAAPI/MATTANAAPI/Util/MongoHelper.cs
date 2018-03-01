@@ -83,6 +83,33 @@ namespace MATTANAAPI.Util
 
             collection.InsertOneAsync(authHistory);
         }
+
+        public void checkAndUpdateFirebase(string user, string firebaseId)
+        {
+            var collection = db.GetCollection<FirebaseMongo>("FirebaseInfo");
+            var builder = Builders<FirebaseMongo>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<FirebaseMongo>(builder.Eq("User", user)).FirstOrDefault();
+
+            if (data == null)
+            {
+                var firebaseSave = new FirebaseMongo()
+                {
+                    FirebaseId = firebaseId,
+                    User = user,
+                    Time = DateTime.Now
+                };
+
+                collection.InsertOneAsync(firebaseSave);
+            }
+            else
+            {
+                var update = Builders<FirebaseMongo>.Update.Set("FirebaseId", firebaseId);
+                var result = collection.UpdateOneAsync(Builders<FirebaseMongo>.Filter.Eq("Id", data.Id), update);
+            }
+        }
+
+
         public void updateStateAuthToken(string user)
         {
             var collection = db.GetCollection<MongoAPIAuthHistory>("APIAuthHistory");

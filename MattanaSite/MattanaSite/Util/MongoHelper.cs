@@ -24,16 +24,35 @@ namespace MattanaSite.Util
             db = client.GetDatabase("MLog");
         }
 
-        public bool GetUserLocation(List<string> users)
+        
+        public string findFirebaseId(string user)
         {
-            var collection = db.GetCollection<MongoLocationStaff>("LogoutHistory");
-            var builder = Builders<MongoLocationStaff>.Filter;
+            var collection = db.GetCollection<FirebaseMongo>("FirebaseInfo");
+            var builder = Builders<FirebaseMongo>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<FirebaseMongo>(builder.Eq("User", user)).FirstOrDefault();
 
-            var filter = builder.In("Code", users);
+            if (data != null)
+                return data.FirebaseId;
 
-            var data = collection.Find<MongoLocationStaff>(filter).ToList().Max(p=> p;
+            return "";
+      
+        }
 
-            return data == null ? false : true;
+        public void saveNoticeHistory(string user, string message)
+        {
+            var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
+
+            var notice = new NoticeMongo()
+            {
+                Message = message,
+                User = user,
+                Time = DateTime.Now,
+                Type = "notice",
+                Read = 0
+            };
+
+            collection.InsertOneAsync(notice);
         }
     }
 }

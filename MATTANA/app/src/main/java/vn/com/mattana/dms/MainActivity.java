@@ -11,9 +11,15 @@ import android.view.View;
 import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.com.mattana.dms.checkin.CalendarActivity;
 import vn.com.mattana.dms.checkin.CheckInActivity;
 import vn.com.mattana.dms.order.ShowOrderActivity;
+import vn.com.mattana.model.api.MainLoadResult;
+import vn.com.mattana.model.api.MainLoadSend;
+import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.util.RealmController;
 
@@ -61,6 +67,78 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         txtCode.setText("Mã NV: " + code);
 
         locationRequire();
+
+        mainLoad();
+    }
+
+    private void mainLoad() {
+        showpDialog();
+        MainLoadSend info = new MainLoadSend();
+        info.setUser(user);
+        info.setToken(token);
+        info.setFirebaseId(getFirebaseReg());
+
+        Call<MainLoadResult> call = apiInterface().mainLoad(info);
+
+        call.enqueue(new Callback<MainLoadResult>() {
+            @Override
+            public void onResponse(Call<MainLoadResult> call, Response<MainLoadResult> response) {
+
+                if(response.body() != null) {
+
+                    if(response.body().getId().equals("1")) {
+
+                    } else {
+                        commons.makeToast(MainActivity.this, response.body().getMsg()).show();
+                    }
+
+                }
+
+                hidepDialog();
+            }
+
+            @Override
+            public void onFailure(Call<MainLoadResult> call, Throwable t) {
+                hidepDialog();
+                commons.showToastDisconnect(MainActivity.this);
+            }
+        });
+
+    }
+
+    private void logout() {
+        showpDialog();
+        Call<ResultInfo> call = apiInterface().logOut(user, token);
+
+        call.enqueue(new Callback<ResultInfo>() {
+            @Override
+            public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+
+                if (response.body() != null) {
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_USER, "");
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_TOKEN, "");
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, "");
+                    prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, "");
+
+                    if (mService != null) {
+                        mService.removeLocationUpdates();
+                        prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
+                    }
+
+                    commons.startActivity(MainActivity.this, LoginActivity.class);
+                    finish();
+                }
+
+                hidepDialog();
+            }
+
+            @Override
+            public void onFailure(Call<ResultInfo> call, Throwable t) {
+                hidepDialog();
+                commons.showToastDisconnect(MainActivity.this);
+            }
+        });
+
     }
 
 
@@ -78,18 +156,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     RealmController.getInstance().clearAll();
-                    prefsHelper.put(MRes.getInstance().PREF_KEY_USER, "");
-                    prefsHelper.put(MRes.getInstance().PREF_KEY_TOKEN, "");
-                    prefsHelper.put(MRes.getInstance().PREF_KEY_NAME, "");
-                    prefsHelper.put(MRes.getInstance().PREF_KEY_CODE, "");
-
-                    if (mService != null) {
-                        mService.removeLocationUpdates();
-                        prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
-                    }
-
-                    commons.startActivity(MainActivity.this, LoginActivity.class);
-                    finish();
+                   logout();
                 }
             });
         }
