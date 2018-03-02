@@ -205,5 +205,32 @@
         <ScalarProperty Name="Id" ColumnName="CalendarId" />
       </EndProperty>
     </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="get_calendar_in_month_by_staff" FunctionName="MDBModel.Store.get_calendar_in_month_by_staff">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MDBModel.get_calendar_in_month_by_staff_Result">
+          <ScalarProperty Name="WorkId" ColumnName="WorkId" />
+          <ScalarProperty Name="CDay" ColumnName="CDay" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
+          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
+          <ScalarProperty Name="Perform" ColumnName="Perform" />
+          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
+          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
+          <ScalarProperty Name="agencyId" ColumnName="agencyId" />
+          <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
+          <ScalarProperty Name="AgencyAddress" ColumnName="AgencyAddress" />
+          <ScalarProperty Name="AgencyPhone" ColumnName="AgencyPhone" />
+          <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+          <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
+          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

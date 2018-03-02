@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Report";
+    var staff = ViewBag.Staff as IEnumerable<MattanaSite.Models.MStaff>;
+}
+
+
+
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Report chăm sóc bán hàng
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <form method="get" id="report-form">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Tháng</label>
+                        <input type="number" name="month" value="@DateTime.Now.Month" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Năm</label>
+                        <input type="number" name="year" value="@DateTime.Now.Year" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label>Nhân viên</label>
+                        <select class="form-control selectpicker" data-live-search="true" name="staff">
+                            @foreach (var item in staff)
+                            {
+                                <option data-tokens="@item.Id @item.FullName" value="@item.Id">@item.FullName - @item.Id</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-sm-12">
+                <br />
+                <br />
+                <table class="table table-striped table-bordered thumbnail-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mẫu</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Report tháng từng nhân viên</td>
+                            <td><a href="javascript:report('/calendar/reportcheckinmonth')">Xem</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+
+    <script type="text/javascript">
+
+        function report(action) {
+            $("#report-form").attr("action", action);
+            $("#report-form").submit();
+        }
+
+    </script>
+
+
+}

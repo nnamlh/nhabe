@@ -61,5 +61,22 @@ namespace MattanaSite.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_calendar", calendarIdParameter);
         }
+    
+        public virtual ObjectResult<get_calendar_in_month_by_staff_Result> get_calendar_in_month_by_staff(Nullable<int> month, Nullable<int> year, string staffId)
+        {
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("Month", month) :
+                new ObjectParameter("Month", typeof(int));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(int));
+    
+            var staffIdParameter = staffId != null ?
+                new ObjectParameter("StaffId", staffId) :
+                new ObjectParameter("StaffId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_calendar_in_month_by_staff_Result>("get_calendar_in_month_by_staff", monthParameter, yearParameter, staffIdParameter);
+        }
     }
 }

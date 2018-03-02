@@ -305,6 +305,11 @@
         <Function Name="delete_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="calendarId" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="get_calendar_in_month_by_staff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Month" Type="int" Mode="In" />
+          <Parameter Name="Year" Type="int" Mode="In" />
+          <Parameter Name="StaffId" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="get_detail_calendar_by_calendarid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="calendarId" Type="varchar" Mode="In" />
         </Function>
@@ -553,6 +558,11 @@
             <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
             <End Role="MStaff" EntitySet="MStaffs" />
           </AssociationSet>
+          <FunctionImport Name="get_calendar_in_month_by_staff" ReturnType="Collection(MDBModel.get_calendar_in_month_by_staff_Result)">
+            <Parameter Name="Month" Mode="In" Type="Int32" />
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+            <Parameter Name="StaffId" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="CalendarInfo">
           <Key>
@@ -730,6 +740,29 @@
           <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="*" />
           <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="*" />
         </Association>
+        <ComplexType Name="get_calendar_in_month_by_staff_Result">
+          <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="CDay" Nullable="true" />
+          <Property Type="Int32" Name="CMonth" Nullable="true" />
+          <Property Type="String" Name="Notes" Nullable="true" />
+          <Property Type="Int32" Name="CYear" Nullable="true" />
+          <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
+          <Property Type="Int32" Name="InPlan" Nullable="true" />
+          <Property Type="Int32" Name="Perform" Nullable="true" />
+          <Property Type="Time" Name="CInTime" Nullable="true" />
+          <Property Type="Time" Name="COutTime" Nullable="true" />
+          <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
+          <Property Type="String" Name="Store" Nullable="true" />
+          <Property Type="String" Name="Deputy" Nullable="true" />
+          <Property Type="String" Name="AgencyAddress" Nullable="true" />
+          <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
+          <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
+          <Property Type="Int32" Name="StaffGroup" Nullable="true" />
+          <Property Type="Double" Name="TotalMoney" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -940,6 +973,33 @@
               <ScalarProperty Name="Id" ColumnName="CalendarId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="get_calendar_in_month_by_staff" FunctionName="MDBModel.Store.get_calendar_in_month_by_staff">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MDBModel.get_calendar_in_month_by_staff_Result">
+                <ScalarProperty Name="WorkId" ColumnName="WorkId" />
+                <ScalarProperty Name="CDay" ColumnName="CDay" />
+                <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="CYear" ColumnName="CYear" />
+                <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
+                <ScalarProperty Name="InPlan" ColumnName="InPlan" />
+                <ScalarProperty Name="Perform" ColumnName="Perform" />
+                <ScalarProperty Name="CInTime" ColumnName="CInTime" />
+                <ScalarProperty Name="COutTime" ColumnName="COutTime" />
+                <ScalarProperty Name="agencyId" ColumnName="agencyId" />
+                <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="Store" ColumnName="Store" />
+                <ScalarProperty Name="Deputy" ColumnName="Deputy" />
+                <ScalarProperty Name="AgencyAddress" ColumnName="AgencyAddress" />
+                <ScalarProperty Name="AgencyPhone" ColumnName="AgencyPhone" />
+                <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
+                <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+                <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
+                <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

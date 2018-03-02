@@ -235,7 +235,7 @@ namespace MattanaSite.Controllers
 
             menues.Add(new SubMenuInfo()
             {
-                Name = "Báo cáo lịch",
+                Name = "Báo cáo",
                 Url = "/calendar/report",
                 Active = 0
             });
@@ -250,6 +250,79 @@ namespace MattanaSite.Controllers
             return menues;
         }
 
+        [HttpGet]
+        public ActionResult Report()
+        {
+            AddMenu(2);
 
+            ViewBag.Staff = db.MStaffs.ToList();
+
+           
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ReportCheckInMonth(int? month, int? year, string staff = "")
+        {
+            var staffCheck = db.MStaffs.Find(staff);
+
+            if (staffCheck == null)
+                return Redirect("/error");
+
+            string pathRoot = Server.MapPath("~/MTemplates/form_checkin_month.xlsx");
+            string name = "checkinform" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xlsx";
+            string pathTo = Server.MapPath("~/Temp/" + name);
+
+            System.IO.File.Copy(pathRoot, pathTo);
+
+            try
+            {
+                FileInfo newFile = new FileInfo(pathTo);
+ 
+                using (ExcelPackage package = new ExcelPackage(newFile))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+
+                    worksheet.Cells[2, 1].Value = "Tháng " + month + " năm " + year;
+
+                    worksheet.Cells[4, 3].Value = staffCheck.FullName;
+
+                    worksheet.Cells[5, 3].Value = staffCheck.GroupNumber;
+
+                    var data = db.get_calendar_in_month_by_staff(month, year, staff).ToList();
+
+                    for (int i = 0; i < data.Count(); i++)
+                    {
+                        worksheet.Cells[i + 9, 1].Value = i + 1;
+
+                        worksheet.Cells[i + 9, 2].Value = data[i].AgencyCode;
+                        worksheet.Cells[i + 9, 3].Value = data[i].Deputy;
+                        worksheet.Cells[i + 9, 4].Value = data[i].Province;
+                        worksheet.Cells[i + 9, 5].Value = data[i].AgencyAddress;
+                        worksheet.Cells[i + 9, 6].Value = data[i].AgencyPhone;
+                        worksheet.Cells[i + 9, 7].Value = data[i].CDay + "/" + data[i].CMonth;
+                        worksheet.Cells[i + 9, 8].Value = data[i].CInTime;
+                        worksheet.Cells[i + 9, 9].Value = data[i].COutTime;
+                        worksheet.Cells[i + 9, 10].Value = data[i].StaffName;
+                        worksheet.Cells[i + 9, 11].Value = data[i].StaffCheck;
+                        worksheet.Cells[i + 9, 13].Value = data[i].TotalMoney;
+                        worksheet.Cells[i + 9, 14].Value = data[i].Notes;
+
+
+                    }
+
+                    package.Save();
+                }
+
+            }
+            catch
+            {
+                return Redirect("/error");
+            }
+
+
+            return File(pathTo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", string.Format("checkin-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".{0}", "xlsx"));
+        }
     }
 }
