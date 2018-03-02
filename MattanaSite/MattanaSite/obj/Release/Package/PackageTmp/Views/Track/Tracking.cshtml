@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "Tracking";
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Danh sách đơn hàng
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <form method="get">
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Từ ngày</label>
+                        <input type="text" class="form-control datetime" name="fdate" value="@ViewBag.FDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Tới ngày</label>
+                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Nhân viên</label>
+                        <select class="form-control selectpicker" data-live-search="true" name="staff">
+                            @foreach (var item in ViewBag.Staff)
+                            {
+                                if (ViewBag.User == item.MUser)
+                                {
+                                    <option data-tokens="@item.Id @item.FullName" value="@item.MUser" selected>@item.FullName - @item.Id</option>
+                                }
+                                else
+                                {
+                                    <option data-tokens="@item.Id @item.FullName" value="@item.MUser">@item.FullName - @item.Id</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Xem</button>
+                </div>
+            </form>
+
+            <div class="col-sm-12">
+                <br /><br />
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section styles {
+    <!-- bootstrap select-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <link href="~/content/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <style>
+        #map {
+            height: 500px;
+        }
+    </style>
+}
+@section scripts {
+    <!-- bootstrap select js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+
+    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/scripts/bootstrap-datepicker.vi.min.js"></script>
+    <script type="text/javascript">
+        $('.datetime').datepicker({
+            language: "vi",
+            format: 'dd/mm/yyyy',
+            orientation: "bottom auto"
+        });
+
+    </script>
+
+    <script>
+
+    // This example creates a 2-pixel-wide red polyline showing the path of
+    // the first trans-Pacific flight between Oakland, CA, and Brisbane,
+    // Australia which was made by Charles Kingsford Smith.
+
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 3,
+            center: { lat: 0, lng: -180 },
+            mapTypeId: 'terrain'
+        });
+
+        var flightPlanCoordinates = [];
+        flightPlanCoordinates = @ViewBag.Dat;
+        var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+    }
+    </script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzB3pt69Jz3FxJIbyE5Qbas6c9cAUMQsk&callback=initMap">
+</script>
+}

@@ -69,14 +69,20 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="/account/manage">
+                                    <a href="#">
                                         <i class="fa fa-user"></i>
-                                        &nbsp;&nbsp;Đổi mật khẩu
+                                        &nbsp;&nbsp;@User.Identity.Name
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/account/manage">
+                                        <i class="fa fa-sign-out"></i>
+                                        &nbsp;&nbsp;Đổi mật khẩu
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/manage/makeadmin">
                                         <i class="fa fa-sign-out"></i>
                                         Quản trị
                                     </a>

@@ -61,6 +61,7 @@
     <EntitySetMapping Name="MProducts">
       <EntityTypeMapping TypeName="MDBModel.MProduct">
         <MappingFragment StoreEntitySet="MProduct">
+          <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="IsLock" ColumnName="IsLock" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PName" ColumnName="PName" />
@@ -117,6 +118,7 @@
     <EntitySetMapping Name="MOrders">
       <EntityTypeMapping TypeName="MDBModel.MOrder">
         <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
           <ScalarProperty Name="CYear" ColumnName="CYear" />
           <ScalarProperty Name="CMonth" ColumnName="CMonth" />
           <ScalarProperty Name="CDay" ColumnName="CDay" />
@@ -190,6 +192,16 @@
           <ScalarProperty Name="Lng" ColumnName="Lng" />
           <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
           <ScalarProperty Name="StaffCheckName" ColumnName="StaffCheckName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="show_user_role" FunctionName="MDBModel.Store.show_user_role">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MDBModel.show_user_role_Result">
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

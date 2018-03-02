@@ -99,6 +99,7 @@
     <Property Name="CDay" Type="int" />
     <Property Name="CMonth" Type="int" />
     <Property Name="CYear" Type="int" />
+    <Property Name="SuggestDate" Type="datetime" />
   </EntityType>
   <EntityType Name="MProduct">
     <Key>
@@ -112,6 +113,7 @@
     <Property Name="Price" Type="float" />
     <Property Name="Unit" Type="nvarchar" MaxLength="128" />
     <Property Name="IsLock" Type="int" />
+    <Property Name="Size" Type="int" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>
@@ -299,6 +301,7 @@
   <Function Name="get_detail_calendar_by_calendarid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="calendarId" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="show_user_role" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="MDBModelStoreContainer">
     <EntitySet Name="AgencyWithStaff" EntityType="Self.AgencyWithStaff" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AreaInfo" EntityType="Self.AreaInfo" Schema="dbo" store:Type="Tables" />

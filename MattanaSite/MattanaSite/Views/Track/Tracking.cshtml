@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "Tracking";
+
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Danh sách đơn hàng
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+
+
+
+            <form method="get">
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Ngày xem</label>
+                        <input type="number" name="day" value="@ViewBag.Day" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Tháng</label>
+                        <input type="number" name="month" value="@ViewBag.Month" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Năm</label>
+                        <input type="number" name="year" value="@ViewBag.Year" class="form-control" required />
+                    </div>
+                </div>
+             
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Nhân viên</label>
+                        <select class="form-control selectpicker" data-live-search="true" name="user">
+                            @foreach (var item in ViewBag.Staff)
+                            {
+                                if (ViewBag.User == item.MUser)
+                                {
+                                    <option data-tokens="@item.Id @item.FullName" value="@item.MUser" selected>@item.FullName - @item.Id</option>
+                                }
+                                else
+                                {
+                                    <option data-tokens="@item.Id @item.FullName" value="@item.MUser">@item.FullName - @item.Id</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <br />
+                    <button type="submit" class="btn btn-primary">Xem</button>
+                </div>
+            </form>
+
+            <div class="col-sm-12">
+                <br /><br />
+                <div id="map"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section styles {
+    <!-- bootstrap select-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <link href="~/content/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <style>
+        #map {
+            height: 500px;
+        }
+    </style>
+}
+@section scripts {
+    <!-- bootstrap select js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+
+    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/scripts/bootstrap-datepicker.vi.min.js"></script>
+    <script type="text/javascript">
+        $('.datetime').datepicker({
+            language: "vi",
+            format: 'dd/mm/yyyy',
+            orientation: "bottom auto"
+        });
+
+    </script>
+
+    <script>
+
+        // This example creates a 2-pixel-wide red polyline showing the path of
+        // the first trans-Pacific flight between Oakland, CA, and Brisbane,
+        // Australia which was made by Charles Kingsford Smith.
+        var flightPlanCoordinates = [];
+        flightPlanCoordinates = @Html.Raw(Json.Encode(ViewBag.Data));
+        var geocoder;
+        var map;
+        var flightPath;
+        var maker;
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 16,
+                mapTypeId: 'terrain'
+            });
+
+            flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 1
+            });
+
+            flightPath.setMap(map);
+
+            if (flightPlanCoordinates.length > 1) {
+                addMarker(flightPlanCoordinates[flightPlanCoordinates.length - 1], map,  '');
+                map.setCenter( flightPlanCoordinates[flightPlanCoordinates.length -1]);
+            }
+
+
+        }
+
+        function clearMaker() {
+            maker.setMap(null);
+        }
+
+        function addMarker(location, map, label) {
+            // Add the marker at the clicked location, and add the next-available label
+            // from the array of alphabetical characters.
+            maker = new google.maps.Marker({
+                position: location,
+                label: label,
+                map: map,
+                icon: '/content/people.png',
+                animation: google.maps.Animation.DROP
+            });
+            window.setTimeout(marker, 1000);
+
+            geocoder.geocode({'location': location}, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        var contentString = results[0].formatted_address;
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
+
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+
+          
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQmY_m7rqAfqTYx0g1TYR0Y516zZNLKIQ&callback=initMap">
+</script>
+}

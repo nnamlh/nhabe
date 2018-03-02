@@ -304,6 +304,7 @@
     <Content Include="Content\image\logofull.png" />
     <Content Include="Content\image\user.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\people.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -410,12 +411,14 @@
     <Content Include="Views\Order\ShowDetail.cshtml" />
     <Content Include="Views\Notification\Send.cshtml" />
     <Content Include="Views\Manage\MakeAdmin.cshtml" />
+    <Content Include="Views\Agency\Modify.cshtml" />
+    <Content Include="Views\Product\Modify.cshtml" />
+    <Content Include="Views\Track\Tracking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Temp\" />
     <Folder Include="Views\Main\" />
-    <Folder Include="Views\Track\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

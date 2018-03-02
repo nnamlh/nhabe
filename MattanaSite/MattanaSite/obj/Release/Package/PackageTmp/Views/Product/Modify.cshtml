@@ -7,16 +7,16 @@
 <div class="portlet portlet-boxed">
     <div class="portlet-header">
         <h4 class="portlet-title">
-            Thêm sản phẩm
+            Chỉnh sửa sản phẩm
         </h4>
     </div> <!-- /.portlet-header -->
 
     <div class="portlet-body">
         <div class="row">
             <p class="">@ViewBag.MSG</p>
-            <form method="post" onsubmit="if(!confirm('Thêm sản phẩm mới?')){return false;}">
+            <form method="post" onsubmit="if(!confirm('Chỉnh sửa sản phẩm ?')){return false;}">
 
-
+                <input type="hidden" name="Id" value="@Model.Id" />
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Mã sản phẩm</label>
@@ -28,7 +28,10 @@
                         <input type="text" value="@Model.PName" name="PName" class="form-control" required />
                     </div>
 
-                 
+                    <div class="form-group">
+                        <label>Cở vóc</label>
+                        <input type="text" value="@Model.Size" name="Size" class="form-control" required />
+                    </div>
 
                     <div class="form-group">
                         <label>Mô tả</label>
@@ -36,7 +39,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
 
                 </div>
 

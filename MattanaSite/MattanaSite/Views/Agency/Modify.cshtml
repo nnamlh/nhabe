@@ -1,0 +1,95 @@
+﻿@model MattanaSite.Models.MAgency
+@{
+    ViewBag.Title = "Modify";
+     var area = ViewBag.Area as IEnumerable<MattanaSite.Models.AreaInfo>;
+}
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Thêm đại lý
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <p class="">@ViewBag.MSG</p>
+            <form method="post" onsubmit="if(!confirm('Chỉnh sửa đại lý ?')){return false;}">
+                <div class="col-sm-6">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <div class="form-group">
+                        <label>Mã đại lý</label>
+                        <input type="text" name="Code" class="form-control" required value="@Model.Code">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cửa hàng</label>
+                        <input type="text" name="Store" class="form-control" required value="@Model.Store">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Đại diện</label>
+                        <input type="text" name="Deputy" class="form-control" required value="@Model.Deputy">
+                    </div>
+
+                    <div class="form-group">
+                        <label>CMND</label>
+                        <input type="text" name="IdentityCard" class="form-control" value="@Model.IdentityCard">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <input type="text" name="AddressDetail" class="form-control" value="@Model.AddressDetail">
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+
+                </div>
+
+                <div class="col-sm-6">
+               
+                    <div class="form-group">
+                        <label>Điện thoại</label>
+                        <input type="text" name="Phone" class="form-control" value="@Model.Phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Vùng</label>
+                        <select name="AreaId" class="form-control">
+                            @foreach (var item in area)
+                            {
+                                if (Model.AreaId == item.Id)
+                                {
+                                    <option value="@item.Id" selected>@item.AreaName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.AreaName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Lat</label>
+                        <input type="number" name="Lat" class="form-control" value="@Model.Lat">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Lng</label>
+                        <input type="number" name="Lng" class="form-control" value="@Model.Lng">
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+

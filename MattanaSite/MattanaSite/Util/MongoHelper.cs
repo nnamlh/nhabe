@@ -24,6 +24,27 @@ namespace MattanaSite.Util
             db = client.GetDatabase("MLog");
         }
 
+
+        public List<MongoLocationStaff> ShowLocationStaff(string user, DateTime date)
+        {
+            var collection = db.GetCollection<MongoLocationStaff>("LocationStaff");
+            var builder = Builders<MongoLocationStaff>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<MongoLocationStaff>(builder.Eq("User", user)).ToList();
+
+
+            return data;
+
+        }
+
+        public void ShowLocationStaffInDay(string user)
+        {
+            var collection = db.GetCollection<MongoLocationStaff>("LocationStaff");
+            var builder = Builders<MongoLocationStaff>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<MongoLocationStaff>(builder.Eq("User", user) & builder.Eq("Time", DateTime.Now)).ToList();
+
+        }
         
         public string findFirebaseId(string user)
         {

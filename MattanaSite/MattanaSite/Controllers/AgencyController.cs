@@ -70,6 +70,43 @@ namespace MattanaSite.Controllers
             return RedirectToAction("show", "agency");
         }
 
+        [HttpGet]
+        public ActionResult Modify(string id)
+        {
+            var check = db.MAgencies.Find(id);
+
+            if (check == null)
+                return Redirect("/error");
+            ViewBag.Area = db.AreaInfoes.ToList();
+            return View(check);
+        }
+
+        [HttpPost]
+        public ActionResult Modify(MAgency info)
+        {
+            var check = db.MAgencies.Find(info.Id);
+
+            if (check == null)
+                return Redirect("/error");
+
+
+            check.Code = info.Code;
+            check.Store = info.Store;
+            check.Deputy = info.Deputy;
+            check.AreaId = info.AreaId;
+            check.AddressDetail = info.AddressDetail;
+            check.IdentityCard = info.IdentityCard;
+            check.Lat = info.Lat;
+            check.Lng = info.Lng;
+
+            db.Entry(check).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+
+
+            ViewBag.Area = db.AreaInfoes.ToList();
+            return View(check);
+        }
+
 
         public override List<SubMenuInfo> Menu(int idxActive)
         {

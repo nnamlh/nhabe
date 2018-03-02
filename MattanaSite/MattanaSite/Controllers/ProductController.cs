@@ -61,6 +61,38 @@ namespace MattanaSite.Controllers
             return View(new MProduct());
         }
 
+        [HttpGet]
+        public ActionResult Modify(string id)
+        {
+            var check = db.MProducts.Find(id);
+
+            if (check == null)
+                return Redirect("/error");
+
+            return View(check);
+        }
+
+        [HttpPost]
+        public ActionResult Modify(MProduct info)
+        {
+            var check = db.MProducts.Find(info.Id);
+
+            if (check == null)
+                return Redirect("/error");
+
+            check.PCode = info.PCode;
+            check.PName = info.PName;
+
+            check.Price = info.Price;
+            check.Size = info.Size;
+            check.Describes = info.Describes;
+
+            db.Entry(check).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+
+            return View(check);
+        }
+
         public override List<SubMenuInfo> Menu(int idxActive)
         {
             List<SubMenuInfo> menues = new List<SubMenuInfo>();

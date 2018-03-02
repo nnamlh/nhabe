@@ -5,12 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MattanaSite.Util;
+using System.Web.Script.Serialization;
 
 namespace MattanaSite.Controllers
 {
     public class TrackController : MainController
     {
-
+        MongoHelper mongoHelper = new MongoHelper();
         MDBEntities db = new MDBEntities();
         //
         // GET: /Track/
@@ -18,6 +19,44 @@ namespace MattanaSite.Controllers
         public ActionResult Show()
         {
             AddMenu(0);
+
+
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Tracking(string user, int day = 0, int month = 0, int year = 0)
+        {
+            AddMenu(1);
+
+            ViewBag.Staff = db.MStaffs.ToList();
+
+            if (month == 0)
+                month = DateTime.Now.Month;
+
+            if (year == 0)
+                year = DateTime.Now.Year;
+
+            if (day == 0)
+                day = DateTime.Now.Day;
+
+            ViewBag.Month = month;
+            ViewBag.Year = year;
+            ViewBag.Day = day;
+
+            DateTime date = new DateTime(year, month, day);
+
+            var data = mongoHelper.ShowLocationStaff(user, date).Select(p => new LocationInfo()
+            {
+                lat = p.Lat,
+                lng = p.Lng
+            }).ToArray(); ;
+       
+            
+
+           // var jsonSerialiser = new JavaScriptSerializer();
+            ViewBag.Data = data;
 
             return View();
         }
