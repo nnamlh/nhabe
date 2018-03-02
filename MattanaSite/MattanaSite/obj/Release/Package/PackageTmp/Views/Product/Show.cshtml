@@ -33,6 +33,8 @@
                             <tr>
                                 <th>Mã sản phẩm</th>
                                 <th>Tên sản phầm</th>
+
+                                <th>Cở vóc</th>
                                 <th>Giá tiền</th>
                                 <th>Mô tả</th>
                                 <th></th>
@@ -43,7 +45,8 @@
                             {
                                 <tr class="@(item.IsLock == 1?"danger":"")">
                                     <td>@item.PCode @(item.IsLock == 1 ? "(đang khóa)" : "")</td>
-                                     <td>@item.PName</td>
+                                    <td>@item.PName</td>
+                                    <td>@item.Size</td>
                                     <td>@item.Price.Value.ToString("C", MattanaSite.Util.Cultures.VietNam)</td>
                                     <td>@item.Describes</td>
                                     <td><a href="/product/modify/@item.Id" target="_blank">Chỉnh sửa</a></td>

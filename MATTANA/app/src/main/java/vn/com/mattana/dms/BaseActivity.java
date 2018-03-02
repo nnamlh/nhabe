@@ -113,7 +113,7 @@ public class BaseActivity extends AppCompatActivity {
                     mService.getLastLocation();
                     mService.requestLocationUpdates();
                     prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
-                } else if (!Utils.requestingLocationUpdates(BaseActivity.this)) {
+                } else  {
                     mService.requestLocationUpdates();
                 }
 
@@ -126,6 +126,18 @@ public class BaseActivity extends AppCompatActivity {
             mBound = false;
         }
     };
+
+    protected boolean checkAdmin(){
+        String role = prefsHelper.get(MRes.getInstance().PREF_KEY_ROLE, null);
+
+        if(role == null)
+            return false;
+
+        if ("Admin".equals(role))
+            return  true;
+
+        return  false;
+    }
 
     private void fireBaseBroadcast() {
         // show dialog notification

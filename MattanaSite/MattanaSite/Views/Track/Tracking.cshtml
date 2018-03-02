@@ -115,7 +115,7 @@
 
             flightPath.setMap(map);
 
-            if (flightPlanCoordinates.length > 1) {
+            if (flightPlanCoordinates.length >= 1) {
                 addMarker(flightPlanCoordinates[flightPlanCoordinates.length - 1], map,  '');
                 map.setCenter( flightPlanCoordinates[flightPlanCoordinates.length -1]);
             }

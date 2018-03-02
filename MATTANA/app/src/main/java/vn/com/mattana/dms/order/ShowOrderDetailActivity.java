@@ -77,7 +77,11 @@ public class ShowOrderDetailActivity extends BaseActivity {
 
         viewPager.setAdapter(adapter);
 
+        isAdmin = checkAdmin();
+
     }
+
+    public boolean isAdmin = false;
 
     private void makeData() {
         showpDialog();

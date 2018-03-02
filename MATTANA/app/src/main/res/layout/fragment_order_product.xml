@@ -1,13 +1,30 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="vn.com.mattana.view.OrderProductFragment">
 
+
+    <Button
+        android:id="@+id/btnstatus"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_non_radius"
+        android:fontFamily="sans-serif-light"
+        android:onClick="orderClick"
+        android:text=""
+        android:visibility="gone"
+        android:textColor="#fff"
+        android:textStyle="bold" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/btnstatus"
         android:scrollbars="vertical" />
 
-</LinearLayout>
+
+
+</RelativeLayout>

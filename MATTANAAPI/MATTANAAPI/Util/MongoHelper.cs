@@ -114,11 +114,23 @@ namespace MATTANAAPI.Util
         {
             var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
             var builder = Builders<NoticeMongo>.Filter;
+            tDate.AddDays(1);
             //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
             var data = collection.Find<NoticeMongo>(builder.Eq("User", user) & builder.Gte("Time", fDate) & builder.Lt("Time", tDate)).ToList();
 
             return data;
         }
+
+        public int countNoticesNotRead(string user)
+        {
+            var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
+            var builder = Builders<NoticeMongo>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<NoticeMongo>(builder.Eq("User", user) & builder.Eq("Read", 0)).ToList();
+
+            return data.Count();
+        }
+
 
         public void updateNotice(string id)
         {

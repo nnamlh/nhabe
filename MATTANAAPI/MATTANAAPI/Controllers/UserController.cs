@@ -209,6 +209,14 @@ namespace MATTANAAPI.Controllers
 
                 mongoHelper.checkAndUpdateFirebase(paser.user, paser.firebaseId);
 
+                //
+                if (isAdmin(paser.user))
+                    result.role = "Admin";
+                else
+                    result.role = "";
+
+                result.notices = mongoHelper.countNoticesNotRead(paser.user);
+
             }
             catch (Exception e)
             {

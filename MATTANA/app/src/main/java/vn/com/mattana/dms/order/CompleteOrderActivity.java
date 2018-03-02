@@ -1,5 +1,6 @@
 package vn.com.mattana.dms.order;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -8,11 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,7 +34,7 @@ import vn.com.mattana.model.api.order.ProductInfo;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.view.DividerItemDecoration;
 
-public class CompleteOrderActivity extends BaseActivity {
+public class CompleteOrderActivity extends BaseActivity  implements DatePickerDialog.OnDateSetListener{
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -41,6 +45,13 @@ public class CompleteOrderActivity extends BaseActivity {
 
     @BindView(R.id.agency)
     TextView agency;
+
+    DatePickerDialog datePickerDialog;
+
+    @BindView(R.id.suggestdate)
+    TextView suggest;
+
+    String dateSugess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +71,25 @@ public class CompleteOrderActivity extends BaseActivity {
         resetMoneyAll();
 
         agency.setText(MRes.getInstance().agency.getStore() +" - " + MRes.getInstance().agency.getCode());
-    }
 
+
+        createDateDialog();
+
+        suggest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialog.show();
+            }
+        });
+    }
+    private void createDateDialog() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        datePickerDialog = new DatePickerDialog(
+                this, this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+
+    }
 
     public void orderClick(View view) {
         if (MRes.getInstance().getProductOrder().size() == 0)
@@ -70,51 +98,71 @@ public class CompleteOrderActivity extends BaseActivity {
             return;
         }
 
-        showpDialog();
+        if (TextUtils.isEmpty(dateSugess)) {
+            commons.showAlertCancel(CompleteOrderActivity.this, "Cảnh báo", "Chọn ngày đề nghị giao", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    datePickerDialog.show();
+                }
+            });
 
-        CompleteSend info = new CompleteSend();
-        info.setUser(user);
-        info.setToken(token);
-        info.setAgencyId(MRes.getInstance().agency.getCode());
+            return;
+        } else
 
-        final List<CompleteProduct> completeProducts = new ArrayList<>();
+        {
+            commons.showAlertCancel(CompleteOrderActivity.this, "Cảnh báo", "Bạn đồng ý tạo đơn hàng ?", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    showpDialog();
 
-        for (ProductInfo productInfo : MRes.getInstance().getProductOrder()) {
-            CompleteProduct cProduct = new CompleteProduct();
-            cProduct.setId(productInfo.getId());
-            cProduct.setQuantity(productInfo.getQuantityBuy());
-            completeProducts.add(cProduct);
-        }
+                    CompleteSend info = new CompleteSend();
+                    info.setUser(user);
+                    info.setToken(token);
+                    info.setAgencyId(MRes.getInstance().agency.getCode());
 
-        info.setProducts(completeProducts);
+                    final List<CompleteProduct> completeProducts = new ArrayList<>();
 
-        Call<ResultInfo> call = apiInterface().createOrder(info);
+                    for (ProductInfo productInfo : MRes.getInstance().getProductOrder()) {
+                        CompleteProduct cProduct = new CompleteProduct();
+                        cProduct.setId(productInfo.getId());
+                        cProduct.setQuantity(productInfo.getQuantityBuy());
+                        completeProducts.add(cProduct);
+                    }
 
-        call.enqueue(new Callback<ResultInfo>() {
-            @Override
-            public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+                    info.setProducts(completeProducts);
 
-                if(response.body() != null && response.body().getId().equals("1")) {
-                    commons.showAlertInfo(CompleteOrderActivity.this, "Thông báo", "Đã tạo xong đơn hàng", new DialogInterface.OnClickListener() {
+                    Call<ResultInfo> call = apiInterface().createOrder(info);
+
+                    call.enqueue(new Callback<ResultInfo>() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            MRes.getInstance().clearProductOrder();
-                            finish();
+                        public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+
+                            if(response.body() != null && response.body().getId().equals("1")) {
+                                commons.showAlertInfo(CompleteOrderActivity.this, "Thông báo", "Đã tạo xong đơn hàng", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        MRes.getInstance().clearProductOrder();
+                                        finish();
+                                    }
+                                });
+                            } else {
+                                commons.makeToast(CompleteOrderActivity.this, "Lỗi xảy ra").show();
+                            }
+
+                            hidepDialog();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResultInfo> call, Throwable t) {
+                            hidepDialog();
+                            commons.showToastDisconnect(CompleteOrderActivity.this);
                         }
                     });
-                } else {
-                    commons.makeToast(CompleteOrderActivity.this, "Lỗi xảy ra").show();
                 }
+            });
+        }
 
-                hidepDialog();
-            }
 
-            @Override
-            public void onFailure(Call<ResultInfo> call, Throwable t) {
-                hidepDialog();
-                commons.showToastDisconnect(CompleteOrderActivity.this);
-            }
-        });
     }
 
 
@@ -174,4 +222,9 @@ public class CompleteOrderActivity extends BaseActivity {
         builder.show();
     }
 
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        dateSugess = day + "/" + (month + 1) + "/" + year;
+        suggest.setText("Ngày đề nghị giao: " + dateSugess);
+    }
 }

@@ -7,6 +7,8 @@ package vn.com.mattana.model.api;
 public class MainLoadSend extends RequestInfo{
     private String firebaseId;
 
+
+
     public String getFirebaseId() {
         return firebaseId;
     }

@@ -93,6 +93,7 @@ namespace MattanaSite.Controllers
             check.Code = info.Code;
             check.Store = info.Store;
             check.Deputy = info.Deputy;
+            check.Phone = info.Phone;
             check.AreaId = info.AreaId;
             check.AddressDetail = info.AddressDetail;
             check.IdentityCard = info.IdentityCard;

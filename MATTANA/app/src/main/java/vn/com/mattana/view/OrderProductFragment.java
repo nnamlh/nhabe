@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,16 @@ import vn.com.mattana.adapter.ShowOrderProductAdapter;
 import vn.com.mattana.dms.R;
 import vn.com.mattana.dms.order.ShowOrderDetailActivity;
 import vn.com.mattana.model.api.order.ShowOrderProductInfo;
+import vn.com.mattana.util.MRes;
 
 public class OrderProductFragment extends Fragment {
 
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.btnstatus)
+    Button btnStatus;
 
     ShowOrderProductAdapter adapter;
 
@@ -33,6 +38,8 @@ public class OrderProductFragment extends Fragment {
 
     public void setActivity(ShowOrderDetailActivity activity) {
         this.activity = activity;
+
+
     }
 
     public void setData (List<ShowOrderProductInfo> data) {
@@ -40,6 +47,13 @@ public class OrderProductFragment extends Fragment {
         orderProductInfos.addAll(data);
 
         adapter.notifyDataSetChanged();
+
+        if(activity.isAdmin) {
+            if(!"finish".equals(MRes.getInstance().orderInfo.getStatusCode())){
+                btnStatus.setVisibility(View.VISIBLE);
+                btnStatus.setText(MRes.getInstance().orderInfo.getNextStatus());
+            }
+        }
     }
 
 
@@ -60,9 +74,14 @@ public class OrderProductFragment extends Fragment {
 
         adapter = new ShowOrderProductAdapter(orderProductInfos, activity);
         recyclerView.setAdapter(adapter);
+        btnStatus.setVisibility(View.GONE);
+
 
         return view;
     }
 
+    public void orderClick(View view) {
+
+    }
 
 }

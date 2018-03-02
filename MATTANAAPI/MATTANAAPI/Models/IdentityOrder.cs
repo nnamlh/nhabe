@@ -72,4 +72,15 @@ namespace MATTANAAPI.Models
         public string priceTotal { get; set; }
 
     }
+
+    public class UpdateOrderResult : ResultInfo
+    {
+        public string status { get; set; }
+
+        public string statusCode { get; set; }
+
+        public string nextStatus { get; set; }
+
+        public string nextStatusCode { get; set; }
+    }
 }

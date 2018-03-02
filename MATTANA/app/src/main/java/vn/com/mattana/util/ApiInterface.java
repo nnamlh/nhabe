@@ -16,6 +16,7 @@ import vn.com.mattana.model.api.order.CompleteSend;
 import vn.com.mattana.model.api.order.ProductInfo;
 import vn.com.mattana.model.api.order.ShowOrderProductInfo;
 import vn.com.mattana.model.api.order.ShowOrderResult;
+import vn.com.mattana.model.api.order.UpdateStatusResult;
 
 /**
  * Created by HAI on 2/25/2018.
@@ -87,4 +88,12 @@ public interface ApiInterface {
 
     @GET("info/updatenoticeread")
     Call<ResultInfo> updateNoticeRead(@Query("id") String id);
+
+    //
+    @GET("order/updateorderstatus")
+    Call<UpdateStatusResult> updateOrderStatus(@Query("user") String user,@Query("token") String token,@Query("orderId") String orderId,@Query("status") String status);
+
+    @GET("order/updatedelivery")
+    Call<ResultInfo> updateDelivery(@Query("orderId") String orderId,@Query("productId") String productId,@Query("quantity") int quantity,@Query("user") String user,@Query("token") String token);
+
 }

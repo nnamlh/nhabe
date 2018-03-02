@@ -21,6 +21,8 @@ namespace MATTANAAPI.Models
         public string describes { get; set; }
 
         public double? price { get; set; }
+
+        public int? size { get; set; }
     }
 
     public class NoticeInfo

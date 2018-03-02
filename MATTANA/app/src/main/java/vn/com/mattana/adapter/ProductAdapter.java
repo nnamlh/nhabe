@@ -46,7 +46,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         holder.price.setText("Giá bán lẽ: " + MRes.getInstance().formatMoneyToText(productInfo.getPrice()));
         holder.code.setText("Mã SP: " + productInfo.getCode());
         holder.decribe.setText("Mô tả: " + productInfo.getDescribes());
-
+        holder.size.setText("Cở vóc: " + productInfo.getSize());
 
         holder.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +67,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             holder.imgDelete.setVisibility(View.VISIBLE);
             holder.btnOrder.setVisibility(View.GONE);
             holder.detail.setVisibility(View.VISIBLE);
+
 
             holder.detail.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,7 +98,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, code, price, decribe;
+        public TextView name, code, price, decribe, size;
 
         public ImageView imgDelete;
         public Button btnOrder, detail;
@@ -111,6 +112,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             btnOrder = (Button) view.findViewById(R.id.btnorder);
             detail = (Button) view.findViewById(R.id.detail);
             imgDelete = (ImageView) view.findViewById(R.id.imgdelete);
+            size = (TextView) view.findViewById(R.id.size);
         }
     }
 

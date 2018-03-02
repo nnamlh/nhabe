@@ -21,6 +21,8 @@ public class ProductInfo {
 
     private int quantityBuy;
 
+    @SerializedName("size")
+    private int size;
 
     public String getId() {
         return id;
@@ -68,5 +70,13 @@ public class ProductInfo {
 
     public void setQuantityBuy(int quantityBuy) {
         this.quantityBuy = quantityBuy;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

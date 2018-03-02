@@ -59,12 +59,23 @@
                 android:textColor="#000"
                 android:textSize="14dp" />
 
+            <TextView
+                android:id="@+id/suggestdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/agency"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Ngày đề nghị giao: "
+                android:textColor="#F50057"
+                android:textSize="14dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/agency"
+                android:layout_below="@id/suggestdate"
                 android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Thành tiền:"
@@ -77,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/agency"
+                android:layout_below="@id/suggestdate"
                 android:fontFamily="sans-serif-light"
                 android:text="29.000.000 VND"
                 android:textColor="#000"

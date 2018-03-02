@@ -123,6 +123,7 @@ public class CheckInActivity extends BaseActivity {
                 if (lat == 0 || lng == 0)
                 {
                     Toast.makeText(CheckInActivity.this, "Không tìm thấy tọa độ, kiểm tra GPS", Toast.LENGTH_LONG).show();
+                    hidepDialog();
                 } else {
                     Call<ResultInfo> call = apiInterface().updateLocation(lat, lng, agencyCode);
 

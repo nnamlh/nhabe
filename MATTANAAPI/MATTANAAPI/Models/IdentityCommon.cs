@@ -34,7 +34,9 @@ namespace MATTANAAPI.Models
 
     public class MainInfoResult : ResultInfo
     {
-        
+        public string role { get; set; }
+
+        public int notices { get; set; }
     }
 
 }

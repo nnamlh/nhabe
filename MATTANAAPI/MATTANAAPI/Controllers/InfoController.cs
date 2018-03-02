@@ -32,7 +32,8 @@ namespace MATTANAAPI.Controllers
                     code = item.PCode,
                     describes = item.Describes,
                     name = item.PName,
-                    price = item.Price
+                    price = item.Price,
+                    size = item.Size == null ? 1:item.Size
                 });
             }
 

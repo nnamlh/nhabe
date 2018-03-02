@@ -112,6 +112,7 @@ public class CalendarActivity extends BaseActivity implements AdapterView.OnItem
         showpDialog();
         workInfos.clear();
 
+
         Call<CWorkResult> call = apiInterface().calendarWork(user, day, month, year);
 
         call.enqueue(new Callback<CWorkResult>() {
@@ -126,7 +127,6 @@ public class CalendarActivity extends BaseActivity implements AdapterView.OnItem
                             commons.makeToast(CalendarActivity.this, "Không có lịch trong ngày " + day + "/" + month + "/" + year).show();
                         else {
                             workInfos.addAll(response.body().getWorks());
-                            mAdapter.notifyDataSetChanged();
                         }
                     } else {
                         commons.makeToast(CalendarActivity.this, response.body().getMsg()).show();
@@ -135,7 +135,7 @@ public class CalendarActivity extends BaseActivity implements AdapterView.OnItem
 
                 }
 
-
+                mAdapter.notifyDataSetChanged();
                 hidepDialog();
             }
 

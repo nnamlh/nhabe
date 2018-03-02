@@ -88,6 +88,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     if(response.body().getId().equals("1")) {
 
+                        prefsHelper.put(MRes.getInstance().PREF_KEY_ROLE, response.body().getRole());
+
+                        if(response.body().getNotices() > 0) {
+                            commons.showAlertCancel(MainActivity.this, "Thông báo", "Bạn có " + response.body().getNotices() + " tin nhắn chưa đọc", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    commons.startActivity(MainActivity.this,NoticeActivity.class);
+                                }
+                            });
+                        }
+
                     } else {
                         commons.makeToast(MainActivity.this, response.body().getMsg()).show();
                     }
