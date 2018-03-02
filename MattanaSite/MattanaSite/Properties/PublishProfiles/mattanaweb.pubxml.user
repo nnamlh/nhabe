@@ -25,7 +25,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/11/2013 16:16:48</publishTime>
     </File>
     <File Include="bin/MattanaSite.dll">
-      <publishTime>03/02/2018 01:55:26</publishTime>
+      <publishTime>03/02/2018 16:46:56</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>01/26/2018 00:21:50</publishTime>
@@ -155,6 +155,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/PagedList.css">
       <publishTime>02/25/2018 15:41:50</publishTime>
+    </File>
+    <File Include="Content/people.png">
+      <publishTime>03/02/2018 14:20:19</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>01/26/2018 00:21:48</publishTime>
@@ -312,8 +315,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/respond.min.js">
       <publishTime>01/26/2018 00:21:47</publishTime>
     </File>
+    <File Include="Scripts/tracking-map.js">
+      <publishTime>03/02/2018 15:04:36</publishTime>
+    </File>
     <File Include="Scripts/_references.js">
-      <publishTime>02/26/2018 02:13:03</publishTime>
+      <publishTime>03/02/2018 15:03:54</publishTime>
     </File>
     <File Include="Util/Cultures.cs">
       <publishTime>02/26/2018 11:32:21</publishTime>
@@ -388,7 +394,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/26/2018 00:21:48</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/01/2018 23:00:08</publishTime>
+      <publishTime>03/02/2018 16:46:05</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>01/26/2018 00:21:48</publishTime>
@@ -405,8 +411,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Staff/Show.cshtml">
       <publishTime>02/25/2018 16:59:56</publishTime>
     </File>
+    <File Include="Views/Track/Show.cshtml">
+      <publishTime>03/02/2018 16:46:26</publishTime>
+    </File>
     <File Include="Views/Track/Tracking.cshtml">
-      <publishTime>03/02/2018 01:53:30</publishTime>
+      <publishTime>03/02/2018 17:00:20</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>01/26/2018 00:21:32</publishTime>

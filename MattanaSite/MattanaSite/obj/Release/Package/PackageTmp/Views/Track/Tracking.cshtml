@@ -1,6 +1,6 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Tracking";
+
 }
 
 <div class="portlet portlet-boxed">
@@ -12,26 +12,35 @@
 
     <div class="portlet-body">
         <div class="row">
+
+
+
             <form method="get">
 
-                <div class="col-sm-5">
+                <div class="col-sm-2">
                     <div class="form-group">
-                        <label>Từ ngày</label>
-                        <input type="text" class="form-control datetime" name="fdate" value="@ViewBag.FDate.ToString("dd/MM/yyyy")" />
+                        <label>Ngày xem</label>
+                        <input type="number" name="day" value="@ViewBag.Day" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Tháng</label>
+                        <input type="number" name="month" value="@ViewBag.Month" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Năm</label>
+                        <input type="number" name="year" value="@ViewBag.Year" class="form-control" required />
                     </div>
                 </div>
 
-                <div class="col-sm-5">
-                    <div class="form-group">
-                        <label>Tới ngày</label>
-                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
-                    </div>
-                </div>
 
-                <div class="col-sm-5">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label>Nhân viên</label>
-                        <select class="form-control selectpicker" data-live-search="true" name="staff">
+                        <select class="form-control selectpicker" data-live-search="true" name="user">
                             @foreach (var item in ViewBag.Staff)
                             {
                                 if (ViewBag.User == item.MUser)
@@ -45,6 +54,10 @@
                             }
                         </select>
                     </div>
+
+                </div>
+                <div class="col-md-3">
+                    <br />
                     <button type="submit" class="btn btn-primary">Xem</button>
                 </div>
             </form>
@@ -53,6 +66,7 @@
                 <br /><br />
                 <div id="map"></div>
             </div>
+
         </div>
     </div>
 </div>
@@ -86,31 +100,101 @@
 
     <script>
 
-    // This example creates a 2-pixel-wide red polyline showing the path of
-    // the first trans-Pacific flight between Oakland, CA, and Brisbane,
-    // Australia which was made by Charles Kingsford Smith.
-
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 3,
-            center: { lat: 0, lng: -180 },
-            mapTypeId: 'terrain'
-        });
-
+        // This example creates a 2-pixel-wide red polyline showing the path of
+        // the first trans-Pacific flight between Oakland, CA, and Brisbane,
+        // Australia which was made by Charles Kingsford Smith.
         var flightPlanCoordinates = [];
-        flightPlanCoordinates = @ViewBag.Dat;
-        var flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        });
+        flightPlanCoordinates = @Html.Raw(Json.Encode(ViewBag.Data));
+        var geocoder;
+        var map;
+        var flightPath;
+        var marker;
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 16,
+                mapTypeId: 'terrain'
+            });
 
-        flightPath.setMap(map);
-    }
+            flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 1
+            });
+
+            flightPath.setMap(map);
+
+            if (flightPlanCoordinates.length > 1) {
+                addMarker(flightPlanCoordinates[flightPlanCoordinates.length - 1], map,  '');
+                map.setCenter( flightPlanCoordinates[flightPlanCoordinates.length -1]);
+                setTimeout(worker, 10000);
+            }
+
+
+        }
+
+        function clearMaker() {
+            marker.setMap(null);
+        }
+
+        function addMarker(location, map, label) {
+            // Add the marker at the clicked location, and add the next-available label
+            // from the array of alphabetical characters.
+            marker = new google.maps.Marker({
+                position: location,
+                label: label,
+                map: map,
+                icon: '/content/people.png',
+                animation: google.maps.Animation.DROP
+            });
+            window.setTimeout(marker, 1000);
+
+            geocoder.geocode({'location': location}, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        var contentString = results[0].formatted_address;
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
+
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+
+        // update
+
+        function worker() {
+            $.ajax({
+                url: '/track/UpdateNewLocation', 
+                type: "GET",
+                data: { user: '@ViewBag.User' },
+                success: function(data) {
+                    if (data.id === 1) {
+                        clearMaker();
+                        var myLatLng = {lat: data.lat, lng: data.lng};
+                        addMarker(myLatLng, map, '');
+                        map.setCenter(myLatLng);
+                    } 
+                },
+                complete: function() {
+                    setTimeout(worker, 10000);
+                }
+            });
+        }
+
     </script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzB3pt69Jz3FxJIbyE5Qbas6c9cAUMQsk&callback=initMap">
-</script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQmY_m7rqAfqTYx0g1TYR0Y516zZNLKIQ&callback=initMap">
+    </script>
 }

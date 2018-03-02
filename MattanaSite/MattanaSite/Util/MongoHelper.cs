@@ -30,7 +30,8 @@ namespace MattanaSite.Util
             var collection = db.GetCollection<MongoLocationStaff>("LocationStaff");
             var builder = Builders<MongoLocationStaff>.Filter;
             //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
-            var data = collection.Find<MongoLocationStaff>(builder.Eq("User", user) & builder.Eq("Time", date.Date)).ToList();
+            var datF = date.AddDays(1);
+            var data = collection.Find<MongoLocationStaff>(builder.Eq("User", user) & builder.Gt("Time", date) & builder.Lt("Time", datF)).ToList();
 
 
             return data;

@@ -129,13 +129,14 @@
             if (flightPlanCoordinates.length > 1) {
                 addMarker(flightPlanCoordinates[flightPlanCoordinates.length - 1], map,  '');
                 map.setCenter( flightPlanCoordinates[flightPlanCoordinates.length -1]);
+                setTimeout(worker, 10000);
             }
 
 
         }
 
         function clearMaker() {
-            maker.setMap(null);
+            marker.setMap(null);
         }
 
         function addMarker(location, map, label) {
@@ -177,10 +178,14 @@
             $.ajax({
                 url: '/track/UpdateNewLocation', 
                 type: "GET",
-                data: { userId: uid, role : check },
+                data: { user: '@ViewBag.User' },
                 success: function(data) {
-                    clearMaker();
-                    addMarker(data.location, map, '');
+                    if (data.id === 1) {
+                        clearMaker();
+                        var myLatLng = {lat: data.lat, lng: data.lng};
+                        addMarker(myLatLng, map, '');
+                        map.setCenter(myLatLng);
+                    } 
                 },
                 complete: function() {
                     setTimeout(worker, 10000);

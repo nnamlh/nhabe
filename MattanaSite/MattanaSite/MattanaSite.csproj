@@ -415,6 +415,7 @@
     <Content Include="Views\Agency\Modify.cshtml" />
     <Content Include="Views\Product\Modify.cshtml" />
     <Content Include="Views\Track\Tracking.cshtml" />
+    <Content Include="Views\Track\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

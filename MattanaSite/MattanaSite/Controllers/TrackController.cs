@@ -47,7 +47,7 @@ namespace MattanaSite.Controllers
 
             ViewBag.User = user;
 
-            DateTime date = DateTime.UtcNow(year, month, day);
+            DateTime date = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
             
 
             var data = mongoHelper.ShowLocationStaff(user, date).Select(p => new LocationInfo()
@@ -83,14 +83,14 @@ namespace MattanaSite.Controllers
             menues.Add(new SubMenuInfo()
             {
                 Name = "Vị trí hiện tại",
-                Url = "/",
+                Url = "/track/show",
                 Active = 0
             });
 
             menues.Add(new SubMenuInfo()
             {
                 Name = "Xem lịch sử",
-                Url = "/",
+                Url = "/track/tracking",
                 Active = 0
             });
 
