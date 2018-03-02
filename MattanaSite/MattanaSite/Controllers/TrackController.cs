@@ -45,7 +45,10 @@ namespace MattanaSite.Controllers
             ViewBag.Year = year;
             ViewBag.Day = day;
 
-            DateTime date = new DateTime(year, month, day);
+            ViewBag.User = user;
+
+            DateTime date = DateTime.UtcNow(year, month, day);
+            
 
             var data = mongoHelper.ShowLocationStaff(user, date).Select(p => new LocationInfo()
             {
@@ -59,6 +62,18 @@ namespace MattanaSite.Controllers
             ViewBag.Data = data;
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult UpdateNewLocation(string user)
+        {
+
+            var data = mongoHelper.findNewLocationStaff(user);
+
+            if (data == null)
+                return Json(new {id = 0}, JsonRequestBehavior.AllowGet);
+
+            return Json(new { lat = data.Lat, lng = data.Lng , id = 1 }, JsonRequestBehavior.AllowGet);
         }
 
         public override List<Models.SubMenuInfo> Menu(int idxActive)

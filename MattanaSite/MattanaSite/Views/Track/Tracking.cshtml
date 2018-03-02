@@ -35,7 +35,7 @@
                         <input type="number" name="year" value="@ViewBag.Year" class="form-control" required />
                     </div>
                 </div>
-             
+
 
                 <div class="col-md-3">
                     <div class="form-group">
@@ -108,7 +108,7 @@
         var geocoder;
         var map;
         var flightPath;
-        var maker;
+        var marker;
         function initMap() {
             geocoder = new google.maps.Geocoder();
             map = new google.maps.Map(document.getElementById('map'), {
@@ -141,7 +141,7 @@
         function addMarker(location, map, label) {
             // Add the marker at the clicked location, and add the next-available label
             // from the array of alphabetical characters.
-            maker = new google.maps.Marker({
+            marker = new google.maps.Marker({
                 position: location,
                 label: label,
                 map: map,
@@ -169,11 +169,27 @@
                     window.alert('Geocoder failed due to: ' + status);
                 }
             });
-
-          
         }
+
+        // update
+
+        function worker() {
+            $.ajax({
+                url: '/track/UpdateNewLocation', 
+                type: "GET",
+                data: { userId: uid, role : check },
+                success: function(data) {
+                    clearMaker();
+                    addMarker(data.location, map, '');
+                },
+                complete: function() {
+                    setTimeout(worker, 10000);
+                }
+            });
+        }
+
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQmY_m7rqAfqTYx0g1TYR0Y516zZNLKIQ&callback=initMap">
-</script>
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQmY_m7rqAfqTYx0g1TYR0Y516zZNLKIQ&callback=initMap">
+    </script>
 }

@@ -148,6 +148,31 @@ namespace MATTANAAPI.Util
             }
         }
 
+        public void updateLocationForStaff(string user, double lat, double lng)
+        {
+            var collection = db.GetCollection<LocationStaffSave>("LocationStaffSave");
+            var builder = Builders<LocationStaffSave>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<LocationStaffSave>(builder.Eq("User", user)).FirstOrDefault();
+            if (data != null)
+            {
+                var update = Builders<LocationStaffSave>.Update.Set("Lat", lat).Set("Lng", lng);
+                var result = collection.UpdateOneAsync(Builders<LocationStaffSave>.Filter.Eq("Id", data.Id), update);
+            }
+            else
+            {
+
+                var newLocation = new LocationStaffSave()
+                {
+                    User = user,
+                    Lat = lat,
+                    Lng = lng,
+                    Time = DateTime.Now
+                };
+                collection.InsertOneAsync(newLocation);
+            }
+        }
+
 
         // logout
         public void saveLogout(string user, string token)

@@ -30,7 +30,7 @@ namespace MattanaSite.Util
             var collection = db.GetCollection<MongoLocationStaff>("LocationStaff");
             var builder = Builders<MongoLocationStaff>.Filter;
             //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
-            var data = collection.Find<MongoLocationStaff>(builder.Eq("User", user)).ToList();
+            var data = collection.Find<MongoLocationStaff>(builder.Eq("User", user) & builder.Eq("Time", date.Date)).ToList();
 
 
             return data;
@@ -58,6 +58,15 @@ namespace MattanaSite.Util
 
             return "";
       
+        }
+
+        public LocationStaffSave findNewLocationStaff(string user)
+        {
+            var collection = db.GetCollection<LocationStaffSave>("LocationStaffSave");
+            var builder = Builders<LocationStaffSave>.Filter;
+            //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
+            var data = collection.Find<LocationStaffSave>(builder.Eq("User", user)).FirstOrDefault();
+            return data;
         }
 
         public void saveNoticeHistory(string user,string title, string message)

@@ -88,4 +88,15 @@ namespace MattanaSite.Models
 
         public Nullable<System.DateTime> Time { get; set; }
     }
+
+    public class LocationStaffSave
+    {
+        public ObjectId Id { get; set; }
+
+        public string User { get; set; }
+
+        public double Lat { get; set; }
+
+        public double Lng { get; set; }
+    }
 }
