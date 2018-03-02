@@ -98,5 +98,12 @@ namespace MattanaSite.Models
         public double Lat { get; set; }
 
         public double Lng { get; set; }
+
+        public string Name { get; set; }
+
+        public string Code { get; set; }
+
+
+        public Nullable<System.DateTime> Time { get; set; }
     }
 }

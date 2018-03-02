@@ -237,9 +237,6 @@
     <Compile Include="Models\CalendarType.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CalendarWithStaff.cs">
-      <DependentUpon>MDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CalendarWork.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>

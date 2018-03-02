@@ -41,7 +41,6 @@
     </Key>
     <Property Name="CalendarId" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="GroupNumber" Type="int" />
   </EntityType>
   <EntityType Name="CalendarWork">
     <Key>
@@ -298,6 +297,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="delete_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="calendarId" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="get_detail_calendar_by_calendarid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="calendarId" Type="varchar" Mode="In" />
   </Function>

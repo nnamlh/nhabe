@@ -33,10 +33,10 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <div class="form-group">
                         <label>Nhân viên</label>
-                        <select class="form-control selectpicker" data-live-search="true" name="staffChoose" required>
+                        <select class="form-control selectpicker" data-live-search="true" name="staffId">
                             <option value="">Tất cả</option>
                             @foreach (var item in staff)
                             {
@@ -67,9 +67,9 @@
                             {
                                 <tr>
                                     <td>
-                                        @foreach (var cStaff in item.CalendarWithStaffs.ToList())
+                                        @foreach (var cStaff in item.MStaffs.ToList())
                                         {
-                                            <p>@cStaff.MStaff.FullName - @cStaff.StaffId</p><br />
+                                            <p>@cStaff.FullName - @cStaff.Id</p><br />
                                         }
                                     </td>
                                     <td>@item.FDate.Value.ToString("dd/MM/yyyy")</td>

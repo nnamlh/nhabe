@@ -18,7 +18,7 @@ namespace MattanaSite.Controllers
         //
         // GET: /Calendar/
         [HttpGet]
-        public ActionResult Show( int? page, string staffId = "", string fdate = "", string tdate = "", string status = "create")
+        public ActionResult Show(int? page, string staffId = "", string fdate = "", string tdate = "", string status = "create")
         {
             AddMenu(0);
 
@@ -47,18 +47,30 @@ namespace MattanaSite.Controllers
             ViewBag.FDate = fromDate;
             ViewBag.TDate = toDate;
 
-          //  var calendars = db.CalendarWithStaffs.Where(p => p.StaffId.Contains(staffId)).Select(p => p.CalendarInfo).OrderByDescending(p => p.FDate).ToList();
+            //  var calendars = db.CalendarWithStaffs.Where(p => p.StaffId.Contains(staffId)).Select(p => p.CalendarInfo).OrderByDescending(p => p.FDate).ToList();
 
-            var data = (from log in db.CalendarWithStaffs
-                              where DbFunctions.TruncateTime(log.CalendarInfo.FDate)
-                                                 >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CalendarInfo.FDate)
-                                                 <= DbFunctions.TruncateTime(toDate) && log.StaffId.Contains(staffId)
-                              select log.CalendarInfo).OrderByDescending(p => p.FDate).ToPagedList(pageNumber, pageSize);
+            var data = (from log in db.CalendarInfoes
+                        where (DbFunctions.TruncateTime(log.FDate)
+                                           >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.FDate)
+                                           <= DbFunctions.TruncateTime(toDate))
+                        select log).ToList();
 
 
-            return View(data);
+
+            var staff = db.MStaffs.Find(staffId);
+            if (staff != null)
+                return View(data.Where(p => p.MStaffs.Contains(staff)).OrderByDescending(p => p.FDate).ToPagedList(pageNumber, pageSize));
+
+            return View(data.OrderByDescending(p => p.FDate).ToPagedList(pageNumber, pageSize));
         }
 
+        [HttpPost]
+        public ActionResult Remove(string id)
+        {
+            var result = db.delete_calendar(id);
+
+            return RedirectToAction("show", "calendar");
+        }
 
         [HttpGet]
         public ActionResult ShowDetail(string id)
@@ -138,19 +150,14 @@ namespace MattanaSite.Controllers
             {
                 var staff = db.MStaffs.Find(item);
 
+
                 if (staff != null)
                 {
-                    var calendarStaff = new CalendarWithStaff()
-                    {
-                        StaffId = staff.Id,
-                        CalendarId = calendarInfo.Id,
-                        GroupNumber = staff.GroupNumber
-                    };
+                    calendarInfo.MStaffs.Add(staff);
 
-                    db.CalendarWithStaffs.Add(calendarStaff);
-                    db.SaveChanges();
+
                 }
-
+                db.SaveChanges();
             }
 
 
@@ -226,6 +233,13 @@ namespace MattanaSite.Controllers
                 Active = 0
             });
 
+            menues.Add(new SubMenuInfo()
+            {
+                Name = "Báo cáo lịch",
+                Url = "/calendar/report",
+                Active = 0
+            });
+
             if (idxActive < 0 || idxActive >= menues.Count())
                 return null;
 
@@ -235,5 +249,7 @@ namespace MattanaSite.Controllers
 
             return menues;
         }
+
+
     }
 }

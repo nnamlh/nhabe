@@ -15,9 +15,6 @@
         <AssociationConnector Association="MDBModel.FK__CalendarW__Agenc__4CA06362" ManuallyRouted="false" />
         <AssociationConnector Association="MDBModel.AgencyWithStaff" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MDBModel.CalendarInfo" Width="1.5" PointX="8.25" PointY="1.125" />
-        <EntityTypeShape EntityType="MDBModel.CalendarWithStaff" Width="1.5" PointX="10.5" PointY="5.25" />
-        <AssociationConnector Association="MDBModel.FK__CalendarW__Calen__5441852A" />
-        <AssociationConnector Association="MDBModel.FK__CalendarW__Staff__5535A963" />
         <AssociationConnector Association="MDBModel.FK__CalendarW__Calen__5629CD9C" />
         <EntityTypeShape EntityType="MDBModel.MOrder" Width="1.5" PointX="13.875" PointY="4.25" />
         <EntityTypeShape EntityType="MDBModel.OrderNumber" Width="1.5" PointX="0.75" PointY="0.75" />
@@ -28,6 +25,7 @@
         <AssociationConnector Association="MDBModel.FK__MOrder__StatusId__6477ECF3" />
         <AssociationConnector Association="MDBModel.FK__ProductOr__Order__6754599E" />
         <AssociationConnector Association="MDBModel.FK__ProductOr__Produ__68487DD7" />
+        <AssociationConnector Association="MDBModel.CalendarWithStaff" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

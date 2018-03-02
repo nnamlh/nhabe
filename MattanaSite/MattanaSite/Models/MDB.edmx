@@ -46,7 +46,6 @@
           </Key>
           <Property Name="CalendarId" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="GroupNumber" Type="int" />
         </EntityType>
         <EntityType Name="CalendarWork">
           <Key>
@@ -303,6 +302,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="delete_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="calendarId" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="get_detail_calendar_by_calendarid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="calendarId" Type="varchar" Mode="In" />
         </Function>
@@ -461,8 +463,8 @@
           <Property Name="IdentityCard" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MAgencies" Relationship="Self.AgencyWithStaff" FromRole="MStaff" ToRole="MAgency" />
           <Property Name="IsLock" Type="Int32" />
-          <NavigationProperty Name="CalendarWithStaffs" Relationship="MDBModel.FK__CalendarW__Staff__5535A963" FromRole="MStaff" ToRole="CalendarWithStaff" />
           <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MStaff" ToRole="MOrder" />
+          <NavigationProperty Name="CalendarInfoes" Relationship="MDBModel.CalendarWithStaff" FromRole="MStaff" ToRole="CalendarInfo" />
         </EntityType>
         <Association Name="FK__MAgency__AreaId__2B3F6F97">
           <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="0..1" />
@@ -512,15 +514,6 @@
             <End Role="MStaff" EntitySet="MStaffs" />
           </AssociationSet>
           <EntitySet Name="CalendarInfoes" EntityType="MDBModel.CalendarInfo" />
-          <EntitySet Name="CalendarWithStaffs" EntityType="MDBModel.CalendarWithStaff" />
-          <AssociationSet Name="FK__CalendarW__Calen__5441852A" Association="MDBModel.FK__CalendarW__Calen__5441852A">
-            <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
-            <End Role="CalendarWithStaff" EntitySet="CalendarWithStaffs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__CalendarW__Staff__5535A963" Association="MDBModel.FK__CalendarW__Staff__5535A963">
-            <End Role="MStaff" EntitySet="MStaffs" />
-            <End Role="CalendarWithStaff" EntitySet="CalendarWithStaffs" />
-          </AssociationSet>
           <AssociationSet Name="FK__CalendarW__Calen__5629CD9C" Association="MDBModel.FK__CalendarW__Calen__5629CD9C">
             <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
             <End Role="CalendarWork" EntitySet="CalendarWorks" />
@@ -553,6 +546,13 @@
           <Parameter Name="calendarId" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="show_user_role" ReturnType="Collection(MDBModel.show_user_role_Result)" />
+          <FunctionImport Name="delete_calendar">
+          <Parameter Name="calendarId" Mode="In" Type="String" />
+          </FunctionImport>
+          <AssociationSet Name="CalendarWithStaff" Association="MDBModel.CalendarWithStaff">
+            <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
+            <End Role="MStaff" EntitySet="MStaffs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CalendarInfo">
           <Key>
@@ -564,44 +564,9 @@
           <Property Name="TDate" Type="DateTime" Precision="0" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="WeekOfYear" Type="Int32" />
-          <NavigationProperty Name="CalendarWithStaffs" Relationship="MDBModel.FK__CalendarW__Calen__5441852A" FromRole="CalendarInfo" ToRole="CalendarWithStaff" />
           <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Calen__5629CD9C" FromRole="CalendarInfo" ToRole="CalendarWork" />
+          <NavigationProperty Name="MStaffs" Relationship="MDBModel.CalendarWithStaff" FromRole="CalendarInfo" ToRole="MStaff" />
         </EntityType>
-        <EntityType Name="CalendarWithStaff">
-          <Key>
-            <PropertyRef Name="CalendarId" />
-            <PropertyRef Name="StaffId" />
-          </Key>
-          <Property Name="CalendarId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="StaffId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="GroupNumber" Type="Int32" />
-          <NavigationProperty Name="CalendarInfo" Relationship="MDBModel.FK__CalendarW__Calen__5441852A" FromRole="CalendarWithStaff" ToRole="CalendarInfo" />
-          <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__CalendarW__Staff__5535A963" FromRole="CalendarWithStaff" ToRole="MStaff" />
-        </EntityType>
-        <Association Name="FK__CalendarW__Calen__5441852A">
-          <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="1" />
-          <End Type="MDBModel.CalendarWithStaff" Role="CalendarWithStaff" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CalendarInfo">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CalendarWithStaff">
-              <PropertyRef Name="CalendarId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__CalendarW__Staff__5535A963">
-          <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="1" />
-          <End Type="MDBModel.CalendarWithStaff" Role="CalendarWithStaff" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MStaff">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CalendarWithStaff">
-              <PropertyRef Name="StaffId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__CalendarW__Calen__5629CD9C">
           <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="0..1" />
           <End Type="MDBModel.CalendarWork" Role="CalendarWork" Multiplicity="*" />
@@ -761,6 +726,10 @@
           <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="String" Name="UserId" Nullable="false" />
         </ComplexType>
+        <Association Name="CalendarWithStaff">
+          <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="*" />
+          <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -872,15 +841,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CalendarWithStaffs">
-            <EntityTypeMapping TypeName="MDBModel.CalendarWithStaff">
-              <MappingFragment StoreEntitySet="CalendarWithStaff">
-                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
-                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
-                <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MOrders">
             <EntityTypeMapping TypeName="MDBModel.MOrder">
               <MappingFragment StoreEntitySet="MOrder">
@@ -971,6 +931,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="delete_calendar" FunctionName="MDBModel.Store.delete_calendar" />
+          <AssociationSetMapping Name="CalendarWithStaff" TypeName="MDBModel.CalendarWithStaff" StoreEntitySet="CalendarWithStaff">
+            <EndProperty Name="MStaff">
+              <ScalarProperty Name="Id" ColumnName="StaffId" />
+            </EndProperty>
+            <EndProperty Name="CalendarInfo">
+              <ScalarProperty Name="Id" ColumnName="CalendarId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -20,10 +20,22 @@ namespace MattanaSite.Controllers
         {
             AddMenu(0);
 
-
-
+            ViewBag.Staff = db.MStaffs.ToList();
             return View();
         }
+        [HttpPost]
+        public ActionResult Show(List<string> users)
+        {
+
+            if (users == null)
+                users = new List<string>();
+            AddMenu(0);
+            ViewBag.Staff = db.MStaffs.ToList();
+
+            ViewBag.Data = mongoHelper.findAllLocationStaff(users);
+            return View();
+        }
+
 
         [HttpGet]
         public ActionResult Tracking(string user, int day = 0, int month = 0, int year = 0)
@@ -47,7 +59,7 @@ namespace MattanaSite.Controllers
 
             ViewBag.User = user;
 
-            DateTime date = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+            DateTime date = new DateTime(year, month, day, 0, 0, 0);
             
 
             var data = mongoHelper.ShowLocationStaff(user, date).Select(p => new LocationInfo()

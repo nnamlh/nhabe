@@ -61,6 +61,7 @@
     <EntitySetMapping Name="MProducts">
       <EntityTypeMapping TypeName="MDBModel.MProduct">
         <MappingFragment StoreEntitySet="MProduct">
+          <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PName" ColumnName="PName" />
           <ScalarProperty Name="Describes" ColumnName="Describes" />
@@ -105,15 +106,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CalendarWithStaffs">
-      <EntityTypeMapping TypeName="MDBModel.CalendarWithStaff">
-        <MappingFragment StoreEntitySet="CalendarWithStaff">
-          <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
-          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
-          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="get_calendar_by_staff_byday" FunctionName="MDBModel.Store.get_calendar_by_staff_byday">
       <ResultMapping>
         <ComplexTypeMapping TypeName="MDBModel.get_calendar_by_staff_byday_Result">
@@ -136,6 +128,7 @@
     <EntitySetMapping Name="MOrders">
       <EntityTypeMapping TypeName="MDBModel.MOrder">
         <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
           <ScalarProperty Name="CYear" ColumnName="CYear" />
           <ScalarProperty Name="CMonth" ColumnName="CMonth" />
           <ScalarProperty Name="CDay" ColumnName="CDay" />
@@ -207,6 +200,14 @@
       </EndProperty>
       <EndProperty Name="AspNetRole">
         <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CalendarWithStaff" TypeName="MDBModel.CalendarWithStaff" StoreEntitySet="CalendarWithStaff">
+      <EndProperty Name="MStaff">
+        <ScalarProperty Name="Id" ColumnName="StaffId" />
+      </EndProperty>
+      <EndProperty Name="CalendarInfo">
+        <ScalarProperty Name="Id" ColumnName="CalendarId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

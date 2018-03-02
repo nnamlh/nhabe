@@ -33,6 +33,7 @@ namespace MATTANAAPI.Models
         public Nullable<int> CDay { get; set; }
         public Nullable<int> CMonth { get; set; }
         public Nullable<int> CYear { get; set; }
+        public Nullable<System.DateTime> SuggestDate { get; set; }
     
         public virtual MAgency MAgency { get; set; }
         public virtual MStaff MStaff { get; set; }

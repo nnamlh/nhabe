@@ -106,15 +106,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CalendarWithStaffs">
-      <EntityTypeMapping TypeName="MDBModel.CalendarWithStaff">
-        <MappingFragment StoreEntitySet="CalendarWithStaff">
-          <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
-          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
-          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="MOrders">
       <EntityTypeMapping TypeName="MDBModel.MOrder">
         <MappingFragment StoreEntitySet="MOrder">
@@ -205,5 +196,14 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="delete_calendar" FunctionName="MDBModel.Store.delete_calendar" />
+    <AssociationSetMapping Name="CalendarWithStaff" TypeName="MDBModel.CalendarWithStaff" StoreEntitySet="CalendarWithStaff">
+      <EndProperty Name="MStaff">
+        <ScalarProperty Name="Id" ColumnName="StaffId" />
+      </EndProperty>
+      <EndProperty Name="CalendarInfo">
+        <ScalarProperty Name="Id" ColumnName="CalendarId" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

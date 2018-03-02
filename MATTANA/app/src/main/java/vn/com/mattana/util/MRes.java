@@ -49,7 +49,6 @@ public class MRes {
 
     public Location location;
 
-    public boolean isRunUpdate = false;
     // check in
     public DAgencyInfo agency;
 

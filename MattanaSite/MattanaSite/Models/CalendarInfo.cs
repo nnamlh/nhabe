@@ -16,8 +16,8 @@ namespace MattanaSite.Models
     {
         public CalendarInfo()
         {
-            this.CalendarWithStaffs = new HashSet<CalendarWithStaff>();
             this.CalendarWorks = new HashSet<CalendarWork>();
+            this.MStaffs = new HashSet<MStaff>();
         }
     
         public string Id { get; set; }
@@ -27,7 +27,7 @@ namespace MattanaSite.Models
         public string Notes { get; set; }
         public Nullable<int> WeekOfYear { get; set; }
     
-        public virtual ICollection<CalendarWithStaff> CalendarWithStaffs { get; set; }
         public virtual ICollection<CalendarWork> CalendarWorks { get; set; }
+        public virtual ICollection<MStaff> MStaffs { get; set; }
     }
 }

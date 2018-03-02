@@ -34,7 +34,6 @@ namespace MATTANAAPI.Models
         public virtual DbSet<MProduct> MProducts { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
         public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
-        public virtual DbSet<CalendarWithStaff> CalendarWithStaffs { get; set; }
         public virtual DbSet<MOrder> MOrders { get; set; }
         public virtual DbSet<OrderNumber> OrderNumbers { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }

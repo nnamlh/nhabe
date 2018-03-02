@@ -112,15 +112,11 @@ public class BaseActivity extends AppCompatActivity {
                 if (prefsHelper.get(MRes.getInstance().PREF_UPDATE, false)) {
                     mService.getLastLocation();
                     mService.requestLocationUpdates();
-
                     prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
-                } else {
-                    if (!MRes.getInstance().isRunUpdate) {
-                        mService.getLastLocation();
-                        mService.requestLocationUpdates();
-                        MRes.getInstance().isRunUpdate = true;
-                    }
+                } else if (!Utils.requestingLocationUpdates(BaseActivity.this)) {
+                    mService.requestLocationUpdates();
                 }
+
             }
         }
 
@@ -155,6 +151,7 @@ public class BaseActivity extends AppCompatActivity {
         };
 
     }
+
     private void showNotification(String title, String messenge) {
 
         dNotification.setTitle(title);
@@ -270,12 +267,14 @@ public class BaseActivity extends AppCompatActivity {
 
         super.onStop();
     }
+
     protected String getFirebaseReg() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(MRes.getInstance().SHARED_PREF, 0);
         String token = pref.getString("regId", "");
 
-        return  token;
+        return token;
     }
+
     /**
      * Receiver for broadcasts sent by {@link LocationUpdatesService}.
      */

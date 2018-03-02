@@ -6,7 +6,7 @@
 <div class="portlet portlet-boxed">
     <div class="portlet-header">
         <h4 class="portlet-title">
-            Danh sách đơn hàng
+            Xem lịch sử hành trình nhân viên
         </h4>
     </div> <!-- /.portlet-header -->
 
@@ -75,7 +75,6 @@
 @section styles {
     <!-- bootstrap select-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
-    <link href="~/content/bootstrap-datepicker.min.css" rel="stylesheet">
 
     <style>
         #map {
@@ -87,16 +86,6 @@
     <!-- bootstrap select js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
 
-    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
-    <script src="~/scripts/bootstrap-datepicker.vi.min.js"></script>
-    <script type="text/javascript">
-        $('.datetime').datepicker({
-            language: "vi",
-            format: 'dd/mm/yyyy',
-            orientation: "bottom auto"
-        });
-
-    </script>
 
     <script>
 
@@ -129,7 +118,6 @@
             if (flightPlanCoordinates.length > 1) {
                 addMarker(flightPlanCoordinates[flightPlanCoordinates.length - 1], map,  '');
                 map.setCenter( flightPlanCoordinates[flightPlanCoordinates.length -1]);
-                setTimeout(worker, 10000);
             }
 
 
@@ -173,26 +161,26 @@
         }
 
         // update
-
+        /*
         function worker() {
             $.ajax({
-                url: '/track/UpdateNewLocation', 
+                url: '/track/UpdateNewLocation',
                 type: "GET",
-                data: { user: '@ViewBag.User' },
+                data: { user:  },
                 success: function(data) {
                     if (data.id === 1) {
                         clearMaker();
                         var myLatLng = {lat: data.lat, lng: data.lng};
                         addMarker(myLatLng, map, '');
                         map.setCenter(myLatLng);
-                    } 
+                    }
                 },
                 complete: function() {
                     setTimeout(worker, 10000);
                 }
             });
         }
-
+        */
     </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQmY_m7rqAfqTYx0g1TYR0Y516zZNLKIQ&callback=initMap">

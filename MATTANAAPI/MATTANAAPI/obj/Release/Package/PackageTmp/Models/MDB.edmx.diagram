@@ -15,10 +15,7 @@
         <AssociationConnector Association="MDBModel.FK__CalendarW__Agenc__4CA06362" ManuallyRouted="false" />
         <AssociationConnector Association="MDBModel.AgencyWithStaff" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MDBModel.CalendarInfo" Width="1.5" PointX="0.75" PointY="1.5" />
-        <EntityTypeShape EntityType="MDBModel.CalendarWithStaff" Width="1.5" PointX="11.25" PointY="3.5" />
-        <AssociationConnector Association="MDBModel.FK__CalendarW__Calen__5441852A" />
         <AssociationConnector Association="MDBModel.FK__CalendarW__Calen__5629CD9C" />
-        <AssociationConnector Association="MDBModel.FK__CalendarW__Staff__5535A963" />
         <EntityTypeShape EntityType="MDBModel.MOrder" Width="1.5" PointX="10.5" PointY="6.5" />
         <EntityTypeShape EntityType="MDBModel.OrderNumber" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="MDBModel.OrderStatu" Width="1.5" PointX="8.25" PointY="8.625" />
@@ -31,6 +28,7 @@
         <EntityTypeShape EntityType="MDBModel.AspNetRole" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="MDBModel.AspNetUser" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="MDBModel.AspNetUserRoles" />
+        <AssociationConnector Association="MDBModel.CalendarWithStaff" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

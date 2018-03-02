@@ -3,5 +3,128 @@
     ViewBag.Title = "Show";
 }
 
-<h2>Show</h2>
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Vị trí hiện tại nhân viên
+        </h4>
+    </div> <!-- /.portlet-header -->
 
+    <div class="portlet-body">
+        <div class="row">
+
+
+
+            <form method="post">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Nhân viên</label>
+                        <select class="form-control selectpicker" data-live-search="true" name="users" multiple>
+                            @foreach (var item in ViewBag.Staff)
+                            {
+
+                                <option data-tokens="@item.Id @item.FullName" value="@item.MUser">@item.FullName - @item.Id</option>
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <br />
+                    <button type="submit" class="btn btn-primary">Xem</button>
+                </div>
+            </form>
+
+            <div class="col-sm-12">
+                <br /><br />
+                <div id="map"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section styles {
+    <!-- bootstrap select-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+
+    <style>
+        #map {
+            height: 500px;
+        }
+    </style>
+}
+@section scripts {
+    <!-- bootstrap select js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+    <script>
+
+    // This example creates a 2-pixel-wide red polyline showing the path of
+    // the first trans-Pacific flight between Oakland, CA, and Brisbane,
+    // Australia which was made by Charles Kingsford Smith.
+        var geocoder;
+        var map;
+    function initMap() {
+
+        var data = [];
+        @if (ViewBag.Data != null)
+            {
+                @:data = @Html.Raw(Json.Encode(ViewBag.Data));
+                    }
+                    
+     
+        geocoder= new google.maps.Geocoder();
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            mapTypeId: 'terrain'
+        });
+
+        for(var i=0; i < data.length;i++) {
+            var myLatLng = {lat: data[i].Lat, lng: data[i].Lng };
+
+            addMarker(myLatLng, map, data[i].Name + '-' + data[i].Code);
+        }
+
+    }
+
+        function addMarker(location, map, label) {
+            console.log(location);
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: 'Hello World!'
+        });
+
+       // addInfoWindown(marker, map, location);
+       
+    }
+
+    function addInfoWindown(marker, map, location) {
+        console.log('da vao');
+        geocoder.geocode({'location': location}, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    var contentString = results[0].formatted_address;
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+                    marker.addListener('click', function() {
+                        infowindow.open(map, marker);
+                    });
+
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
+    }
+
+
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQmY_m7rqAfqTYx0g1TYR0Y516zZNLKIQ&callback=initMap">
+    </script>
+}

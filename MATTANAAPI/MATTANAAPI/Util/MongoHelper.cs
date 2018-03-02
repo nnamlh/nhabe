@@ -148,7 +148,7 @@ namespace MATTANAAPI.Util
             }
         }
 
-        public void updateLocationForStaff(string user, double lat, double lng)
+        public void updateLocationForStaff(string user,string name, string code, double lat, double lng)
         {
             var collection = db.GetCollection<LocationStaffSave>("LocationStaffSave");
             var builder = Builders<LocationStaffSave>.Filter;
@@ -156,7 +156,7 @@ namespace MATTANAAPI.Util
             var data = collection.Find<LocationStaffSave>(builder.Eq("User", user)).FirstOrDefault();
             if (data != null)
             {
-                var update = Builders<LocationStaffSave>.Update.Set("Lat", lat).Set("Lng", lng);
+                var update = Builders<LocationStaffSave>.Update.Set("Lat", lat).Set("Lng", lng).Set("Time", DateTime.Now);
                 var result = collection.UpdateOneAsync(Builders<LocationStaffSave>.Filter.Eq("Id", data.Id), update);
             }
             else
@@ -167,7 +167,9 @@ namespace MATTANAAPI.Util
                     User = user,
                     Lat = lat,
                     Lng = lng,
-                    Time = DateTime.Now
+                    Time = DateTime.Now,
+                    Name = name,
+                    Code = code
                 };
                 collection.InsertOneAsync(newLocation);
             }

@@ -70,6 +70,17 @@ namespace MattanaSite.Util
             return data;
         }
 
+        public List<LocationStaffSave> findAllLocationStaff(List<string> users)
+        {
+            var collection = db.GetCollection<LocationStaffSave>("LocationStaffSave");
+            var builder = Builders<LocationStaffSave>.Filter;
+
+            var data = collection.Find<LocationStaffSave>(builder.In("User", users)).ToList();
+
+
+            return data;
+        }
+
         public void saveNoticeHistory(string user,string title, string message)
         {
             var collection = db.GetCollection<NoticeMongo>("NoticeHistory");

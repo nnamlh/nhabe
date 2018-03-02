@@ -165,7 +165,7 @@ namespace MATTANAAPI.Controllers
 
             mongoHelper.createLocationStaff(data);
 
-            mongoHelper.updateLocationForStaff(user, lat, lng);
+            mongoHelper.updateLocationForStaff(user, name, code, lat, lng);
 
             return new ResultInfo()
             {

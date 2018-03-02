@@ -34,7 +34,6 @@ namespace MattanaSite.Models
         public virtual DbSet<MProduct> MProducts { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
         public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
-        public virtual DbSet<CalendarWithStaff> CalendarWithStaffs { get; set; }
         public virtual DbSet<MOrder> MOrders { get; set; }
         public virtual DbSet<OrderNumber> OrderNumbers { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }
@@ -52,6 +51,15 @@ namespace MattanaSite.Models
         public virtual ObjectResult<show_user_role_Result> show_user_role()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<show_user_role_Result>("show_user_role");
+        }
+    
+        public virtual int delete_calendar(string calendarId)
+        {
+            var calendarIdParameter = calendarId != null ?
+                new ObjectParameter("calendarId", calendarId) :
+                new ObjectParameter("calendarId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_calendar", calendarIdParameter);
         }
     }
 }

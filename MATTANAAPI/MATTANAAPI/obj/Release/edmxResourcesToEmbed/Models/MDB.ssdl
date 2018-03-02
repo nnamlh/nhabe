@@ -66,7 +66,6 @@
     </Key>
     <Property Name="CalendarId" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="GroupNumber" Type="int" />
   </EntityType>
   <EntityType Name="CalendarWork">
     <Key>
@@ -124,6 +123,7 @@
     <Property Name="CDay" Type="int" />
     <Property Name="CMonth" Type="int" />
     <Property Name="CYear" Type="int" />
+    <Property Name="SuggestDate" Type="datetime" />
   </EntityType>
   <EntityType Name="MProduct">
     <Key>
@@ -137,6 +137,7 @@
     <Property Name="Price" Type="float" />
     <Property Name="Unit" Type="nvarchar" MaxLength="128" />
     <Property Name="IsLock" Type="int" />
+    <Property Name="Size" Type="int" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>

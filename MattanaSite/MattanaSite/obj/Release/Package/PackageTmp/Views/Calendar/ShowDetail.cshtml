@@ -9,7 +9,7 @@
 <div class="portlet portlet-boxed">
     <div class="portlet-header">
         <h4 class="portlet-title">
-            Chi tiết lịch
+            Chi tiết lịch &nbsp;&nbsp;&nbsp; <a href="javascript:remove('@calendar.Id')">Xóa lịch</a>
         </h4>
     </div> <!-- /.portlet-header -->
 
@@ -36,11 +36,11 @@
             <div class="col-sm-6">
                 <label>Nhân viên</label>
                 <table class="table table-striped table-bordered thumbnail-table">
-                    @foreach (var item in calendar.CalendarWithStaffs.ToList())
+                    @foreach (var item in calendar.MStaffs.ToList())
                     {
                         <tr>
-                            <td>@item.MStaff.Id</td>
-                            <td>@item.MStaff.FullName</td>
+                            <td>@item.Id</td>
+                            <td>@item.FullName</td>
                         </tr>
                     }
                 </table>
@@ -97,3 +97,16 @@
 </div>
 
 
+<form method="post" action="/calendar/remove" id="formremove" onsubmit="if(!confirm('Xóa lịch?')){return false;}">
+    <input type="hidden" name="id" id="calendarId" />
+</form>
+
+@section scripts {
+    <script>
+        function remove(id) {
+            $('#calendarId').val(id);
+
+            $('#formremove').submit();
+        }
+    </script>
+}
