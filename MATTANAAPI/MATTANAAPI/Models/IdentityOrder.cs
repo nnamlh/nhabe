@@ -71,6 +71,10 @@ namespace MATTANAAPI.Models
 
         public string priceTotal { get; set; }
 
+        public int quantityReal { get; set; }
+
+        public string Id { get; set; }
+
     }
 
     public class UpdateOrderResult : ResultInfo

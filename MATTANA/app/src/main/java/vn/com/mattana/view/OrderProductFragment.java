@@ -56,6 +56,19 @@ public class OrderProductFragment extends Fragment {
         }
     }
 
+    public void setButtonStatus() {
+        if(activity.isAdmin) {
+            if(!"finish".equals(MRes.getInstance().orderInfo.getStatusCode())){
+                btnStatus.setVisibility(View.VISIBLE);
+                btnStatus.setText(MRes.getInstance().orderInfo.getNextStatus());
+            } else {
+                btnStatus.setVisibility(View.GONE);
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,12 +89,24 @@ public class OrderProductFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         btnStatus.setVisibility(View.GONE);
 
+        btnStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.updateStatus();
+            }
+        });
+
 
         return view;
     }
 
-    public void orderClick(View view) {
+
+
+    public void updateDelivery(int postion, int quantity) {
+
+        orderProductInfos.get(postion).setQuantityReal(quantity);
+
+        adapter.notifyDataSetChanged();
 
     }
-
 }

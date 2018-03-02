@@ -22,8 +22,10 @@ import vn.com.mattana.adapter.ViewPagerAdapter;
 import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
 import vn.com.mattana.dms.checkin.CheckInActivity;
+import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.order.ShowOrderInfo;
 import vn.com.mattana.model.api.order.ShowOrderProductInfo;
+import vn.com.mattana.model.api.order.UpdateStatusResult;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.view.CheckInPlanFragment;
 import vn.com.mattana.view.CheckOutPlanFragment;
@@ -101,6 +103,75 @@ public class ShowOrderDetailActivity extends BaseActivity {
             @Override
             public void onFailure(Call<List<ShowOrderProductInfo>> call, Throwable t) {
                 hidepDialog();
+                commons.showToastDisconnect(ShowOrderDetailActivity.this);
+            }
+        });
+    }
+
+    public void updateStatus() {
+
+        showpDialog();
+        ShowOrderInfo info = MRes.getInstance().orderInfo;
+        Call<UpdateStatusResult> call = apiInterface().updateOrderStatus(user, token, info.getOrderId(), info.getNextStatusCode());
+
+        call.enqueue(new Callback<UpdateStatusResult>() {
+            @Override
+            public void onResponse(Call<UpdateStatusResult> call, Response<UpdateStatusResult> response) {
+
+                if (response.body() != null) {
+
+                    if (response.body().getId().equals("1")) {
+                        MRes.getInstance().orderInfo.setStatus(response.body().getStatus());
+                        MRes.getInstance().orderInfo.setStatusCode(response.body().getStatusCode());
+                        MRes.getInstance().orderInfo.setNextStatus(response.body().getNextStatus());
+                        MRes.getInstance().orderInfo.setNextStatusCode(response.body().getNextStatusCode());
+
+                        orderDetailView.refesh();
+                        orderProductView.setButtonStatus();
+
+                        commons.makeToast(ShowOrderDetailActivity.this, "Hoàn thành");
+
+                    } else {
+                        commons.makeToast(ShowOrderDetailActivity.this, response.body().getMsg()).show();
+                    }
+                }
+                hidepDialog();
+            }
+
+            @Override
+            public void onFailure(Call<UpdateStatusResult> call, Throwable t) {
+                showpDialog();
+                commons.showToastDisconnect(ShowOrderDetailActivity.this);
+            }
+        });
+    }
+
+    public void updateDelivery(final int postion, String productId, final int quantity) {
+        showpDialog();
+
+        Call<ResultInfo> call = apiInterface().updateDelivery(MRes.getInstance().orderInfo.getOrderId(), productId, quantity, user, token );
+
+        call.enqueue(new Callback<ResultInfo>() {
+            @Override
+            public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+
+                if(response.body() != null) {
+
+                    if(response.body().getId().equals("1")) {
+                        orderProductView.updateDelivery(postion, quantity);
+
+                    } else {
+                        commons.makeToast(ShowOrderDetailActivity.this, response.body().getMsg()).show();
+                    }
+
+                }
+
+                hidepDialog();
+            }
+
+            @Override
+            public void onFailure(Call<ResultInfo> call, Throwable t) {
+                showpDialog();
                 commons.showToastDisconnect(ShowOrderDetailActivity.this);
             }
         });

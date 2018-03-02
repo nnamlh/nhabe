@@ -217,7 +217,7 @@ namespace MATTANAAPI.Util
 
         }
 
-        public void saveNoticeHistory(string user, string message)
+        public void saveNoticeHistory(string user, string message, string title)
         {
             var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
 
@@ -227,7 +227,8 @@ namespace MATTANAAPI.Util
                 User = user,
                 Time = DateTime.Now,
                 Type = "notice",
-                Read = 0
+                Read = 0,
+                Title = title
             };
 
             collection.InsertOneAsync(notice);

@@ -287,7 +287,9 @@ namespace MATTANAAPI.Controllers
                         name = item.MProduct.PName,
                         price = item.Price.Value.ToString("C", Cultures.VietNam),
                         priceTotal = (item.QuantityBuy * item.Price).Value.ToString("C", Cultures.VietNam),
-                        quantityBuy = (int)item.QuantityBuy
+                        quantityBuy = (int)item.QuantityBuy,
+                        quantityReal = (int)item.QuantityReal,
+                        Id = item.ProductId
                     });
                 }
 
@@ -330,26 +332,26 @@ namespace MATTANAAPI.Controllers
                 var checkStaff = db.MStaffs.Where(p => p.MUser == user).FirstOrDefault();
 
                 if (checkStaff == null)
-                    throw new Exception("Sai thông tin");
+                    throw new Exception("Sai thông tin nv");
 
                 if (!isAdmin(user))
-                    throw new Exception("Sai thông tin");
+                    throw new Exception("Sai thông tin quyen");
 
                 var checkStt = db.OrderStatus.Find(status);
 
                 if(checkStt == null)
-                    throw new Exception("Sai thông tin");
+                    throw new Exception("Sai thông tin status");
 
                 var checkOrder = db.MOrders.Find(orderId);
 
                 if (checkOrder == null)
-                    throw new Exception("Sai thông tin");
+                    throw new Exception("Sai thông tin order");
 
                 if (checkOrder.StatusId == checkStt.Id)
-                    throw new Exception("Sai thông tin");
+                    throw new Exception("Trang thai khong khớp");
 
-                if (checkStt.PreStt != checkStt.Id)
-                    throw new Exception("Sai thông tin");
+                if (checkStt.PreStt != checkOrder.StatusId)
+                    throw new Exception("Sai trạng thái");
 
                 checkOrder.StatusId = checkStt.Id;
                 db.Entry(checkOrder).State = EntityState.Modified;
@@ -372,6 +374,9 @@ namespace MATTANAAPI.Controllers
             catch (Exception e)
             {
                 log.Sucess = 0;
+                result.id = "0";
+                result.msg = e.Message;
+
             }
 
             log.ReturnInfo = new JavaScriptSerializer().Serialize(result);

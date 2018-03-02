@@ -31,10 +31,13 @@ import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.order.CompleteProduct;
 import vn.com.mattana.model.api.order.CompleteSend;
 import vn.com.mattana.model.api.order.ProductInfo;
+import vn.com.mattana.model.api.order.ShowOrderInfo;
+import vn.com.mattana.model.api.order.ShowOrderResult;
+import vn.com.mattana.model.api.order.UpdateStatusResult;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.view.DividerItemDecoration;
 
-public class CompleteOrderActivity extends BaseActivity  implements DatePickerDialog.OnDateSetListener{
+public class CompleteOrderActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -70,7 +73,7 @@ public class CompleteOrderActivity extends BaseActivity  implements DatePickerDi
 
         resetMoneyAll();
 
-        agency.setText(MRes.getInstance().agency.getStore() +" - " + MRes.getInstance().agency.getCode());
+        agency.setText(MRes.getInstance().agency.getStore() + " - " + MRes.getInstance().agency.getCode());
 
 
         createDateDialog();
@@ -82,6 +85,7 @@ public class CompleteOrderActivity extends BaseActivity  implements DatePickerDi
             }
         });
     }
+
     private void createDateDialog() {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -92,8 +96,7 @@ public class CompleteOrderActivity extends BaseActivity  implements DatePickerDi
     }
 
     public void orderClick(View view) {
-        if (MRes.getInstance().getProductOrder().size() == 0)
-        {
+        if (MRes.getInstance().getProductOrder().size() == 0) {
             commons.makeToast(CompleteOrderActivity.this, "Chọn sản phẩm").show();
             return;
         }
@@ -137,7 +140,7 @@ public class CompleteOrderActivity extends BaseActivity  implements DatePickerDi
                         @Override
                         public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
 
-                            if(response.body() != null && response.body().getId().equals("1")) {
+                            if (response.body() != null && response.body().getId().equals("1")) {
                                 commons.showAlertInfo(CompleteOrderActivity.this, "Thông báo", "Đã tạo xong đơn hàng", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -174,8 +177,8 @@ public class CompleteOrderActivity extends BaseActivity  implements DatePickerDi
     public void resetMoneyAll() {
         double price = 0;
 
-        for(ProductInfo order: MRes.getInstance().getProductOrder()) {
-            price+= order.getPrice() * order.getQuantityBuy();
+        for (ProductInfo order : MRes.getInstance().getProductOrder()) {
+            price += order.getPrice() * order.getQuantityBuy();
         }
         txtMoney.setText(MRes.getInstance().formatMoneyToText(price));
 
@@ -205,14 +208,14 @@ public class CompleteOrderActivity extends BaseActivity  implements DatePickerDi
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (!TextUtils.isEmpty(eQantity.getText().toString())) {
-                    try{
-                        int quantity  = Integer.parseInt(eQantity.getText().toString());
+                    try {
+                        int quantity = Integer.parseInt(eQantity.getText().toString());
                         MRes.getInstance().getProductOrder().get(position).setQuantityBuy(quantity);
                         adapter.notifyDataSetChanged();
-                    }catch (Exception e) {
+                    } catch (Exception e) {
 
                     }
-                }else {
+                } else {
                     commons.makeToast(CompleteOrderActivity.this, "Nhập số lượng").show();
                 }
 
@@ -227,4 +230,6 @@ public class CompleteOrderActivity extends BaseActivity  implements DatePickerDi
         dateSugess = day + "/" + (month + 1) + "/" + year;
         suggest.setText("Ngày đề nghị giao: " + dateSugess);
     }
+
+
 }

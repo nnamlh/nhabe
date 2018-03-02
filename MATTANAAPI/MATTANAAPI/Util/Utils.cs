@@ -25,7 +25,7 @@ namespace MATTANAAPI.Util
 
             if (responseString != "")
             {
-                mongoHelp.saveNoticeHistory(user, messenge);
+                mongoHelp.saveNoticeHistory(user, messenge, title);
                 return true;
             }
 

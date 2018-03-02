@@ -22,7 +22,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2018 11:06:04</publishTime>
     </File>
     <File Include="bin/MATTANAAPI.dll">
-      <publishTime>03/03/2018 03:24:15</publishTime>
+      <publishTime>03/03/2018 04:31:08</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>02/25/2018 11:06:08</publishTime>

@@ -41,6 +41,12 @@ public class OrderDetailFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        refesh();
+        return view;
+    }
+
+
+    public void refesh() {
 
         ShowOrderInfo info = MRes.getInstance().orderInfo;
         store.setText(info.getStore());
@@ -49,8 +55,6 @@ public class OrderDetailFragment extends Fragment {
         money.setText(info.getOrderPrice());
         time.setText(info.getCreateTime());
         status.setText(info.getStatus());
-        return view;
     }
-
 
 }

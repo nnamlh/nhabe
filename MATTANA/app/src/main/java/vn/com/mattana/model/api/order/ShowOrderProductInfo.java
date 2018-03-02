@@ -19,6 +19,12 @@ public class ShowOrderProductInfo {
     @SerializedName("priceTotal")
     private String priceTotal ;
 
+    @SerializedName("quantityReal")
+    private int quantityReal;
+
+    @SerializedName("Id")
+    private String Id;
+
     public String getName() {
         return name;
     }
@@ -57,5 +63,22 @@ public class ShowOrderProductInfo {
 
     public void setPriceTotal(String priceTotal) {
         this.priceTotal = priceTotal;
+    }
+
+
+    public int getQuantityReal() {
+        return quantityReal;
+    }
+
+    public void setQuantityReal(int quantityReal) {
+        this.quantityReal = quantityReal;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 }
