@@ -56,6 +56,10 @@
           <Property Name="TDate" Type="date" />
           <Property Name="Notes" Type="nvarchar(max)" />
           <Property Name="WeekOfYear" Type="int" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="128" />
+          <Property Name="CYear" Type="int" />
         </EntityType>
         <EntityType Name="CalendarType">
           <Key>
@@ -92,6 +96,7 @@
           <Property Name="CYear" Type="int" />
           <Property Name="CMonth" Type="int" />
           <Property Name="CalendarId" Type="varchar" MaxLength="128" />
+          <Property Name="Targets" Type="float" />
         </EntityType>
         <EntityType Name="MAgency">
           <Key>
@@ -109,6 +114,7 @@
           <Property Name="IsLock" Type="int" />
           <Property Name="Lat" Type="float" />
           <Property Name="Lng" Type="float" />
+          <Property Name="Discount" Type="float" />
         </EntityType>
         <EntityType Name="MOrder">
           <Key>
@@ -143,6 +149,7 @@
           <Property Name="Unit" Type="nvarchar" MaxLength="128" />
           <Property Name="IsLock" Type="int" />
           <Property Name="Size" Type="int" />
+          <Property Name="TypeId" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -182,6 +189,13 @@
           <Property Name="Price" Type="float" />
           <Property Name="QuantityBuy" Type="int" />
           <Property Name="QuantityReal" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <Association Name="FK__AgencyWit__Agenc__2E1BDC42">
           <End Role="MAgency" Type="Self.MAgency" Multiplicity="1" />
@@ -303,6 +317,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__MProduct__TypeId__797309D9">
+          <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
+          <End Role="MProduct" Type="Self.MProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MProduct">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ProductOr__Order__6754599E">
           <End Role="MOrder" Type="Self.MOrder" Multiplicity="1" />
           <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
@@ -378,6 +404,7 @@
           <EntitySet Name="OrderNumber" EntityType="Self.OrderNumber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__AgencyWit__Agenc__2E1BDC42" Association="Self.FK__AgencyWit__Agenc__2E1BDC42">
             <End Role="MAgency" EntitySet="MAgency" />
             <End Role="AgencyWithStaff" EntitySet="AgencyWithStaff" />
@@ -417,6 +444,10 @@
           <AssociationSet Name="FK__MOrder__StatusId__6477ECF3" Association="Self.FK__MOrder__StatusId__6477ECF3">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
             <End Role="MOrder" EntitySet="MOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MProduct__TypeId__797309D9" Association="Self.FK__MProduct__TypeId__797309D9">
+            <End Role="ProductType" EntitySet="ProductType" />
+            <End Role="MProduct" EntitySet="MProduct" />
           </AssociationSet>
           <AssociationSet Name="FK__ProductOr__Order__6754599E" Association="Self.FK__ProductOr__Order__6754599E">
             <End Role="MOrder" EntitySet="MOrder" />
@@ -477,6 +508,7 @@
           <Property Name="CMonth" Type="Int32" />
           <Property Name="CalendarId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CalendarInfo" Relationship="MDBModel.FK__CalendarW__Calen__5629CD9C" FromRole="CalendarWork" ToRole="CalendarInfo" />
+          <Property Name="Targets" Type="Double" />
         </EntityType>
         <EntityType Name="MAgency">
           <Key>
@@ -498,6 +530,7 @@
           <Property Name="Lat" Type="Double" />
           <Property Name="Lng" Type="Double" />
           <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MAgency" ToRole="MOrder" />
+          <Property Name="Discount" Type="Double" />
         </EntityType>
         <EntityType Name="MProduct">
           <Key>
@@ -513,6 +546,8 @@
           <Property Name="IsLock" Type="Int32" />
           <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
           <Property Name="Size" Type="Int32" />
+          <Property Name="TypeId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProductType" Relationship="MDBModel.FK__MProduct__TypeId__797309D9" FromRole="MProduct" ToRole="ProductType" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -621,6 +656,11 @@
             <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
             <End Role="MStaff" EntitySet="MStaffs" />
           </AssociationSet>
+          <EntitySet Name="ProductTypes" EntityType="MDBModel.ProductType" />
+          <AssociationSet Name="FK__MProduct__TypeId__797309D9" Association="MDBModel.FK__MProduct__TypeId__797309D9">
+            <End Role="ProductType" EntitySet="ProductTypes" />
+            <End Role="MProduct" EntitySet="MProducts" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CalendarInfo">
           <Key>
@@ -634,6 +674,10 @@
           <Property Name="WeekOfYear" Type="Int32" />
           <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Calen__5629CD9C" FromRole="CalendarInfo" ToRole="CalendarWork" />
           <NavigationProperty Name="MStaffs" Relationship="MDBModel.CalendarWithStaff" FromRole="CalendarInfo" ToRole="MStaff" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CYear" Type="Int32" />
         </EntityType>
         <Association Name="FK__CalendarW__Calen__5629CD9C">
           <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="0..1" />
@@ -803,6 +847,26 @@
           <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="*" />
           <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="*" />
         </Association>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MProducts" Relationship="MDBModel.FK__MProduct__TypeId__797309D9" FromRole="ProductType" ToRole="MProduct" />
+        </EntityType>
+        <Association Name="FK__MProduct__TypeId__797309D9">
+          <End Type="MDBModel.ProductType" Role="ProductType" Multiplicity="0..1" />
+          <End Type="MDBModel.MProduct" Role="MProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MProduct">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -829,6 +893,7 @@
           <EntitySetMapping Name="CalendarWorks">
             <EntityTypeMapping TypeName="MDBModel.CalendarWork">
               <MappingFragment StoreEntitySet="CalendarWork">
+                <ScalarProperty Name="Targets" ColumnName="Targets" />
                 <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
                 <ScalarProperty Name="CMonth" ColumnName="CMonth" />
                 <ScalarProperty Name="CYear" ColumnName="CYear" />
@@ -851,6 +916,7 @@
           <EntitySetMapping Name="MAgencies">
             <EntityTypeMapping TypeName="MDBModel.MAgency">
               <MappingFragment StoreEntitySet="MAgency">
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Lng" ColumnName="Lng" />
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -869,6 +935,7 @@
           <EntitySetMapping Name="MProducts">
             <EntityTypeMapping TypeName="MDBModel.MProduct">
               <MappingFragment StoreEntitySet="MProduct">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PName" ColumnName="PName" />
@@ -905,6 +972,10 @@
           <EntitySetMapping Name="CalendarInfoes">
             <EntityTypeMapping TypeName="MDBModel.CalendarInfo">
               <MappingFragment StoreEntitySet="CalendarInfo">
+                <ScalarProperty Name="CYear" ColumnName="CYear" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="WeekOfYear" ColumnName="WeekOfYear" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="TDate" ColumnName="TDate" />
@@ -1018,6 +1089,14 @@
               <ScalarProperty Name="Id" ColumnName="CalendarId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="ProductTypes">
+            <EntityTypeMapping TypeName="MDBModel.ProductType">
+              <MappingFragment StoreEntitySet="ProductType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

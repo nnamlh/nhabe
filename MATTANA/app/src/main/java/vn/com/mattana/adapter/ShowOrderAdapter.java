@@ -38,7 +38,7 @@ public class ShowOrderAdapter extends RecyclerView.Adapter<ShowOrderAdapter.MyVi
        holder.code.setText("Mã đơn: " + showOrderInfo.getCode());
        holder.store.setText("Đại lý: " + showOrderInfo.getStore());
        holder.time.setText("Ngày đặt: " + showOrderInfo.getCreateTime());
-       holder.number.setText(showOrderInfo.getProductNumber() + " SP");
+       holder.number.setText(showOrderInfo.getProductNumber() + " SP đặt");
        holder.price.setText("Tổng tiền: " + showOrderInfo.getOrderPrice());
        holder.status.setText(showOrderInfo.getStatus());
     }
@@ -49,7 +49,7 @@ public class ShowOrderAdapter extends RecyclerView.Adapter<ShowOrderAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView code, price, number, time, store, status;
+        public TextView code, price, number, time, store, status, suggest;
 
 
         public MyViewHolder(View view) {
@@ -60,6 +60,7 @@ public class ShowOrderAdapter extends RecyclerView.Adapter<ShowOrderAdapter.MyVi
             number = (TextView) view.findViewById(R.id.txtnumber);
             time = (TextView) view.findViewById(R.id.txttime);
             status = (TextView)view.findViewById(R.id.txtstatus);
+            suggest = (TextView) view.findViewById(R.id.txttimesuggest);
         }
     }
 

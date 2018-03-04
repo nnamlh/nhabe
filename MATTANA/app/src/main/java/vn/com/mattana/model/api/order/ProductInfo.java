@@ -19,6 +19,9 @@ public class ProductInfo {
     @SerializedName("price")
     private double price ;
 
+    @SerializedName("type")
+    private String type;
+
     private int quantityBuy;
 
     @SerializedName("size")
@@ -78,5 +81,13 @@ public class ProductInfo {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -11,4 +11,6 @@
     <color name="red">#D50000</color>
     <color name="hover_error">#EF9A9A</color>
     <color name="no_hover_error">#FFFFFF</color>
+
+    <color name="actionbar_opacity">#33000000</color>
 </resources>

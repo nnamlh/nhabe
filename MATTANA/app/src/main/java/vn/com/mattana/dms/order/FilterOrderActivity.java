@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,6 +32,9 @@ public class FilterOrderActivity extends BaseActivity implements DatePickerDialo
 
     @BindView(R.id.status)
     Spinner eStatus;
+
+    @BindView(R.id.agency)
+    EditText agency;
 
     DatePickerDialog datePickerDialog;
 
@@ -124,6 +128,7 @@ public class FilterOrderActivity extends BaseActivity implements DatePickerDialo
             intent.putExtra("fDate", fDate.getText().toString());
             intent.putExtra("tDate", tDate.getText().toString());
             intent.putExtra("status", arrSttCode[idx]);
+            intent.putExtra("agency", agency.getText().toString());
             setResult(Activity.RESULT_OK,intent);
             finish();
 

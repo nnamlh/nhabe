@@ -1,12 +1,15 @@
 package vn.com.mattana.dms.order;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +31,7 @@ import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
 import vn.com.mattana.dms.checkin.CheckInTaskActivity;
 import vn.com.mattana.model.api.checkin.CWorkInfo;
+import vn.com.mattana.model.api.order.ProductInfo;
 import vn.com.mattana.model.api.order.ShowOrderInfo;
 import vn.com.mattana.model.api.order.ShowOrderResult;
 import vn.com.mattana.model.data.DAgencyInfo;
@@ -42,6 +46,8 @@ public class ShowOrderActivity extends BaseActivity {
 
     List<ShowOrderInfo> showOrderInfos;
 
+    List<ShowOrderInfo> showOrderInfosTemp;
+
     ShowOrderAdapter adapter;
 
     private static final int FILTER_ORDER = 11;
@@ -55,6 +61,7 @@ public class ShowOrderActivity extends BaseActivity {
         createToolbar();
 
         showOrderInfos = new ArrayList<>();
+        showOrderInfosTemp = new ArrayList<>();
         adapter = new ShowOrderAdapter(showOrderInfos);
 
         recyclerView.setHasFixedSize(true);
@@ -87,13 +94,14 @@ public class ShowOrderActivity extends BaseActivity {
 
         int days = countDayInMonth(showYear, showMonth);
 
-        makeDate("01/" + showMonth + "/" + showYear,days + "/" + showMonth + "/" + showYear, "all");
+        makeDate("01/" + showMonth + "/" + showYear,days + "/" + showMonth + "/" + showYear, "all", "");
     }
 
-    private void makeDate(String fDate, String tDate, String status) {
+    private void makeDate(String fDate, String tDate, String status, String agency) {
         showpDialog();
         showOrderInfos.clear();
-        Call<ShowOrderResult> call = apiInterface().showOrder(user, fDate, tDate, status);
+        showOrderInfosTemp.clear();
+        Call<ShowOrderResult> call = apiInterface().showOrder(user, fDate, tDate, status, agency);
 
         call.enqueue(new Callback<ShowOrderResult>() {
             @Override
@@ -101,6 +109,7 @@ public class ShowOrderActivity extends BaseActivity {
 
                 if (response.body() != null) {
                     showOrderInfos.addAll(response.body().getOrders());
+                    showOrderInfosTemp.addAll(response.body().getOrders());
                     adapter.notifyDataSetChanged();
                 }
 
@@ -125,7 +134,8 @@ public class ShowOrderActivity extends BaseActivity {
                         String fDate = data.getStringExtra("fDate");
                         String tDate = data.getStringExtra("tDate");
                         String status = data.getStringExtra("status");
-                        makeDate(fDate, tDate, status);
+                        String agency = data.getStringExtra("agency");
+                        makeDate(fDate, tDate, status, agency);
                     case Activity.RESULT_CANCELED:
 
                         break;
@@ -141,6 +151,26 @@ public class ShowOrderActivity extends BaseActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.show_order_menu, menu);
 
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.find_action).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                handleSearch(newText);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -157,6 +187,18 @@ public class ShowOrderActivity extends BaseActivity {
         }
     }
 
+
+    private void handleSearch(String query) {
+
+        showOrderInfos.clear();
+
+        for (ShowOrderInfo info : showOrderInfosTemp) {
+            if (info.getCode().toLowerCase().contains(query.toLowerCase())) {
+                showOrderInfos.add(info);
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
 
 
 

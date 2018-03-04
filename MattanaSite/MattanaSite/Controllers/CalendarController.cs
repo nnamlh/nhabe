@@ -208,30 +208,39 @@ namespace MattanaSite.Controllers
 
                 string cYear = Convert.ToString(sheet.Cells[i, 5].Value);
 
-                double targets = Convert.ToDouble(sheet.Cells[i, 6].Value);
+                string targets = Convert.ToString(sheet.Cells[i, 6].Value);
 
-                var findAgency = db.MAgencies.Where(p => p.Code == code).FirstOrDefault();
+                if (String.IsNullOrEmpty(code) || string.IsNullOrEmpty(cDay) || String.IsNullOrEmpty(cMonth) || String.IsNullOrEmpty(cYear) || String.IsNullOrEmpty(targets))
+                    continue;
 
-                if (findAgency != null)
+                try
                 {
-                    var calendarWork = new CalendarWork()
-                      {
-                          AgencyId = findAgency.Id,
-                          CDay = Convert.ToInt32(cDay),
-                          CDate = "D" + cDay,
-                          CMonth = Convert.ToInt32(cMonth),
-                          CYear = Convert.ToInt32(cYear),
-                          InPlan = 1,
-                          Perform = 0,
-                          DayInWeek = GetDayOfWeek(Convert.ToInt32(cDay), Convert.ToInt32(cMonth), Convert.ToInt32(cYear)),
-                          Id = Guid.NewGuid().ToString(),
-                          TypeId = "CSBH",
-                          CalendarId = calendarInfo.Id,
-                          Targets = targets
-                      };
+                    var findAgency = db.MAgencies.Where(p => p.Code == code).FirstOrDefault();
 
-                    db.CalendarWorks.Add(calendarWork);
-                    db.SaveChanges();
+                    if (findAgency != null)
+                    {
+                        var calendarWork = new CalendarWork()
+                        {
+                            AgencyId = findAgency.Id,
+                            CDay = Convert.ToInt32(cDay),
+                            CDate = "D" + cDay,
+                            CMonth = Convert.ToInt32(cMonth),
+                            CYear = Convert.ToInt32(cYear),
+                            InPlan = 1,
+                            Perform = 0,
+                            DayInWeek = GetDayOfWeek(Convert.ToInt32(cDay), Convert.ToInt32(cMonth), Convert.ToInt32(cYear)),
+                            Id = Guid.NewGuid().ToString(),
+                            TypeId = "CSBH",
+                            CalendarId = calendarInfo.Id,
+                            Targets = Convert.ToDouble(targets)
+                        };
+
+                        db.CalendarWorks.Add(calendarWork);
+                        db.SaveChanges();
+                    }
+                } catch
+                {
+
                 }
 
             }

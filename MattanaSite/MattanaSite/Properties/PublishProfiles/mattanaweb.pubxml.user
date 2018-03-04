@@ -25,7 +25,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/11/2013 16:16:48</publishTime>
     </File>
     <File Include="bin/MattanaSite.dll">
-      <publishTime>03/04/2018 16:03:55</publishTime>
+      <publishTime>03/04/2018 16:46:55</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>01/26/2018 00:21:50</publishTime>

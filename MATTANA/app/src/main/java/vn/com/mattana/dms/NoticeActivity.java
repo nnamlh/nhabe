@@ -112,6 +112,8 @@ public class NoticeActivity extends BaseActivity {
                     page++;
                     noticeResultList.addAll(response.body());
                     adapter.notifyDataSetChanged();
+                } else {
+                   listView.onLoadMoreComplete();
                 }
 
                 hidepDialog();

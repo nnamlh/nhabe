@@ -54,10 +54,20 @@
         android:textSize="14dp" />
 
     <TextView
-        android:id="@+id/describe"
+        android:id="@+id/type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/price"
+        android:layout_marginTop="3dp"
+        android:fontFamily="sans-serif-light"
+        android:text="loai"
+        android:textColor="#000000"
+        android:textSize="14dp" />
+    <TextView
+        android:id="@+id/describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type"
         android:layout_marginTop="3dp"
         android:fontFamily="sans-serif-light"
         android:text="212êwewêwê"

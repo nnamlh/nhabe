@@ -5,6 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
+        android:id="@+id/find_action"
+        android:icon="@mipmap/ic_search"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="Tìm" />
+
+    <item
         android:id="@+id/filter"
         app:showAsAction="always"
         android:title="Lọc" />

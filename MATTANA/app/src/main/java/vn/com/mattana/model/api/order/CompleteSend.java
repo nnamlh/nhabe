@@ -12,6 +12,8 @@ public class CompleteSend extends RequestInfo {
 
     private String agencyId;
 
+    private String suggestDate;
+
     private List<CompleteProduct> products;
 
     public List<CompleteProduct> getProducts() {
@@ -28,5 +30,13 @@ public class CompleteSend extends RequestInfo {
 
     public void setAgencyId(String agencyId) {
         this.agencyId = agencyId;
+    }
+
+    public String getSuggestDate() {
+        return suggestDate;
+    }
+
+    public void setSuggestDate(String suggestDate) {
+        this.suggestDate = suggestDate;
     }
 }

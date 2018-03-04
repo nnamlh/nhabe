@@ -29,6 +29,8 @@
         <EntityTypeShape EntityType="MDBModel.AspNetUser" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="MDBModel.AspNetUserRoles" />
         <AssociationConnector Association="MDBModel.CalendarWithStaff" />
+        <EntityTypeShape EntityType="MDBModel.ProductType" Width="1.5" PointX="0.75" PointY="12.125" />
+        <AssociationConnector Association="MDBModel.FK__MProduct__TypeId__797309D9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

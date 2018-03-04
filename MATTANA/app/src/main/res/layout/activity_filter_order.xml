@@ -62,6 +62,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
+            android:text="Mã khách hàng"
+            android:textSize="12dp" />
+
+        <EditText
+            android:id="@+id/agency"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/input_text"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
             android:text="Trạng thái"
             android:textSize="12dp" />
 
@@ -84,7 +103,6 @@
             android:layout_marginLeft="-5dp"
             android:onClick="filterClick"
             style="@style/Widget.AppCompat.Button.Colored"/>
-
 
     </LinearLayout>
 

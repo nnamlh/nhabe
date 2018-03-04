@@ -65,9 +65,15 @@ public class NoticeAdapter   extends BaseAdapter {
         txtTime.setText(info.getTime());
 
         if(info.getRead() == 1) {
-            txtTime.setTextColor(Color.parseColor("#E0E0E0"));
-            txtMessenge.setTextColor(Color.parseColor("#E0E0E0"));
-            txtTime.setTextColor(Color.parseColor("#E0E0E0"));
+            txtTile.setTextColor(Color.parseColor("#9E9E9E"));
+            txtTime.setTextColor(Color.parseColor("#9E9E9E"));
+            txtMessenge.setTextColor(Color.parseColor("#9E9E9E"));
+            txtTime.setTextColor(Color.parseColor("#9E9E9E"));
+        } else {
+            txtTile.setTextColor(Color.parseColor("#000000"));
+            txtTime.setTextColor(Color.parseColor("#000000"));
+            txtMessenge.setTextColor(Color.parseColor("#000000"));
+            txtTime.setTextColor(Color.parseColor("#000000"));
         }
         return view;
     }

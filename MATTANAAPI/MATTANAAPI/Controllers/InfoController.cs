@@ -33,7 +33,8 @@ namespace MATTANAAPI.Controllers
                     describes = item.Describes,
                     name = item.PName,
                     price = item.Price,
-                    size = item.Size == null ? 1:item.Size
+                    size = item.Size == null ? 1:item.Size,
+                    type = item.ProductType.Name
                 });
             }
 
@@ -91,7 +92,7 @@ namespace MATTANAAPI.Controllers
         {
             List<NoticeInfo> result = new List<NoticeInfo>();
 
-            DateTime current = DateTime.Now;
+            DateTime current = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0,0,0,DateTimeKind.Utc);
             DateTime fDate = current.AddMonths(-3);
 
             int pageSize = 30;

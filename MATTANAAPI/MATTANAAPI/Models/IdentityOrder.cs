@@ -13,6 +13,8 @@ namespace MATTANAAPI.Models
     {
         public string agencyId { get; set; }
 
+        public string suggestDate { get; set; }
+
         public List<ProductOrderInfo> products { get; set; } 
     }
 
@@ -57,6 +59,10 @@ namespace MATTANAAPI.Models
         public int? productNumber { get; set; }
 
         public string createTime { get; set; }
+
+        public string timeSuggest { get; set; }
+
+        public string realPrice { get; set; }
     }
 
     public class ShowProductOrderInfo

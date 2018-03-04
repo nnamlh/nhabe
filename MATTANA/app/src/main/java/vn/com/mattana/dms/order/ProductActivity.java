@@ -1,8 +1,10 @@
 package vn.com.mattana.dms.order;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -13,9 +15,11 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,7 @@ import retrofit2.Response;
 import vn.com.mattana.adapter.ProductAdapter;
 import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
+import vn.com.mattana.dms.SimpleScanActivity;
 import vn.com.mattana.model.api.order.ProductInfo;
 import vn.com.mattana.util.MRes;
 import vn.com.mattana.view.DividerItemDecoration;
@@ -45,6 +50,8 @@ public class ProductActivity extends BaseActivity {
     TextView eCountOrder;
 
     private ProductAdapter mAdapter;
+
+    final int SCAN_RESULT = 12;
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
@@ -138,6 +145,19 @@ public class ProductActivity extends BaseActivity {
         });
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.scan_action:
+                Intent intent =  commons.createIntent(ProductActivity.this, SimpleScanActivity.class);
+                startActivityForResult(intent, SCAN_RESULT);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private void handleSearch(String query) {
 
         productInfos.clear();
@@ -209,6 +229,36 @@ public class ProductActivity extends BaseActivity {
                finish();
            }
        });
+    }
+
+   private void findProduct (String code) {
+        for (ProductInfo item : productInfos){
+            if(code.equals(item)) {
+                item.setQuantityBuy(1);
+                MRes.getInstance().addProductOrder(item);
+                notifyAdapterProduct();
+                resetCountOder();
+                Toast.makeText(ProductActivity.this, "Đã chọn mua : " + item.getName(), Toast.LENGTH_LONG).show();
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case SCAN_RESULT:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        String scanCode = data.getStringExtra("Content");
+                        findProduct(scanCode);
+                    case Activity.RESULT_CANCELED:
+
+                        break;
+                }
+                break;
+        }
     }
 
     @Override

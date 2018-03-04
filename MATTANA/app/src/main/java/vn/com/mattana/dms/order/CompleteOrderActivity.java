@@ -121,6 +121,7 @@ public class CompleteOrderActivity extends BaseActivity implements DatePickerDia
                     CompleteSend info = new CompleteSend();
                     info.setUser(user);
                     info.setToken(token);
+                    info.setSuggestDate(dateSugess);
                     info.setAgencyId(MRes.getInstance().agency.getCode());
 
                     final List<CompleteProduct> completeProducts = new ArrayList<>();

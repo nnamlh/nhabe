@@ -54,6 +54,17 @@ namespace MATTANAAPI.Controllers
 
                 var newCode = GetCode();
 
+                Nullable<System.DateTime> sugestTime = null;
+
+                try
+                {
+                    sugestTime = DateTime.ParseExact(paser.suggestDate, "d/M/yyyy", null);
+                }
+                catch
+                {
+
+                }
+
                 var order = new MOrder()
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -67,7 +78,8 @@ namespace MATTANAAPI.Controllers
                     Code = newCode,
                     CDay = DateTime.Now.Day,
                     CMonth = DateTime.Now.Month,
-                    CYear = DateTime.Now.Year
+                    CYear = DateTime.Now.Year,
+                    SuggestDate = sugestTime
                 };
 
                 db.MOrders.Add(order);
@@ -99,6 +111,7 @@ namespace MATTANAAPI.Controllers
 
 
                 order.PriceOrder = priceTotal;
+                order.PriceReal = priceTotal;
                 db.Entry(order).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
@@ -163,7 +176,7 @@ namespace MATTANAAPI.Controllers
 
         // show order
         [HttpGet]
-        public ShowOrderResult ShowOrder(string user, string fDate, string tDate, string status)
+        public ShowOrderResult ShowOrder(string user, string fDate, string tDate, string status, string agency)
         {
             var history = new MongoHistoryAPI()
              {
@@ -193,6 +206,9 @@ namespace MATTANAAPI.Controllers
                 if (status == "all")
                     status = "";
 
+                if (String.IsNullOrEmpty(agency))
+                    agency = "";
+
 
 
                 var orders = new List<MOrder>();
@@ -202,7 +218,8 @@ namespace MATTANAAPI.Controllers
                     orders= (from log in db.MOrders
                      where DbFunctions.TruncateTime(log.CreateTime)
                                         >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
-                                        <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status)
+                                        <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status) && log.MAgency.Code.Contains(agency)
+
                      select log).OrderByDescending(p => p.CreateTime).ToList();
                 }
                 else
@@ -210,7 +227,7 @@ namespace MATTANAAPI.Controllers
                     orders = (from log in db.MOrders
                               where DbFunctions.TruncateTime(log.CreateTime)
                                                  >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
-                                                 <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status) && log.StaffId == checkUser.Id
+                                                 <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status) && log.StaffId == checkUser.Id && log.MAgency.Code.Contains(agency)
                               select log).OrderByDescending(p => p.CreateTime).ToList();
                 }
 
@@ -231,7 +248,9 @@ namespace MATTANAAPI.Controllers
                         address = item.MAgency.AddressDetail,
                         close = (int)item.CloseOrder,
                         orderId = item.Id,
-                        createTime = item.CreateTime.Value.ToString("dd/MM/yyyy")
+                        createTime = item.CreateTime.Value.ToString("dd/MM/yyyy"),
+                        timeSuggest = item.SuggestDate != null?item.SuggestDate.Value.ToString("dd/MM/yyyy"):"",
+                        realPrice = item.PriceReal.Value.ToString("C", Cultures.VietNam)
                     };
 
                     var nextStt = db.OrderStatus.Where(p => p.PreStt == item.StatusId).FirstOrDefault();

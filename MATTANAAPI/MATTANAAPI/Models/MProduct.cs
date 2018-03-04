@@ -28,7 +28,9 @@ namespace MATTANAAPI.Models
         public string Unit { get; set; }
         public Nullable<int> IsLock { get; set; }
         public Nullable<int> Size { get; set; }
+        public string TypeId { get; set; }
     
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
+        public virtual ProductType ProductType { get; set; }
     }
 }

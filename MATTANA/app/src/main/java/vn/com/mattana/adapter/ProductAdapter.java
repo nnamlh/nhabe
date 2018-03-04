@@ -47,6 +47,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         holder.code.setText("Mã SP: " + productInfo.getCode());
         holder.decribe.setText("Mô tả: " + productInfo.getDescribes());
         holder.size.setText("Cở vóc: " + productInfo.getSize());
+        holder.type.setText("Nhóm: " + productInfo.getType());
 
         holder.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, code, price, decribe, size;
+        public TextView name, code, price, decribe, size,type;
 
         public ImageView imgDelete;
         public Button btnOrder, detail;
@@ -113,6 +114,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             detail = (Button) view.findViewById(R.id.detail);
             imgDelete = (ImageView) view.findViewById(R.id.imgdelete);
             size = (TextView) view.findViewById(R.id.size);
+            type = (TextView)view.findViewById(R.id.type);
         }
     }
 
