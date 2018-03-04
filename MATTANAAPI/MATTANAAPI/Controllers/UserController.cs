@@ -240,6 +240,8 @@ namespace MATTANAAPI.Controllers
         {
             mongoHelper.checkAndUpdateFirebase(user, "");
 
+            mongoHelper.updateStateAuthToken(user);
+
             mongoHelper.saveLogout(user, token);
 
             return new ResultInfo()
