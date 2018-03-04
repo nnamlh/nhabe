@@ -28,15 +28,28 @@ namespace MattanaSite.Controllers
         public ActionResult Send(string title, string messenge,  string user)
         {
 
-            var firebaseId = mongoHelp.findFirebaseId(user);
+            var firebaseId = "";
 
-            if (firebaseId == "")
+            if (user == "all")
             {
-                ViewBag.MSG = "Nhân viên chưa sử dụng APP";
-                return View(db.MStaffs.ToList());
+                firebaseId = "/topics/golobal";
+            }
+            else
+            {
+                firebaseId = mongoHelp.findFirebaseId(user);
+
+                if (firebaseId == "")
+                {
+                    ViewBag.MSG = "Nhân viên chưa sử dụng APP";
+                    return View(db.MStaffs.ToList());
+                }
+
             }
 
+           
             title = title.ToUpper();
+
+
             string json = "{ \"notification\": {\"click_action\": \"OPEN_ACTIVITY_1\" ,\"title\": \"" + title + "\",\"body\": \"" + messenge + "\"},\"data\": {\"title\": \"'" + title + "'\",\"message\": \"'" + messenge + "'\"},\"to\": \"" + firebaseId + "\"}";
 
             var responseString = Utils.sendRequestFirebase(json);

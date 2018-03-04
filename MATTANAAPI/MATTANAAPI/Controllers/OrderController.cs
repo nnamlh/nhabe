@@ -102,7 +102,7 @@ namespace MATTANAAPI.Controllers
                             Price = checkProduct.Price,
                             ProductId = checkProduct.Id,
                             QuantityBuy = item.quantity,
-                            QuantityReal = 0
+                            QuantityReal = item.quantity
                         };
                         db.ProductOrders.Add(productOder);
                         db.SaveChanges();
@@ -433,7 +433,7 @@ namespace MATTANAAPI.Controllers
                 if (checkOrder == null)
                     throw new Exception("Sai thông tin");
 
-                if (checkOrder.StatusId == "create" || checkOrder.StatusId == "accept")
+                if (checkOrder.StatusId == "create")
                 {
                     var oderProduct = checkOrder.ProductOrders.Where(p => p.ProductId == productId).FirstOrDefault();
 

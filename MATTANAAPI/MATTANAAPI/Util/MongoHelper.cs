@@ -115,8 +115,9 @@ namespace MATTANAAPI.Util
             var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
             var builder = Builders<NoticeMongo>.Filter;
             tDate.AddDays(1);
+            string[] users = { user, "all" };
             //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
-            var data = collection.Find<NoticeMongo>(builder.Eq("User", user) & builder.Gte("Time", fDate) & builder.Lt("Time", tDate)).ToList();
+            var data = collection.Find<NoticeMongo>(builder.In("User", users) & builder.Gte("Time", fDate) & builder.Lt("Time", tDate)).ToList();
 
             return data;
         }
@@ -126,7 +127,8 @@ namespace MATTANAAPI.Util
             var collection = db.GetCollection<NoticeMongo>("NoticeHistory");
             var builder = Builders<NoticeMongo>.Filter;
             //  var filter = builder.Eq("UserLogin", user) & builder.Eq("IsExpired", 0);
-            var data = collection.Find<NoticeMongo>(builder.Eq("User", user) & builder.Eq("Read", 0)).ToList();
+            string[] users = { user, "all" };
+            var data = collection.Find<NoticeMongo>(builder.In("User", users) & builder.Eq("User", "golobal") & builder.Eq("Read", 0)).ToList();
 
             return data.Count();
         }

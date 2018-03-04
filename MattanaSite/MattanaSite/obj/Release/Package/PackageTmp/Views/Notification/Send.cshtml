@@ -13,12 +13,15 @@
 
     <div class="portlet-body">
         <div class="row">
-
+            <div class="col-sm-12">
+                <p>@ViewBag.MSG </p>
+            </div>
             <form method="post" onsubmit="if(!confirm('Gửi thông báo?')){return false;}">
                 <div class="col-sm-5">
                     <div class="form-group">
                         <label>Nhân viên</label>
                         <select class="form-control selectpicker" data-live-search="true" name="user">
+                            <option value="all">Tất cả nhân viên</option>
                             @foreach (var item in Model)
                             {
                                 <option data-tokens="@item.Id @item.FullName" value="@item.MUser">@item.FullName - @item.Id</option>

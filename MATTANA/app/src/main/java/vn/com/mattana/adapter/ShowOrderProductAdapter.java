@@ -59,7 +59,7 @@ public class ShowOrderProductAdapter extends RecyclerView.Adapter<ShowOrderProdu
         if (activity.isAdmin) {
             holder.lupdate.setVisibility(View.VISIBLE);
 
-            if ("create".equals(MRes.getInstance().orderInfo.getStatusCode()) || "accept".equals(MRes.getInstance().orderInfo.getStatusCode())){
+            if ("create".equals(MRes.getInstance().orderInfo.getStatusCode())){
                 holder.lupdate.setVisibility(View.VISIBLE);
             } else
                 holder.lupdate.setVisibility(View.GONE);

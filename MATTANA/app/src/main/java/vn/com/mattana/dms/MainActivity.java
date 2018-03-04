@@ -10,6 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
         createToolbar();
         createNavDraw();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("golobal");
 
     }
 
@@ -135,7 +140,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         mService.removeLocationUpdates();
                         prefsHelper.put(MRes.getInstance().PREF_UPDATE, false);
                     }
-
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("golobal");
                     commons.startActivity(MainActivity.this, LoginActivity.class);
                     finish();
                 }

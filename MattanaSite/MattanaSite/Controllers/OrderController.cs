@@ -126,7 +126,7 @@ namespace MattanaSite.Controllers
 
             var check = db.ProductOrders.Where(p => p.ProductId == productId && p.OrderId == orderId).FirstOrDefault();
 
-            if (check != null)
+            if (check != null && check.MOrder.StatusId == "create")
             {
                 check.QuantityReal = quantity;
                 db.Entry(check).State = EntityState.Modified;
@@ -145,7 +145,7 @@ namespace MattanaSite.Controllers
                 db.Entry(orders).State = EntityState.Modified;
                 db.SaveChanges();
 
-                Util.Utils.send(User.Identity.Name, "Đơn hàng " + orders.Code, "Đơn hàng " + orders.Code + "\nĐã thay đổi số lượng thực: " + quantity, mongoHelp);
+                Util.Utils.send(orders.MStaff.MUser, "Đơn hàng " + orders.Code, "Đơn hàng " + orders.Code + "\nĐã thay đổi số lượng thực: " + quantity, mongoHelp);
 
                 return Json(new { money = (check.QuantityReal * check.Price).Value.ToString("C", Cultures.VietNam), total = total.Value.ToString("C", Cultures.VietNam) }, JsonRequestBehavior.AllowGet);
             }
