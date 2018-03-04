@@ -234,11 +234,17 @@ public class ProductActivity extends BaseActivity {
    private void findProduct (String code) {
         for (ProductInfo item : productInfos){
             if(code.equals(item)) {
-                item.setQuantityBuy(1);
-                MRes.getInstance().addProductOrder(item);
-                notifyAdapterProduct();
-                resetCountOder();
-                Toast.makeText(ProductActivity.this, "Đã chọn mua : " + item.getName(), Toast.LENGTH_LONG).show();
+                ProductInfo order = MRes.getInstance().getProductOrder(item.getId());
+                if (order == null) {
+                    item.setQuantityBuy(1);
+                    MRes.getInstance().addProductOrder(item);
+                    notifyAdapterProduct();
+                    resetCountOder();
+                    Toast.makeText(ProductActivity.this, "Đã chọn mua : " + item.getName(), Toast.LENGTH_LONG).show();
+                } else {
+                    order.setQuantityBuy(order.getQuantityBuy()+ 1);
+                    Toast.makeText(ProductActivity.this, "Sản phẩm " + order.getName() + " đặt: " + order.getQuantityBuy(), Toast.LENGTH_LONG).show();
+                }
                 break;
             }
         }
