@@ -18,7 +18,7 @@ namespace MattanaSite.Controllers
         //
         // GET: /Calendar/
         [HttpGet]
-        public ActionResult Show(int? page, string staffId = "", string fdate = "", string tdate = "", string status = "create")
+        public ActionResult Show(int? page,int? year, int? week, string staffId = "", string fdate = "", string tdate = "")
         {
             AddMenu(0);
 
@@ -31,7 +31,7 @@ namespace MattanaSite.Controllers
             DateTime fromDate;
 
             DateTime toDate;
-
+            ViewBag.Week = GetIso8601WeekOfYear(DateTime.Now);
             if (String.IsNullOrEmpty(fdate) || String.IsNullOrEmpty(tdate))
             {
                 var currentDate = DateTime.Now;
@@ -49,15 +49,23 @@ namespace MattanaSite.Controllers
 
             //  var calendars = db.CalendarWithStaffs.Where(p => p.StaffId.Contains(staffId)).Select(p => p.CalendarInfo).OrderByDescending(p => p.FDate).ToList();
 
-            var data = (from log in db.CalendarInfoes
+            var data = new List<CalendarInfo>();
+
+            if (week != null)
+            {
+                data = db.CalendarInfoes.Where(p => p.WeekOfYear == week && p.CYear == year).ToList();
+            }
+            else
+            {
+                data = (from log in db.CalendarInfoes
                         where (DbFunctions.TruncateTime(log.FDate)
                                            >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.FDate)
                                            <= DbFunctions.TruncateTime(toDate))
                         select log).ToList();
-
-
+            }
 
             var staff = db.MStaffs.Find(staffId);
+
             if (staff != null)
                 return View(data.Where(p => p.MStaffs.Contains(staff)).OrderByDescending(p => p.FDate).ToPagedList(pageNumber, pageSize));
 
@@ -67,6 +75,16 @@ namespace MattanaSite.Controllers
         [HttpPost]
         public ActionResult Remove(string id)
         {
+
+            var check = (from log in db.CalendarInfoes
+                                          where (DbFunctions.TruncateTime(log.FDate)
+                                                             >= DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(log.FDate)
+                                                             <= DbFunctions.TruncateTime(DateTime.Now)) && log.Id == id
+                                          select log).FirstOrDefault();
+
+            if (check == null)
+                return Content("Lịch đang chạy không thể xóa");
+
             var result = db.delete_calendar(id);
 
             return RedirectToAction("show", "calendar");
@@ -91,7 +109,7 @@ namespace MattanaSite.Controllers
             var currentDate = DateTime.Now;
             ViewBag.FDate = currentDate;
             ViewBag.TDate = currentDate.AddDays(5);
-
+            ViewBag.Week = GetIso8601WeekOfYear(currentDate);
 
             ViewBag.Staff = db.MStaffs.ToList();
 
@@ -99,7 +117,7 @@ namespace MattanaSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(string fdate, string tdate, HttpPostedFileBase files, List<string> staffChoose)
+        public ActionResult Add(string fdate, string tdate,string notes, HttpPostedFileBase files, List<string> staffChoose)
         {
             AddMenu(1);
 
@@ -112,7 +130,7 @@ namespace MattanaSite.Controllers
 
             ViewBag.FDate = fromDate;
             ViewBag.TDate = toDate;
-
+            ViewBag.Week = GetIso8601WeekOfYear(DateTime.Now);
 
             int compare = DateTime.Compare(fromDate, toDate);
             if (compare >= 0)
@@ -139,7 +157,10 @@ namespace MattanaSite.Controllers
                 TDate = toDate,
                 FDate = fromDate,
                 IsLock = 0,
-                WeekOfYear = GetIso8601WeekOfYear(fromDate)
+                WeekOfYear = GetIso8601WeekOfYear(fromDate),
+                Notes = notes,
+                Name = "Lịch tuần thứ " + GetIso8601WeekOfYear(fromDate) + " năm " + DateTime.Now.Year ,
+                CYear = fromDate.Year
             };
 
             db.CalendarInfoes.Add(calendarInfo);
@@ -187,6 +208,8 @@ namespace MattanaSite.Controllers
 
                 string cYear = Convert.ToString(sheet.Cells[i, 5].Value);
 
+                double targets = Convert.ToDouble(sheet.Cells[i, 6].Value);
+
                 var findAgency = db.MAgencies.Where(p => p.Code == code).FirstOrDefault();
 
                 if (findAgency != null)
@@ -203,7 +226,8 @@ namespace MattanaSite.Controllers
                           DayInWeek = GetDayOfWeek(Convert.ToInt32(cDay), Convert.ToInt32(cMonth), Convert.ToInt32(cYear)),
                           Id = Guid.NewGuid().ToString(),
                           TypeId = "CSBH",
-                          CalendarId = calendarInfo.Id
+                          CalendarId = calendarInfo.Id,
+                          Targets = targets
                       };
 
                     db.CalendarWorks.Add(calendarWork);
@@ -262,6 +286,59 @@ namespace MattanaSite.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public ActionResult ReportCalendarById (string calendarId)
+        {
+          
+            string pathRoot = Server.MapPath("~/MTemplates/form_checkin_month.xlsx");
+            string name = "checkinform" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xlsx";
+            string pathTo = Server.MapPath("~/Temp/" + name);
+
+            System.IO.File.Copy(pathRoot, pathTo);
+
+            try
+            {
+                FileInfo newFile = new FileInfo(pathTo);
+
+                using (ExcelPackage package = new ExcelPackage(newFile))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+
+                    var data = db.get_calendar_by_id(calendarId).ToList();
+
+                    for (int i = 0; i < data.Count(); i++)
+                    {
+                        worksheet.Cells[i + 9, 1].Value = i + 1;
+
+                        worksheet.Cells[i + 9, 2].Value = data[i].AgencyCode;
+                        worksheet.Cells[i + 9, 3].Value = data[i].Deputy;
+                        worksheet.Cells[i + 9, 4].Value = data[i].Province;
+                        worksheet.Cells[i + 9, 5].Value = data[i].AgencyAddress;
+                        worksheet.Cells[i + 9, 6].Value = data[i].AgencyPhone;
+                        worksheet.Cells[i + 9, 7].Value = data[i].CDay + "/" + data[i].CMonth;
+                        worksheet.Cells[i + 9, 8].Value = data[i].CInTime;
+                        worksheet.Cells[i + 9, 9].Value = data[i].COutTime;
+                        worksheet.Cells[i + 9, 10].Value = data[i].StaffName;
+                        worksheet.Cells[i + 9, 11].Value = data[i].StaffCheck;
+                        worksheet.Cells[i + 9, 13].Value = data[i].TotalMoney;
+                        worksheet.Cells[i + 9, 14].Value = data[i].Notes;
+                    }
+
+                    package.Save();
+                }
+
+            }
+            catch
+            {
+                return Redirect("/error");
+            }
+
+
+            return File(pathTo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", string.Format("checkin-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".{0}", "xlsx"));
+        }
+
+
         [HttpGet]
         public ActionResult ReportCheckInMonth(int? month, int? year, string staff = "")
         {
@@ -308,8 +385,6 @@ namespace MattanaSite.Controllers
                         worksheet.Cells[i + 9, 11].Value = data[i].StaffCheck;
                         worksheet.Cells[i + 9, 13].Value = data[i].TotalMoney;
                         worksheet.Cells[i + 9, 14].Value = data[i].Notes;
-
-
                     }
 
                     package.Save();

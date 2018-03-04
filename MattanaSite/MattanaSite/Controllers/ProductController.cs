@@ -35,7 +35,7 @@ namespace MattanaSite.Controllers
         public ActionResult Add()
         {
             AddMenu(1);
-
+            ViewBag.PType = db.ProductTypes.ToList();
             return View(new MProduct());
         }
 
@@ -51,6 +51,7 @@ namespace MattanaSite.Controllers
                 ViewBag.MSG = "Mã đã tồn tại";
                 return View(info);
             }
+            ViewBag.PType = db.ProductTypes.ToList();
 
             info.Id = Guid.NewGuid().ToString();
 
@@ -69,6 +70,8 @@ namespace MattanaSite.Controllers
             if (check == null)
                 return Redirect("/error");
 
+            ViewBag.PType = db.ProductTypes.ToList();
+
             return View(check);
         }
 
@@ -86,9 +89,12 @@ namespace MattanaSite.Controllers
             check.Price = info.Price;
             check.Size = info.Size;
             check.Describes = info.Describes;
+            check.TypeId = info.TypeId;
 
             db.Entry(check).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
+
+            ViewBag.PType = db.ProductTypes.ToList();
 
             return View(check);
         }
@@ -110,6 +116,12 @@ namespace MattanaSite.Controllers
                 Url = "/product/add",
                 Active = 0
             });
+            menues.Add(new SubMenuInfo()
+            {
+                Name = "Phân loại sản phẩm",
+                Url = "/product/showtype",
+                Active = 0
+            });
 
 
             if (idxActive < 0 || idxActive >= menues.Count())
@@ -120,6 +132,48 @@ namespace MattanaSite.Controllers
 
 
             return menues;
+
+        }
+
+        public ActionResult ShowType()
+        {
+            AddMenu(2);
+            return View(db.ProductTypes.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult AddType(string code, string name)
+        {
+            var check = db.ProductTypes.Find(code);
+
+            if (check == null)
+            {
+                var newType = new ProductType()
+                {
+                    Id = code,
+                    Name = name
+                };
+                db.ProductTypes.Add(newType);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("showtype", "product");
+        }
+
+        [HttpPost]
+        public ActionResult ModifyType(string Id, string Name)
+        {
+            var check = db.ProductTypes.Find(Id);
+
+            if (check != null)
+            {
+                check.Name = Name;
+
+                db.Entry(check).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("showtype", "product");
 
         }
     }

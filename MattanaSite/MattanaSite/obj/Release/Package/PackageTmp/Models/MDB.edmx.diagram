@@ -26,6 +26,8 @@
         <AssociationConnector Association="MDBModel.FK__ProductOr__Order__6754599E" />
         <AssociationConnector Association="MDBModel.FK__ProductOr__Produ__68487DD7" />
         <AssociationConnector Association="MDBModel.CalendarWithStaff" />
+        <EntityTypeShape EntityType="MDBModel.ProductType" Width="1.5" PointX="0.75" PointY="12.25" />
+        <AssociationConnector Association="MDBModel.FK__MProduct__TypeId__797309D9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

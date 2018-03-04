@@ -33,6 +33,7 @@ namespace MattanaSite.Models
         public Nullable<int> IsLock { get; set; }
         public Nullable<double> Lat { get; set; }
         public Nullable<double> Lng { get; set; }
+        public Nullable<double> Discount { get; set; }
     
         public virtual AreaInfo AreaInfo { get; set; }
         public virtual ICollection<CalendarWork> CalendarWorks { get; set; }

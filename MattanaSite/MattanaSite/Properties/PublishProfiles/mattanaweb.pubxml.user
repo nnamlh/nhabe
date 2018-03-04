@@ -25,7 +25,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/11/2013 16:16:48</publishTime>
     </File>
     <File Include="bin/MattanaSite.dll">
-      <publishTime>03/03/2018 01:41:07</publishTime>
+      <publishTime>03/04/2018 16:03:55</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>01/26/2018 00:21:50</publishTime>
@@ -181,7 +181,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/26/2018 00:21:32</publishTime>
     </File>
     <File Include="Models/MDB.edmx.diagram">
-      <publishTime>03/02/2018 20:45:34</publishTime>
+      <publishTime>03/04/2018 12:05:56</publishTime>
     </File>
     <File Include="MTemplates/calendar_agency_template.xlsx">
       <publishTime>02/26/2018 02:36:09</publishTime>
@@ -343,25 +343,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/26/2018 00:21:48</publishTime>
     </File>
     <File Include="Views/Agency/Add.cshtml">
-      <publishTime>02/25/2018 17:22:20</publishTime>
+      <publishTime>03/04/2018 14:01:01</publishTime>
     </File>
     <File Include="Views/Agency/Modify.cshtml">
-      <publishTime>03/02/2018 00:34:50</publishTime>
+      <publishTime>03/04/2018 14:01:34</publishTime>
     </File>
     <File Include="Views/Agency/Show.cshtml">
-      <publishTime>02/25/2018 17:11:09</publishTime>
+      <publishTime>03/04/2018 14:00:44</publishTime>
     </File>
     <File Include="Views/Calendar/Add.cshtml">
-      <publishTime>02/26/2018 02:39:41</publishTime>
+      <publishTime>03/04/2018 14:39:17</publishTime>
     </File>
     <File Include="Views/Calendar/Report.cshtml">
       <publishTime>03/03/2018 01:22:38</publishTime>
     </File>
     <File Include="Views/Calendar/Show.cshtml">
-      <publishTime>03/03/2018 01:05:59</publishTime>
+      <publishTime>03/04/2018 15:08:05</publishTime>
     </File>
     <File Include="Views/Calendar/ShowDetail.cshtml">
-      <publishTime>03/03/2018 01:03:31</publishTime>
+      <publishTime>03/04/2018 15:21:43</publishTime>
     </File>
     <File Include="Views/Error/Index.cshtml">
       <publishTime>02/25/2018 16:26:43</publishTime>
@@ -382,19 +382,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/01/2018 12:37:04</publishTime>
     </File>
     <File Include="Views/Order/Show.cshtml">
-      <publishTime>03/02/2018 00:24:06</publishTime>
+      <publishTime>03/04/2018 14:20:48</publishTime>
     </File>
     <File Include="Views/Order/ShowDetail.cshtml">
       <publishTime>03/02/2018 00:22:29</publishTime>
     </File>
     <File Include="Views/Product/Add.cshtml">
-      <publishTime>03/02/2018 00:39:56</publishTime>
+      <publishTime>03/04/2018 13:58:50</publishTime>
     </File>
     <File Include="Views/Product/Modify.cshtml">
-      <publishTime>03/02/2018 00:41:04</publishTime>
+      <publishTime>03/04/2018 13:58:41</publishTime>
     </File>
     <File Include="Views/Product/Show.cshtml">
-      <publishTime>03/03/2018 02:02:18</publishTime>
+      <publishTime>03/04/2018 13:06:44</publishTime>
+    </File>
+    <File Include="Views/Product/ShowType.cshtml">
+      <publishTime>03/04/2018 12:55:44</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>01/26/2018 00:21:48</publishTime>
@@ -418,10 +421,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/25/2018 16:59:56</publishTime>
     </File>
     <File Include="Views/Track/Show.cshtml">
-      <publishTime>03/02/2018 20:07:55</publishTime>
+      <publishTime>03/04/2018 15:58:13</publishTime>
     </File>
     <File Include="Views/Track/Tracking.cshtml">
-      <publishTime>03/03/2018 01:42:25</publishTime>
+      <publishTime>03/04/2018 15:52:29</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>01/26/2018 00:21:32</publishTime>
@@ -430,7 +433,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/26/2018 00:21:32</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/02/2018 01:55:27</publishTime>
+      <publishTime>03/04/2018 15:10:00</publishTime>
     </File>
   </ItemGroup>
 </Project>

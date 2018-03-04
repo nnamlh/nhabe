@@ -38,6 +38,7 @@
     <Property Name="CMonth" Type="Int32" />
     <Property Name="CalendarId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="CalendarInfo" Relationship="MDBModel.FK__CalendarW__Calen__5629CD9C" FromRole="CalendarWork" ToRole="CalendarInfo" />
+    <Property Name="Targets" Type="Double" />
   </EntityType>
   <EntityType Name="MAgency">
     <Key>
@@ -59,6 +60,7 @@
     <Property Name="Lat" Type="Double" />
     <Property Name="Lng" Type="Double" />
     <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MAgency" ToRole="MOrder" />
+    <Property Name="Discount" Type="Double" />
   </EntityType>
   <EntityType Name="MProduct">
     <Key>
@@ -74,6 +76,8 @@
     <Property Name="IsLock" Type="Int32" />
     <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
     <Property Name="Size" Type="Int32" />
+    <Property Name="TypeId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductType" Relationship="MDBModel.FK__MProduct__TypeId__797309D9" FromRole="MProduct" ToRole="ProductType" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>
@@ -182,6 +186,21 @@
       <Parameter Name="Year" Mode="In" Type="Int32" />
       <Parameter Name="StaffId" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="ProductTypes" EntityType="MDBModel.ProductType" />
+    <AssociationSet Name="FK__MProduct__TypeId__797309D9" Association="MDBModel.FK__MProduct__TypeId__797309D9">
+      <End Role="ProductType" EntitySet="ProductTypes" />
+      <End Role="MProduct" EntitySet="MProducts" />
+    </AssociationSet>
+    <FunctionImport Name="check_staff_has_create_calendar" ReturnType="Collection(MDBModel.check_staff_has_create_calendar_Result)">
+      <Parameter Name="day" Mode="In" Type="Int32" />
+      <Parameter Name="month" Mode="In" Type="Int32" />
+      <Parameter Name="year" Mode="In" Type="Int32" />
+      <Parameter Name="staffId" Mode="In" Type="String" />
+      <Parameter Name="calendarId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="get_calendar_by_id" ReturnType="Collection(MDBModel.get_calendar_by_id_Result)">
+      <Parameter Name="CalendarId" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="CalendarInfo">
     <Key>
@@ -195,6 +214,10 @@
     <Property Name="WeekOfYear" Type="Int32" />
     <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Calen__5629CD9C" FromRole="CalendarInfo" ToRole="CalendarWork" />
     <NavigationProperty Name="MStaffs" Relationship="MDBModel.CalendarWithStaff" FromRole="CalendarInfo" ToRole="MStaff" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="UserCreate" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CYear" Type="Int32" />
   </EntityType>
   <Association Name="FK__CalendarW__Calen__5629CD9C">
     <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="0..1" />
@@ -381,5 +404,52 @@
     <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
     <Property Type="Int32" Name="StaffGroup" Nullable="true" />
     <Property Type="Double" Name="TotalMoney" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="ProductType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MProducts" Relationship="MDBModel.FK__MProduct__TypeId__797309D9" FromRole="ProductType" ToRole="MProduct" />
+  </EntityType>
+  <Association Name="FK__MProduct__TypeId__797309D9">
+    <End Type="MDBModel.ProductType" Role="ProductType" Multiplicity="0..1" />
+    <End Type="MDBModel.MProduct" Role="MProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MProduct">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="check_staff_has_create_calendar_Result">
+    <Property Type="String" Name="StaffId" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
+  </ComplexType>
+  <ComplexType Name="get_calendar_by_id_Result">
+    <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="CDay" Nullable="true" />
+    <Property Type="Int32" Name="CMonth" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="Int32" Name="CYear" Nullable="true" />
+    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
+    <Property Type="Int32" Name="InPlan" Nullable="true" />
+    <Property Type="Int32" Name="Perform" Nullable="true" />
+    <Property Type="Time" Name="CInTime" Nullable="true" />
+    <Property Type="Time" Name="COutTime" Nullable="true" />
+    <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Store" Nullable="true" />
+    <Property Type="String" Name="Deputy" Nullable="true" />
+    <Property Type="String" Name="AgencyAddress" Nullable="true" />
+    <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
+    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
+    <Property Type="Int32" Name="StaffGroup" Nullable="true" />
+    <Property Type="Double" Name="TotalMoney" Nullable="true" />
+    <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
   </ComplexType>
 </Schema>

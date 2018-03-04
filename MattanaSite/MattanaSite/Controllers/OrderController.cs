@@ -19,7 +19,7 @@ namespace MattanaSite.Controllers
         //
         // GET: /Order/
         [HttpGet]
-        public ActionResult Show(int? page, string fdate, string tdate, string stt = "create", string staff = "")
+        public ActionResult Show(int? page, string fdate, string tdate, string stt = "all", string staff = "all", string OrderCode = "", string AgencyCode = "")
         {
             DateTime fromDate;
 
@@ -44,15 +44,32 @@ namespace MattanaSite.Controllers
             ViewBag.CSTT = stt;
             ViewBag.StaffChoose = staff;
             ViewBag.Staff = db.MStaffs.ToList();
+            ViewBag.AgencyCode = AgencyCode;
 
-            var data = (from log in db.MOrders
+            var data = new List<MOrder>();
+
+            if (!String.IsNullOrEmpty(OrderCode))
+            {
+                data = db.MOrders.Where(p => p.Code == OrderCode).ToList();
+            }
+            else
+            {
+                if (stt == "all")
+                    stt = "";
+
+
+                if (staff == "all")
+                    staff = "";
+
+                data = (from log in db.MOrders
                         where DbFunctions.TruncateTime(log.CreateTime)
                                            >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
-                                           <= DbFunctions.TruncateTime(toDate) && log.StatusId == stt && log.StaffId.Contains(staff)
-                        select log).OrderByDescending(p => p.CreateTime).ToPagedList(pageNumber, pageSize);
+                                           <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(stt) && log.StaffId.Contains(staff)
+                        select log).ToList();
+            }
 
 
-            return View(data);
+            return View(data.OrderByDescending(p=> p.CreateTime).ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]

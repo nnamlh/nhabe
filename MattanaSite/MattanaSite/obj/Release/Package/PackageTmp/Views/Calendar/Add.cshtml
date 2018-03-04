@@ -16,9 +16,13 @@
     <div class="portlet-body">
         <div class="row">
             <p class="">@ViewBag.MSG</p>
+            
             <form method="post" onsubmit="if(!confirm('Thêm lịch?')){return false;}" enctype="multipart/form-data">
-
                 <div class="col-sm-12">
+                    <p>Bạn đang ở tuần thứ @ViewBag.Week năm @DateTime.Now.Year</p>
+                </div>
+                <div class="col-sm-8">
+                   
                     <div class="form-group">
                         <label>Nhân viên</label>
                         <select class="form-control selectpicker" data-live-search="true" name="staffChoose" multiple required>
@@ -30,7 +34,10 @@
 
                     </div>
                 </div>
-
+                <div class="col-sm-4">
+                    <label>Ghi chú lịch</label>
+                    <input type="text" name="notes" class="form-control" />
+                </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label>Đại lý ghé thăm</label>

@@ -240,6 +240,12 @@
     <Compile Include="Models\CalendarWork.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\check_staff_has_create_calendar_Result.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\get_calendar_by_id_Result.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\get_calendar_in_month_by_staff_Result.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
@@ -283,6 +289,9 @@
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductOrder.cs">
+      <DependentUpon>MDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductType.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\show_user_role_Result.cs">
@@ -418,6 +427,7 @@
     <Content Include="Views\Track\Tracking.cshtml" />
     <Content Include="Views\Track\Show.cshtml" />
     <Content Include="Views\Calendar\Report.cshtml" />
+    <Content Include="Views\Product\ShowType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

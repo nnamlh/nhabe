@@ -32,7 +32,23 @@ namespace MattanaSite.Controllers
             AddMenu(0);
             ViewBag.Staff = db.MStaffs.ToList();
 
-            ViewBag.Data = mongoHelper.findAllLocationStaff(users);
+            var data = mongoHelper.findAllLocationStaff(users);
+
+            List<LocationStaffInfo> result = new List<LocationStaffInfo>();
+
+            foreach (var item in data)
+            {
+                result.Add(new LocationStaffInfo()
+                {
+                    Code = item.Code,
+                    User = item.User,
+                    Lat = item.Lat,
+                    Lng = item.Lng,
+                    Name = item.Name,
+                    Time = item.Time != null?item.Time.Value.ToString("dd/MM/yyyy HH:mm"):""
+                });
+            }
+            ViewBag.Data = result;
             return View();
         }
 

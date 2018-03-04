@@ -33,6 +33,7 @@
                                 <th>Mã</th>
                                 <th>Cửa hàng</th>
                                 <th>Đại diện</th>
+                                <th>Chiết khấu</th>
                                 <th>Vùng</th>
                                 <th>Liên hệ</th>
                                 <th>#</th>
@@ -45,6 +46,7 @@
                                     <td>@item.Code @(item.IsLock == 1 ? "(đang khóa)" : "")</td>
                                     <td>@item.Store</td>
                                     <td>@item.Deputy</td>
+                                    <td>@item.Discount %</td>
                                     <td>@item.AreaInfo.AreaName</td>
                                     <td>
                                         <span>Điện thoại: </span>@item.Phone <br />

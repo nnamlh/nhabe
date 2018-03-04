@@ -14,7 +14,28 @@
     <div class="portlet-body">
         <div class="row">
             <p class="">@ViewBag.MSG</p>
+
             <form method="get">
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Mã đơn hàng</label>
+                        <input type="text" class="form-control" name="OrderCode"  />
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Mã đại lý</label>
+                        <input type="text" class="form-control" name="AgencyCode" value="@ViewBag.AgencyCode" />
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Tới ngày</label>
+                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
 
                 <div class="col-sm-5">
                     <div class="form-group">
@@ -34,7 +55,16 @@
                     <div class="form-group">
                         <label>Nhân viên</label>
                         <select class="form-control selectpicker" data-live-search="true" name="staff" >
-                            <option value="">Tất cả</option>
+                            
+                            @if (ViewBag.StaffChoose == "all")
+                            {
+                                <option value="all" selected>Tất cả</option>
+                            }
+                            else
+                            {
+                                <option value="all">Tất cả</option>
+                            }
+
                             @foreach (var item in ViewBag.Staff)
                             {
                                 if (ViewBag.StaffChoose == item.Id)
@@ -56,8 +86,19 @@
                     <div class="form-group">
                         <label>Trạng thái</label>
                         <select class="form-control selectpicker" data-live-search="true" name="stt" >
+
+                            @if (ViewBag.CSTT == "all")
+                            {
+                                 <option value="all" selected>Tất cả</option>
+                            }
+                            else
+                            {
+                                 <option value="all">Tất cả</option>
+                            }
+
                             @foreach (var item in ViewBag.Status)
                             {
+                               
                                 if (item.Id == ViewBag.CSTT)
                                 {
                                     <option data-tokens="@item.Name" value="@item.Id" selected>@item.Name</option>
@@ -106,7 +147,7 @@
                 </table>
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                 @Html.PagedListPager(Model, page => Url.Action("show", new { page, stt = ViewBag.CSTT, fdate = ViewBag.FDate.ToString("dd/MM/yyyy"), 
-               tdate = ViewBag.TDate.ToString("dd/MM/yyyy"), staff = ViewBag.StaffChoose }))
+               tdate = ViewBag.TDate.ToString("dd/MM/yyyy"), staff = ViewBag.StaffChoose , AgencyCode = ViewBag.AgencyCode}))
             </div>
         </div>
 

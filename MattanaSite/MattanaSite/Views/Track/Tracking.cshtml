@@ -137,7 +137,6 @@
                 icon: '/content/people.png',
                 animation: google.maps.Animation.DROP
             });
-            window.setTimeout(marker, 1000);
 
             geocoder.geocode({'location': location}, function(results, status) {
                 if (status === 'OK') {

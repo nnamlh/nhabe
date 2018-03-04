@@ -18,22 +18,23 @@
         <div class="row">
             <p class="">@ViewBag.MSG</p>
             <form method="get">
-
+                <div class="col-sm-12">
+                    <p>Bạn đang ở tuần thứ @ViewBag.Week năm @DateTime.Now.Year</p>
+                </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label>Từ ngày</label>
-                        <input type="text" class="form-control datetime" name="fdate" value="@ViewBag.FDate.ToString("dd/MM/yyyy")" />
+                        <label>Tuần</label>
+                        <input type="number" class="form-control" name="week" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Năm</label>
+                        <input type="number" class="form-control" name="year" value="@DateTime.Now.Year" />
                     </div>
                 </div>
 
                 <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Tới ngày</label>
-                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
-                    </div>
-                </div>
-
-                <div class="col-sm-8">
                     <div class="form-group">
                         <label>Nhân viên</label>
                         <select class="form-control selectpicker" data-live-search="true" name="staffId">
@@ -44,9 +45,26 @@
                             }
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Xem</button>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Từ ngày (so với ngày bắt đầu)</label>
+                        <input type="text" class="form-control datetime" name="fdate" value="@ViewBag.FDate.ToString("dd/MM/yyyy")" />
+                    </div>
+
                 </div>
 
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Tới ngày (so với ngày bắt đầu)</label>
+                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+             
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary">Xem</button>
+
+                </div>
             </form>
 
             <div class="col-sm-12">
@@ -56,9 +74,9 @@
                         <thead>
                             <tr>
                                 <th>Nhân viên</th>
-                                <th>Từ ngày</th>
-                                <th>Đến ngày</th>
-                                <th>Tuần thứ</th>
+                                <th>Thời giàn</th>
+                                <th>Nội dung</th>
+                                <th>Ghi chú</th>
                                 <th>#</th>
                             </tr>
                         </thead>
@@ -72,9 +90,13 @@
                                             <p>@cStaff.FullName - @cStaff.Id</p><br />
                                         }
                                     </td>
-                                    <td>@item.FDate.Value.ToString("dd/MM/yyyy")</td>
-                                    <td>@item.TDate.Value.ToString("dd/MM/yyyy")</td>
-                                    <td>@item.WeekOfYear</td>
+                                    <td>
+                                        <span><strong>Tuần thứ: </strong>@item.WeekOfYear của năm @item.CYear</span><br />
+                                        <span><strong>Từ ngày: </strong>@item.FDate.Value.ToString("dd/MM/yyyy")</span><br />
+                                        <span><strong>Đến ngày: </strong>@item.TDate.Value.ToString("dd/MM/yyyy")</span>
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Notes</td>
                                     <td><a href="/calendar/showdetail/@item.Id" target="_blank">Chi tiêt</a></td>
                                 </tr>
                             }

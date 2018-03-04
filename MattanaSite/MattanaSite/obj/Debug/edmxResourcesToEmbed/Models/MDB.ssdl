@@ -26,6 +26,10 @@
     <Property Name="TDate" Type="date" />
     <Property Name="Notes" Type="nvarchar(max)" />
     <Property Name="WeekOfYear" Type="int" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="UserCreate" Type="varchar" MaxLength="128" />
+    <Property Name="CYear" Type="int" />
   </EntityType>
   <EntityType Name="CalendarType">
     <Key>
@@ -62,6 +66,7 @@
     <Property Name="CYear" Type="int" />
     <Property Name="CMonth" Type="int" />
     <Property Name="CalendarId" Type="varchar" MaxLength="128" />
+    <Property Name="Targets" Type="float" />
   </EntityType>
   <EntityType Name="MAgency">
     <Key>
@@ -79,6 +84,7 @@
     <Property Name="IsLock" Type="int" />
     <Property Name="Lat" Type="float" />
     <Property Name="Lng" Type="float" />
+    <Property Name="Discount" Type="float" />
   </EntityType>
   <EntityType Name="MOrder">
     <Key>
@@ -113,6 +119,7 @@
     <Property Name="Unit" Type="nvarchar" MaxLength="128" />
     <Property Name="IsLock" Type="int" />
     <Property Name="Size" Type="int" />
+    <Property Name="TypeId" Type="varchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>
@@ -152,6 +159,13 @@
     <Property Name="Price" Type="float" />
     <Property Name="QuantityBuy" Type="int" />
     <Property Name="QuantityReal" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="512" />
   </EntityType>
   <Association Name="FK__AgencyWit__Agenc__2E1BDC42">
     <End Role="MAgency" Type="Self.MAgency" Multiplicity="1" />
@@ -273,6 +287,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__MProduct__TypeId__797309D9">
+    <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
+    <End Role="MProduct" Type="Self.MProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MProduct">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__ProductOr__Order__6754599E">
     <End Role="MOrder" Type="Self.MOrder" Multiplicity="1" />
     <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
@@ -297,8 +323,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="check_staff_has_create_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="day" Type="int" Mode="In" />
+    <Parameter Name="month" Type="int" Mode="In" />
+    <Parameter Name="year" Type="int" Mode="In" />
+    <Parameter Name="staffId" Type="varchar" Mode="In" />
+    <Parameter Name="calendarId" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="delete_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="calendarId" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="get_calendar_by_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CalendarId" Type="varchar" Mode="In" />
   </Function>
   <Function Name="get_calendar_in_month_by_staff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Month" Type="int" Mode="In" />
@@ -323,6 +359,7 @@
     <EntitySet Name="OrderNumber" EntityType="Self.OrderNumber" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__AgencyWit__Agenc__2E1BDC42" Association="Self.FK__AgencyWit__Agenc__2E1BDC42">
       <End Role="MAgency" EntitySet="MAgency" />
       <End Role="AgencyWithStaff" EntitySet="AgencyWithStaff" />
@@ -362,6 +399,10 @@
     <AssociationSet Name="FK__MOrder__StatusId__6477ECF3" Association="Self.FK__MOrder__StatusId__6477ECF3">
       <End Role="OrderStatus" EntitySet="OrderStatus" />
       <End Role="MOrder" EntitySet="MOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MProduct__TypeId__797309D9" Association="Self.FK__MProduct__TypeId__797309D9">
+      <End Role="ProductType" EntitySet="ProductType" />
+      <End Role="MProduct" EntitySet="MProduct" />
     </AssociationSet>
     <AssociationSet Name="FK__ProductOr__Order__6754599E" Association="Self.FK__ProductOr__Order__6754599E">
       <End Role="MOrder" EntitySet="MOrder" />

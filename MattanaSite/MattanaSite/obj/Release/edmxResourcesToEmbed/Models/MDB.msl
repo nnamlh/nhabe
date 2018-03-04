@@ -21,6 +21,7 @@
     <EntitySetMapping Name="CalendarWorks">
       <EntityTypeMapping TypeName="MDBModel.CalendarWork">
         <MappingFragment StoreEntitySet="CalendarWork">
+          <ScalarProperty Name="Targets" ColumnName="Targets" />
           <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
           <ScalarProperty Name="CMonth" ColumnName="CMonth" />
           <ScalarProperty Name="CYear" ColumnName="CYear" />
@@ -43,6 +44,7 @@
     <EntitySetMapping Name="MAgencies">
       <EntityTypeMapping TypeName="MDBModel.MAgency">
         <MappingFragment StoreEntitySet="MAgency">
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="Lng" ColumnName="Lng" />
           <ScalarProperty Name="Lat" ColumnName="Lat" />
           <ScalarProperty Name="IsLock" ColumnName="IsLock" />
@@ -61,6 +63,7 @@
     <EntitySetMapping Name="MProducts">
       <EntityTypeMapping TypeName="MDBModel.MProduct">
         <MappingFragment StoreEntitySet="MProduct">
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
           <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="IsLock" ColumnName="IsLock" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -97,6 +100,10 @@
     <EntitySetMapping Name="CalendarInfoes">
       <EntityTypeMapping TypeName="MDBModel.CalendarInfo">
         <MappingFragment StoreEntitySet="CalendarInfo">
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="WeekOfYear" ColumnName="WeekOfYear" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />
           <ScalarProperty Name="TDate" ColumnName="TDate" />
@@ -229,6 +236,49 @@
           <ScalarProperty Name="StaffName" ColumnName="StaffName" />
           <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
           <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="ProductTypes">
+      <EntityTypeMapping TypeName="MDBModel.ProductType">
+        <MappingFragment StoreEntitySet="ProductType">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="check_staff_has_create_calendar" FunctionName="MDBModel.Store.check_staff_has_create_calendar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MDBModel.check_staff_has_create_calendar_Result">
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="get_calendar_by_id" FunctionName="MDBModel.Store.get_calendar_by_id">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MDBModel.get_calendar_by_id_Result">
+          <ScalarProperty Name="WorkId" ColumnName="WorkId" />
+          <ScalarProperty Name="CDay" ColumnName="CDay" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
+          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
+          <ScalarProperty Name="Perform" ColumnName="Perform" />
+          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
+          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
+          <ScalarProperty Name="agencyId" ColumnName="agencyId" />
+          <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
+          <ScalarProperty Name="AgencyAddress" ColumnName="AgencyAddress" />
+          <ScalarProperty Name="AgencyPhone" ColumnName="AgencyPhone" />
+          <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
+          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+          <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
+          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

@@ -26,6 +26,10 @@ namespace MattanaSite.Models
         public Nullable<System.DateTime> TDate { get; set; }
         public string Notes { get; set; }
         public Nullable<int> WeekOfYear { get; set; }
+        public string Name { get; set; }
+        public Nullable<System.DateTime> CreateTime { get; set; }
+        public string UserCreate { get; set; }
+        public Nullable<int> CYear { get; set; }
     
         public virtual ICollection<CalendarWork> CalendarWorks { get; set; }
         public virtual ICollection<MStaff> MStaffs { get; set; }

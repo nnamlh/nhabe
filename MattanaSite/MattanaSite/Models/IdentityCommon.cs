@@ -27,4 +27,19 @@ namespace MattanaSite.Models
 
     }
 
+    public class LocationStaffInfo
+    {
+        public string User { get; set; }
+
+        public double Lat { get; set; }
+
+        public double Lng { get; set; }
+
+        public string Name { get; set; }
+
+        public string Code { get; set; }
+
+
+        public string Time { get; set; }
+    }
 }

@@ -99,6 +99,7 @@ namespace MattanaSite.Controllers
             check.IdentityCard = info.IdentityCard;
             check.Lat = info.Lat;
             check.Lng = info.Lng;
+            check.Discount = info.Discount;
 
             db.Entry(check).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
