@@ -28,9 +28,7 @@ namespace MattanaSite.Controllers
             int pageNumber = (page ?? 1);
             if (String.IsNullOrEmpty(fdate) || String.IsNullOrEmpty(tdate))
             {
-                var currentDate = DateTime.Now;
-                toDate = new DateTime(currentDate.Year, currentDate.Month, 1);
-
+                toDate = DateTime.Now;
                 fromDate = toDate.AddMonths(-1);
             }
             else
