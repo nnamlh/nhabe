@@ -21,15 +21,29 @@
 
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Mã sản phẩm</label>
+                        <label>Mã code</label>
                         <input type="text" value="@Model.PCode" name="PCode" class="form-control" required />
                     </div>
-
+                    <div class="form-group">
+                        <label>Mã hàng</label>
+                        <input type="text" value="@Model.PMainCode" name="PMainCode" class="form-control" required />
+                    </div>
                     <div class="form-group">
                         <label>Tên sản phẩm</label>
                         <input type="text" value="@Model.PName" name="PName" class="form-control" required />
                     </div>
 
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Giá bán lẻ</label>
+                        <input type="number" value="@Model.Price" name="Price" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Cở vóc</label>
+                        <input type="text" value="@Model.PSize" name="PSize" class="form-control" required />
+                    </div>
                     <div class="form-group">
                         <label>Phân loại sản phẩm</label>
                         <select class="form-control" name="TypeId">
@@ -39,30 +53,28 @@
                             }
                         </select>
                     </div>
-
-
-
-
-                    <button type="submit" class="btn btn-primary">Thêm</button>
-
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Giá / cái</label>
-                        <input type="number" value="@Model.Price" name="Price" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Cở vóc</label>
-                        <input type="text" value="@Model.Size" name="Size" class="form-control" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mô tả</label>
-                        <textarea class="form-control" name="Describes" required>@Model.Describes</textarea>
-                    </div>
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary">Thêm</button>
                 </div>
             </form>
         </div>
     </div>
 </div> 
+
+
+@section scripts {
+
+    <script>
+        $("input[name*='Price']").val('0');
+        $("input[name*='Price']").on('input', function (e) {
+            var price = $("input[name*='Price']").val();
+
+            if (price < 0 || price === '') {
+                $("input[name*='Price']").val(0);
+            }
+        });
+
+    </script>
+}

@@ -25,16 +25,13 @@
                         <input type="text" name="FullName" class="form-control" required value="@Model.FullName">
                     </div>
 
+                </div>
+
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label>Số điện thoại</label>
                         <input type="text" name="Phone" class="form-control" required value="@Model.Phone">
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Thêm nhân viên</button>
-
-                </div>
-
-                <div class="col-sm-6">
                     <div class="form-group">
                         <label>CMND</label>
                         <input type="text" name="IdentityCard" class="form-control" value="@Model.IdentityCard">
@@ -46,8 +43,27 @@
                     </div>
                 </div>
 
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary">Thêm nhân viên</button>
+                </div>
+
             </form>
 
         </div>
     </div>
 </div>
+
+@section scripts {
+
+    <script>
+        $("input[name*='GroupNumber']").val('1');
+        $("input[name*='GroupNumber']").on('input', function (e) {
+            var price = $("input[name*='GroupNumber']").val();
+
+            if (price < 0 || price === '') {
+                $("input[name*='GroupNumber']").val(1);
+            }
+        });
+
+    </script>
+}

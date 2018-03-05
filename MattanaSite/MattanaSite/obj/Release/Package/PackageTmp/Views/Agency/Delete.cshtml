@@ -1,0 +1,27 @@
+﻿@model MattanaSite.Models.MAgency
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Xóa đại lý
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <form method="post" onsubmit="if(!confirm('Xóa đại lý ?')){return false;}">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="form-group">
+                        <label>Gõ ok để xác nhận</label>
+                        <input type="text" name="comfir" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -18,7 +18,7 @@ namespace MattanaSite.Controllers
         //
         // GET: /Calendar/
         [HttpGet]
-        public ActionResult Show(int? page,int? year, int? week, string staffId = "", string fdate = "", string tdate = "")
+        public ActionResult Show(int? page, int? year, int? week, string staffId = "", string fdate = "", string tdate = "")
         {
             AddMenu(0);
 
@@ -77,10 +77,10 @@ namespace MattanaSite.Controllers
         {
 
             var check = (from log in db.CalendarInfoes
-                                          where (DbFunctions.TruncateTime(log.FDate)
-                                                             >= DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(log.FDate)
-                                                             <= DbFunctions.TruncateTime(DateTime.Now)) && log.Id == id
-                                          select log).FirstOrDefault();
+                         where (DbFunctions.TruncateTime(log.FDate)
+                                            >= DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(log.FDate)
+                                            <= DbFunctions.TruncateTime(DateTime.Now)) && log.Id == id
+                         select log).FirstOrDefault();
 
             if (check == null)
                 return Content("Lịch đang chạy không thể xóa");
@@ -117,7 +117,7 @@ namespace MattanaSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(string fdate, string tdate,string notes, HttpPostedFileBase files, List<string> staffChoose)
+        public ActionResult Add(string fdate, string tdate, string notes, HttpPostedFileBase files, List<string> staffChoose)
         {
             AddMenu(1);
 
@@ -159,7 +159,7 @@ namespace MattanaSite.Controllers
                 IsLock = 0,
                 WeekOfYear = GetIso8601WeekOfYear(fromDate),
                 Notes = notes,
-                Name = "Lịch tuần thứ " + GetIso8601WeekOfYear(fromDate) + " năm " + DateTime.Now.Year ,
+                Name = "Lịch tuần thứ " + GetIso8601WeekOfYear(fromDate) + " năm " + DateTime.Now.Year,
                 CYear = fromDate.Year
             };
 
@@ -238,7 +238,8 @@ namespace MattanaSite.Controllers
                         db.CalendarWorks.Add(calendarWork);
                         db.SaveChanges();
                     }
-                } catch
+                }
+                catch
                 {
 
                 }
@@ -290,16 +291,16 @@ namespace MattanaSite.Controllers
 
             ViewBag.Staff = db.MStaffs.ToList();
 
-           
+
 
             return View();
         }
 
 
         [HttpGet]
-        public ActionResult ReportCalendarById (string calendarId)
+        public ActionResult ReportCalendarById(string calendarId)
         {
-          
+
             string pathRoot = Server.MapPath("~/MTemplates/form_checkin_month.xlsx");
             string name = "checkinform" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xlsx";
             string pathTo = Server.MapPath("~/Temp/" + name);
@@ -318,20 +319,21 @@ namespace MattanaSite.Controllers
 
                     for (int i = 0; i < data.Count(); i++)
                     {
-                        worksheet.Cells[i + 9, 1].Value = i + 1;
+                        worksheet.Cells[i + 8, 1].Value = i + 1;
 
-                        worksheet.Cells[i + 9, 2].Value = data[i].AgencyCode;
-                        worksheet.Cells[i + 9, 3].Value = data[i].Deputy;
-                        worksheet.Cells[i + 9, 4].Value = data[i].Province;
-                        worksheet.Cells[i + 9, 5].Value = data[i].AgencyAddress;
-                        worksheet.Cells[i + 9, 6].Value = data[i].AgencyPhone;
-                        worksheet.Cells[i + 9, 7].Value = data[i].CDay + "/" + data[i].CMonth;
-                        worksheet.Cells[i + 9, 8].Value = data[i].CInTime;
-                        worksheet.Cells[i + 9, 9].Value = data[i].COutTime;
-                        worksheet.Cells[i + 9, 10].Value = data[i].StaffName;
-                        worksheet.Cells[i + 9, 11].Value = data[i].StaffCheck;
-                        worksheet.Cells[i + 9, 13].Value = data[i].TotalMoney;
-                        worksheet.Cells[i + 9, 14].Value = data[i].Notes;
+                        worksheet.Cells[i + 8, 2].Value = data[i].AgencyCode;
+                        worksheet.Cells[i + 8, 3].Value = data[i].Deputy;
+                        worksheet.Cells[i + 8, 4].Value = data[i].Province;
+                        worksheet.Cells[i + 8, 5].Value = data[i].AgencyAddress;
+                        worksheet.Cells[i + 8, 6].Value = data[i].AgencyPhone;
+                        worksheet.Cells[i + 8, 7].Value = "Ngày " + data[i].CDay + " tháng" + data[i].CMonth;
+                        worksheet.Cells[i + 8, 8].Value = data[i].CInTime;
+                        worksheet.Cells[i + 8, 9].Value = data[i].COutTime;
+                        worksheet.Cells[i + 8, 10].Value = data[i].StaffName;
+                        worksheet.Cells[i + 8, 11].Value = data[i].StaffCheck;
+                        worksheet.Cells[i + 8, 12].Value = data[i].Targets;
+                        worksheet.Cells[i + 8, 13].Value = data[i].TotalMoney;
+                        worksheet.Cells[i + 8, 14].Value = data[i].Notes;
                     }
 
                     package.Save();
@@ -365,7 +367,7 @@ namespace MattanaSite.Controllers
             try
             {
                 FileInfo newFile = new FileInfo(pathTo);
- 
+
                 using (ExcelPackage package = new ExcelPackage(newFile))
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
@@ -380,20 +382,21 @@ namespace MattanaSite.Controllers
 
                     for (int i = 0; i < data.Count(); i++)
                     {
-                        worksheet.Cells[i + 9, 1].Value = i + 1;
+                        worksheet.Cells[i + 8, 1].Value = i + 1;
 
-                        worksheet.Cells[i + 9, 2].Value = data[i].AgencyCode;
-                        worksheet.Cells[i + 9, 3].Value = data[i].Deputy;
-                        worksheet.Cells[i + 9, 4].Value = data[i].Province;
-                        worksheet.Cells[i + 9, 5].Value = data[i].AgencyAddress;
-                        worksheet.Cells[i + 9, 6].Value = data[i].AgencyPhone;
-                        worksheet.Cells[i + 9, 7].Value = data[i].CDay + "/" + data[i].CMonth;
-                        worksheet.Cells[i + 9, 8].Value = data[i].CInTime;
-                        worksheet.Cells[i + 9, 9].Value = data[i].COutTime;
-                        worksheet.Cells[i + 9, 10].Value = data[i].StaffName;
-                        worksheet.Cells[i + 9, 11].Value = data[i].StaffCheck;
-                        worksheet.Cells[i + 9, 13].Value = data[i].TotalMoney;
-                        worksheet.Cells[i + 9, 14].Value = data[i].Notes;
+                        worksheet.Cells[i + 8, 2].Value = data[i].AgencyCode;
+                        worksheet.Cells[i + 8, 3].Value = data[i].Deputy;
+                        worksheet.Cells[i + 8, 4].Value = data[i].Province;
+                        worksheet.Cells[i + 8, 5].Value = data[i].AgencyAddress;
+                        worksheet.Cells[i + 8, 6].Value = data[i].AgencyPhone;
+                        worksheet.Cells[i + 8, 7].Value = "Ngày " + data[i].CDay + " tháng" + data[i].CMonth;
+                        worksheet.Cells[i + 8, 8].Value = data[i].CInTime;
+                        worksheet.Cells[i + 8, 9].Value = data[i].COutTime;
+                        worksheet.Cells[i + 8, 10].Value = data[i].StaffName;
+                        worksheet.Cells[i + 8, 11].Value = data[i].StaffCheck;
+                        worksheet.Cells[i + 8, 12].Value = data[i].Targets;
+                        worksheet.Cells[i + 8, 13].Value = data[i].TotalMoney;
+                        worksheet.Cells[i + 8, 14].Value = data[i].Notes;
                     }
 
                     package.Save();

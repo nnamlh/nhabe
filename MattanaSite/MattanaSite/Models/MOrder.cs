@@ -35,9 +35,9 @@ namespace MattanaSite.Models
         public Nullable<int> CYear { get; set; }
         public Nullable<System.DateTime> SuggestDate { get; set; }
     
-        public virtual MAgency MAgency { get; set; }
         public virtual MStaff MStaff { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
+        public virtual MAgency MAgency { get; set; }
     }
 }

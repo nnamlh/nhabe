@@ -192,7 +192,7 @@ namespace MattanaSite.Controllers
                         worksheet.Cells[i + 13, 1].Value = i + 1;
                         worksheet.Cells[i + 13, 2].Value = products[i].MProduct.PName;
                         worksheet.Cells[i + 13, 3].Value = products[i].MProduct.PCode;
-                        worksheet.Cells[i + 13, 5].Value = products[i].MProduct.Size;
+                        worksheet.Cells[i + 13, 5].Value = products[i].MProduct.PSize;
                         worksheet.Cells[i + 13, 6].Value = products[i].MProduct.Price;
                         worksheet.Cells[i + 13, 7].Value = products[i].Price;
                         worksheet.Cells[i + 13, 8].Value = products[i].QuantityBuy;

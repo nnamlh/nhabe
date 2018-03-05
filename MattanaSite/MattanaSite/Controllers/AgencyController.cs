@@ -27,7 +27,7 @@ namespace MattanaSite.Controllers
 
             ViewBag.SearchText = search;
 
-            var agency = db.MAgencies.Where(p => p.Code.Contains(search) || p.Store.Contains(search)).OrderByDescending(p => p.Code).ToPagedList(pageNumber, pageSize);
+            var agency = db.MAgencies.Where(p => (p.Code.Contains(search) || p.Store.Contains(search)) && p.IsLock != 1).OrderByDescending(p => p.Code).ToPagedList(pageNumber, pageSize);
 
             return View(agency);
         }
@@ -38,8 +38,6 @@ namespace MattanaSite.Controllers
         {
             AddMenu(1);
 
-            ViewBag.Area = db.AreaInfoes.ToList();
-
             return View(new MAgency());
         }
 
@@ -48,8 +46,6 @@ namespace MattanaSite.Controllers
         public ActionResult Add(MAgency info)
         {
             AddMenu(1);
-
-            ViewBag.Area = db.AreaInfoes.ToList();
 
             var check = db.MAgencies.Where(p => p.Code == info.Code).FirstOrDefault();
 
@@ -71,15 +67,44 @@ namespace MattanaSite.Controllers
         }
 
         [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            var check = db.MAgencies.Find(id);
+
+            if (check == null)
+                return Redirect("/error");
+            return View(check);
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string id, string comfir)
+        {
+            var check = db.MAgencies.Find(id);
+
+            if (check == null)
+                return Redirect("/error");
+
+            if (comfir == "ok")
+            {
+                check.IsLock = 1;
+                db.Entry(check).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("show", "agency");
+        }
+
+        [HttpGet]
         public ActionResult Modify(string id)
         {
             var check = db.MAgencies.Find(id);
 
             if (check == null)
                 return Redirect("/error");
-            ViewBag.Area = db.AreaInfoes.ToList();
             return View(check);
         }
+
 
         [HttpPost]
         public ActionResult Modify(MAgency info)
@@ -94,18 +119,17 @@ namespace MattanaSite.Controllers
             check.Store = info.Store;
             check.Deputy = info.Deputy;
             check.Phone = info.Phone;
-            check.AreaId = info.AreaId;
+            check.AreaInfo = info.AreaInfo;
             check.AddressDetail = info.AddressDetail;
             check.IdentityCard = info.IdentityCard;
             check.Lat = info.Lat;
             check.Lng = info.Lng;
             check.Discount = info.Discount;
+            check.Province = info.Province;
 
             db.Entry(check).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
 
-
-            ViewBag.Area = db.AreaInfoes.ToList();
             return View(check);
         }
 

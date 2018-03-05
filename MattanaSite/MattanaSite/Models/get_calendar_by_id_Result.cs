@@ -34,5 +34,6 @@ namespace MattanaSite.Models
         public Nullable<int> StaffGroup { get; set; }
         public Nullable<double> TotalMoney { get; set; }
         public string Province { get; set; }
+        public Nullable<double> Targets { get; set; }
     }
 }

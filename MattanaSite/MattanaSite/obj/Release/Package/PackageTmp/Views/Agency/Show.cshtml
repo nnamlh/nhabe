@@ -47,13 +47,14 @@
                                     <td>@item.Store</td>
                                     <td>@item.Deputy</td>
                                     <td>@item.Discount %</td>
-                                    <td>@item.AreaInfo.AreaName</td>
+                                    <td>@item.AreaInfo</td>
                                     <td>
                                         <span>Điện thoại: </span>@item.Phone <br />
                                         <span>Địa chỉ: </span>@item.AddressDetail <br />
+                                        <span>Tỉnh: </span>@item.Province <br />
                                         <span>CMND: </span>@item.IdentityCard
                                     </td>
-                                    <td><a href="/agency/modify/@item.Id" target="_blank">Chỉnh sửa</a></td>
+                                    <td><a href="/agency/modify/@item.Id" target="_blank">Chỉnh sửa</a>&nbsp;&nbsp;<a href="/agency/delete/@item.Id">Xóa</a></td>
                                 </tr>
                             }
                         </tbody>

@@ -32,7 +32,7 @@ namespace MattanaSite.Models
         public string CalendarId { get; set; }
         public Nullable<double> Targets { get; set; }
     
-        public virtual MAgency MAgency { get; set; }
         public virtual CalendarInfo CalendarInfo { get; set; }
+        public virtual MAgency MAgency { get; set; }
     }
 }

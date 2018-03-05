@@ -28,7 +28,7 @@ namespace MattanaSite.Controllers
 
             ViewBag.SearchText = search;
 
-            var staff = db.MStaffs.Where(p => p.Id.Contains(search) || p.FullName.Contains(search)).OrderByDescending(p => p.Id).ToPagedList(pageNumber, pageSize);
+            var staff = db.MStaffs.Where(p => (p.Id.Contains(search) || p.FullName.Contains(search)) && p.IsLock != 1).OrderByDescending(p => p.Id).ToPagedList(pageNumber, pageSize);
 
             return View(staff);
         }
@@ -67,7 +67,37 @@ namespace MattanaSite.Controllers
             return RedirectToAction("show", "staff");
         }
 
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
 
+            var check = db.MStaffs.Find(id);
+
+            if (check == null)
+                return Redirect("/error");
+
+            return View(check);
+        }
+
+
+        [HttpPost]
+        public ActionResult Delete(string id, string comfir)
+        {
+            var check = db.MStaffs.Find(id);
+
+            if (check == null)
+                return Redirect("/error");
+
+            if (comfir == "ok")
+            {
+                check.IsLock = 1;
+                db.Entry(check).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("show", "staff");
+
+        }
         public override List<SubMenuInfo> Menu(int idxActive)
         {
             List<SubMenuInfo> menues = new List<SubMenuInfo>();
@@ -115,7 +145,7 @@ namespace MattanaSite.Controllers
 
 
         [HttpPost]
-        public ActionResult Modify(MStaff staff, string Lock)
+        public ActionResult Modify(MStaff staff)
         {
             var check = db.MStaffs.Find(staff.Id);
 
@@ -126,12 +156,6 @@ namespace MattanaSite.Controllers
             check.FullName = staff.FullName;
 
             check.IdentityCard = staff.IdentityCard;
-
-            if (Lock == null)
-                check.IsLock = 0;
-            else
-                check.IsLock = 1;
-
 
             check.Phone = staff.Phone;
 

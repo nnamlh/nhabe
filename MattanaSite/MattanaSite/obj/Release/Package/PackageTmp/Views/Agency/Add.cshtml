@@ -1,8 +1,6 @@
 ﻿@model MattanaSite.Models.MAgency
 @{
     ViewBag.Title = "Add";
-
-    var area = ViewBag.Area as IEnumerable<MattanaSite.Models.AreaInfo>;
 }
 
 <div class="portlet portlet-boxed">
@@ -53,7 +51,10 @@
                         <label>Địa chỉ</label>
                         <input type="text" name="AddressDetail" class="form-control" value="@Model.AddressDetail">
                     </div>
-
+                    <div class="form-group">
+                        <label>Tỉnh</label>
+                        <input type="text" name="Province" class="form-control" value="@Model.Province">
+                    </div>
                     <div class="form-group">
                         <label>Điện thoại</label>
                         <input type="text" name="Phone" class="form-control" value="@Model.Phone">
@@ -61,11 +62,18 @@
 
                     <div class="form-group">
                         <label>Vùng</label>
-                        <select name="AreaId" class="form-control">
-                            @foreach(var item in area) {
-                                <option value="@item.Id">@item.AreaName</option>
-                            }
-                        </select>
+                        <input type="text" name="AreaInfo" class="form-control" value="@Model.AreaInfo">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lat</label>
+                        <input type="number" name="Lat" class="form-control" value="@Model.Lat">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Lng</label>
+                        <input type="number" name="Lng" class="form-control" value="@Model.Lng">
                     </div>
 
                 </div>
@@ -75,3 +83,26 @@
         </div>
     </div>
 </div>
+
+
+@section scripts {
+
+    <script>
+        $("input[name*='Lat']").val('0');
+        $("input[name*='Lng']").val('0');
+        $("input[name*='Lat']").on('input', function (e) {
+            var lat = $("input[name*='Lat']").val();
+
+            if (lat < 0 || lat === '') {
+                $("input[name*='Lat']").val(0);
+            }
+        });
+        $("input[name*='Lng']").on('input', function (e) {
+            var lng = $("input[name*='Lng']").val();
+
+            if (lng < 0 || lng === '') {
+                $("input[name*='Lng']").val(0);
+            }
+        });
+    </script>
+}

@@ -54,11 +54,7 @@
                         <input type="text" class="form-control" value="@staff.MUser" disabled>
                     </div>
 
-                    <div class="form-group">
-                        <label>Khóa nhân viên</label>
-                        <input type="checkbox" name="Lock" @(staff.IsLock == 1 ? "checked" : "")>
-                    </div>
-
+    
                 </div>
 
             </form>
@@ -105,10 +101,25 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" class="btn btn-primary" value="Register" />
+                        <input type="submit" class="btn btn-primary" value="Tạo tài khoản" />
                     </div>
                 </div>
             }
         </div>
     </div>
+}
+
+@section scripts {
+
+    <script>
+    
+        $("input[name*='GroupNumber']").on('input', function (e) {
+            var price = $("input[name*='GroupNumber']").val();
+
+            if (price < 0 || price === '') {
+                $("input[name*='GroupNumber']").val(1);
+            }
+        });
+
+    </script>
 }

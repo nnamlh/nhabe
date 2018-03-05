@@ -228,9 +228,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AreaInfo.cs">
-      <DependentUpon>MDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CalendarInfo.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
@@ -342,6 +339,7 @@
     <Content Include="MTemplates\calendar_agency_template.xlsx" />
     <Content Include="MTemplates\orderform.xlsx" />
     <Content Include="MTemplates\form_checkin_month.xlsx" />
+    <Content Include="MTemplates\import-product.xlsx" />
     <None Include="Properties\PublishProfiles\mattanaweb.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -428,6 +426,10 @@
     <Content Include="Views\Track\Show.cshtml" />
     <Content Include="Views\Calendar\Report.cshtml" />
     <Content Include="Views\Product\ShowType.cshtml" />
+    <Content Include="Views\Product\Delete.cshtml" />
+    <Content Include="Views\Product\ImportExcel.cshtml" />
+    <Content Include="Views\Staff\Delete.cshtml" />
+    <Content Include="Views\Agency\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
