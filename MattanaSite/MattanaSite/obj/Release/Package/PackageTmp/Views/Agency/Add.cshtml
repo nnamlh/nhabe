@@ -84,25 +84,3 @@
     </div>
 </div>
 
-
-@section scripts {
-
-    <script>
-        $("input[name*='Lat']").val('0');
-        $("input[name*='Lng']").val('0');
-        $("input[name*='Lat']").on('input', function (e) {
-            var lat = $("input[name*='Lat']").val();
-
-            if (lat < 0 || lat === '') {
-                $("input[name*='Lat']").val(0);
-            }
-        });
-        $("input[name*='Lng']").on('input', function (e) {
-            var lng = $("input[name*='Lng']").val();
-
-            if (lng < 0 || lng === '') {
-                $("input[name*='Lng']").val(0);
-            }
-        });
-    </script>
-}

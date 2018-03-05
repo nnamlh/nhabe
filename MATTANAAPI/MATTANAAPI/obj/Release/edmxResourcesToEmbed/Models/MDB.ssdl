@@ -8,14 +8,6 @@
     <Property Name="AgencyId" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
   </EntityType>
-  <EntityType Name="AreaInfo">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="AreaName" Type="nvarchar(max)" />
-    <Property Name="Describes" Type="nvarchar(max)" />
-  </EntityType>
   <EntityType Name="AspNetRoles">
     <Key>
       <PropertyRef Name="Id" />
@@ -105,11 +97,11 @@
     <Property Name="Phone" Type="varchar" MaxLength="16" />
     <Property Name="AddressDetail" Type="nvarchar(max)" />
     <Property Name="Province" Type="nvarchar" MaxLength="512" />
-    <Property Name="AreaId" Type="varchar" MaxLength="128" />
     <Property Name="IsLock" Type="int" />
     <Property Name="Lat" Type="float" />
     <Property Name="Lng" Type="float" />
     <Property Name="Discount" Type="float" />
+    <Property Name="AreaInfo" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="MOrder">
     <Key>
@@ -137,14 +129,13 @@
     </Key>
     <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="PName" Type="nvarchar(max)" />
-    <Property Name="Describes" Type="nvarchar(max)" />
     <Property Name="PImage" Type="nvarchar(max)" />
     <Property Name="PCode" Type="varchar" MaxLength="128" />
     <Property Name="Price" Type="float" />
-    <Property Name="Unit" Type="nvarchar" MaxLength="128" />
     <Property Name="IsLock" Type="int" />
-    <Property Name="Size" Type="int" />
     <Property Name="TypeId" Type="varchar" MaxLength="128" />
+    <Property Name="PSize" Type="varchar" MaxLength="8" />
+    <Property Name="PMainCode" Type="varchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>
@@ -264,18 +255,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MAgency__AreaId__2B3F6F97">
-    <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="0..1" />
-    <End Role="MAgency" Type="Self.MAgency" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AreaInfo">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MAgency">
-        <PropertyRef Name="AreaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__MOrder__AgencyId__628FA481">
     <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
     <End Role="MOrder" Type="Self.MOrder" Multiplicity="*" />
@@ -384,7 +363,6 @@
   </Function>
   <EntityContainer Name="MDBModelStoreContainer">
     <EntitySet Name="AgencyWithStaff" EntityType="Self.AgencyWithStaff" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AreaInfo" EntityType="Self.AreaInfo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
@@ -423,10 +401,6 @@
     <AssociationSet Name="FK__CalendarW__Staff__5535A963" Association="Self.FK__CalendarW__Staff__5535A963">
       <End Role="MStaff" EntitySet="MStaff" />
       <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
-    </AssociationSet>
-    <AssociationSet Name="FK__MAgency__AreaId__2B3F6F97" Association="Self.FK__MAgency__AreaId__2B3F6F97">
-      <End Role="AreaInfo" EntitySet="AreaInfo" />
-      <End Role="MAgency" EntitySet="MAgency" />
     </AssociationSet>
     <AssociationSet Name="FK__MOrder__AgencyId__628FA481" Association="Self.FK__MOrder__AgencyId__628FA481">
       <End Role="MAgency" EntitySet="MAgency" />

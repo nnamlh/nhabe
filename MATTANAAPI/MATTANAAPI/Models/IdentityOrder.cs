@@ -63,6 +63,10 @@ namespace MATTANAAPI.Models
         public string timeSuggest { get; set; }
 
         public string realPrice { get; set; }
+
+        public string staffName { get; set; }
+
+        public string staffCode { get; set; }
     }
 
     public class ShowProductOrderInfo

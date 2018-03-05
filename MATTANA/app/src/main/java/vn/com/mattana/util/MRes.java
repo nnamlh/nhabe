@@ -53,6 +53,8 @@ public class MRes {
     public DAgencyInfo agency;
 
     public ShowOrderInfo orderInfo;
+
+    public boolean isAdmin;
     //
     public String formatMoneyToText(double value) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();

@@ -27,7 +27,6 @@ namespace MATTANAAPI.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AreaInfo> AreaInfoes { get; set; }
         public virtual DbSet<CalendarType> CalendarTypes { get; set; }
         public virtual DbSet<CalendarWork> CalendarWorks { get; set; }
         public virtual DbSet<MAgency> MAgencies { get; set; }

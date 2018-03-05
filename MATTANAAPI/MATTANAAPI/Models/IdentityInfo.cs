@@ -16,13 +16,13 @@ namespace MATTANAAPI.Models
 
         public string code { get; set; }
 
-        public string name { get; set; }
+        public string mainCode { get; set; }
 
-        public string describes { get; set; }
+        public string name { get; set; }
 
         public double? price { get; set; }
 
-        public int? size { get; set; }
+        public string size { get; set; }
 
         public string type { get; set; }
     }

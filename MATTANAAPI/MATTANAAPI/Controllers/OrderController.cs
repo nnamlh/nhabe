@@ -250,7 +250,9 @@ namespace MATTANAAPI.Controllers
                         orderId = item.Id,
                         createTime = item.CreateTime.Value.ToString("dd/MM/yyyy"),
                         timeSuggest = item.SuggestDate != null?item.SuggestDate.Value.ToString("dd/MM/yyyy"):"",
-                        realPrice = item.PriceReal.Value.ToString("C", Cultures.VietNam)
+                        realPrice = item.PriceReal.Value.ToString("C", Cultures.VietNam),
+                        staffCode = item.StaffId,
+                        staffName = item.MStaff.FullName
                     };
 
                     var nextStt = db.OrderStatus.Where(p => p.PreStt == item.StatusId).FirstOrDefault();

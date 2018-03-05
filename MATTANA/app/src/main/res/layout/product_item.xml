@@ -30,6 +30,17 @@
         android:textSize="14dp" />
 
     <TextView
+        android:id="@+id/maincode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/code"
+        android:layout_marginTop="3dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Mã SP: ana"
+        android:textColor="#000000"
+        android:textSize="14dp" />
+
+    <TextView
         android:id="@+id/size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +57,7 @@
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/code"
+        android:layout_below="@id/maincode"
         android:layout_marginTop="3dp"
         android:fontFamily="sans-serif-light"
         android:text="Giá bán lẽ: 100 Giói/thùng"
@@ -63,16 +74,6 @@
         android:text="loai"
         android:textColor="#000000"
         android:textSize="14dp" />
-    <TextView
-        android:id="@+id/describe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/type"
-        android:layout_marginTop="3dp"
-        android:fontFamily="sans-serif-light"
-        android:text="212êwewêwê"
-        android:textColor="#000000"
-        android:textSize="14dp" />
 
     <Button
         android:layout_width="70dp"
@@ -82,7 +83,7 @@
         android:id="@+id/btnorder"
         android:textSize="10dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/describe"
+        android:layout_below="@id/type"
         android:textColor="#007DC6"
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_detail_blue"/>
@@ -94,7 +95,7 @@
         android:layout_marginTop="5dp"
         android:padding="3dp"
         android:background="@drawable/btn_detail_blue"
-        android:layout_below="@id/describe"
+        android:layout_below="@id/type"
         android:layout_alignParentBottom="true"
         android:fontFamily="sans-serif-light"
         android:visibility="gone"
@@ -111,7 +112,7 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:visibility="gone"
-        android:layout_below="@id/describe"
+        android:layout_below="@id/type"
         android:layout_marginRight="10dp"
         android:src="@mipmap/ic_delete" />
 

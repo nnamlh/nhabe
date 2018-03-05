@@ -188,6 +188,8 @@ public class BaseActivity extends AppCompatActivity {
         user = prefsHelper.get(MRes.getInstance().PREF_KEY_USER, null);
         token = prefsHelper.get(MRes.getInstance().PREF_KEY_TOKEN, null);
         fireBaseBroadcast();
+
+        MRes.getInstance().isAdmin = checkAdmin();
     }
 
 

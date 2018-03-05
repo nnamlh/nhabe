@@ -44,11 +44,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         final ProductInfo productInfo = productInfos.get(position);
         holder.name.setText(productInfo.getName());
         holder.price.setText("Giá bán lẽ: " + MRes.getInstance().formatMoneyToText(productInfo.getPrice()));
-        holder.code.setText("Mã SP: " + productInfo.getCode());
-        holder.decribe.setText("Mô tả: " + productInfo.getDescribes());
+        holder.code.setText("Mã code: " + productInfo.getCode());
         holder.size.setText("Cở vóc: " + productInfo.getSize());
         holder.type.setText("Nhóm: " + productInfo.getType());
-
+        holder.mainCode.setText("Mã hàng: " + productInfo.getMainCode());
         holder.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +98,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, code, price, decribe, size,type;
+        public TextView name, code, price, size,type, mainCode;
 
         public ImageView imgDelete;
         public Button btnOrder, detail;
@@ -109,12 +108,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             name = (TextView) view.findViewById(R.id.name);
             code = (TextView) view.findViewById(R.id.code);
             price = (TextView) view.findViewById(R.id.price);
-            decribe = (TextView) view.findViewById(R.id.describe);
             btnOrder = (Button) view.findViewById(R.id.btnorder);
             detail = (Button) view.findViewById(R.id.detail);
             imgDelete = (ImageView) view.findViewById(R.id.imgdelete);
             size = (TextView) view.findViewById(R.id.size);
             type = (TextView)view.findViewById(R.id.type);
+            mainCode = (TextView) view.findViewById(R.id.maincode);
         }
     }
 

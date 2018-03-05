@@ -37,6 +37,15 @@ public class ShowOrderInfo {
     @SerializedName("nextStatusCode")
     private String nextStatusCode ;
 
+    @SerializedName("staffName")
+    private String staffName;
+
+    @SerializedName("staffCode")
+    private String staffCode ;
+
+    @SerializedName("timeSuggest")
+    private String timeSuggest;
+
     public String getOrderId() {
         return orderId;
     }
@@ -147,5 +156,29 @@ public class ShowOrderInfo {
 
     public void setNextStatusCode(String nextStatusCode) {
         this.nextStatusCode = nextStatusCode;
+    }
+
+    public String getStaffCode() {
+        return staffCode;
+    }
+
+    public void setStaffCode(String staffCode) {
+        this.staffCode = staffCode;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    public String getTimeSuggest() {
+        return timeSuggest;
+    }
+
+    public void setTimeSuggest(String timeSuggest) {
+        this.timeSuggest = timeSuggest;
     }
 }

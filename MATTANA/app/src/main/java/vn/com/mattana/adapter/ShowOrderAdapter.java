@@ -10,6 +10,7 @@ import java.util.List;
 
 import vn.com.mattana.dms.R;
 import vn.com.mattana.model.api.order.ShowOrderInfo;
+import vn.com.mattana.util.MRes;
 
 /**
  * Created by HAI on 2/27/2018.
@@ -40,7 +41,16 @@ public class ShowOrderAdapter extends RecyclerView.Adapter<ShowOrderAdapter.MyVi
        holder.time.setText("Ngày đặt: " + showOrderInfo.getCreateTime());
        holder.number.setText(showOrderInfo.getProductNumber() + " SP đặt");
        holder.price.setText("Tổng tiền: " + showOrderInfo.getOrderPrice());
+       holder.suggest.setText("Ngày đề nghị: " + showOrderInfo.getTimeSuggest());
        holder.status.setText(showOrderInfo.getStatus());
+
+       if (MRes.getInstance().isAdmin) {
+           holder.staff.setVisibility(View.VISIBLE);
+           holder.staff.setText("Nhân viên: " + showOrderInfo.getStaffName() + " - " + showOrderInfo.getStaffCode()) ;
+       } else {
+           holder.staff.setVisibility(View.GONE);
+       }
+
     }
 
     @Override
@@ -49,7 +59,7 @@ public class ShowOrderAdapter extends RecyclerView.Adapter<ShowOrderAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView code, price, number, time, store, status, suggest;
+        public TextView code, price, number, time, store, status, suggest, staff;
 
 
         public MyViewHolder(View view) {
@@ -61,6 +71,7 @@ public class ShowOrderAdapter extends RecyclerView.Adapter<ShowOrderAdapter.MyVi
             time = (TextView) view.findViewById(R.id.txttime);
             status = (TextView)view.findViewById(R.id.txtstatus);
             suggest = (TextView) view.findViewById(R.id.txttimesuggest);
+            staff = (TextView)view.findViewById(R.id.txtstaff);
         }
     }
 

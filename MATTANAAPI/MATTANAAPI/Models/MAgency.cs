@@ -29,13 +29,12 @@ namespace MATTANAAPI.Models
         public string Phone { get; set; }
         public string AddressDetail { get; set; }
         public string Province { get; set; }
-        public string AreaId { get; set; }
         public Nullable<int> IsLock { get; set; }
         public Nullable<double> Lat { get; set; }
         public Nullable<double> Lng { get; set; }
         public Nullable<double> Discount { get; set; }
+        public string AreaInfo { get; set; }
     
-        public virtual AreaInfo AreaInfo { get; set; }
         public virtual ICollection<CalendarWork> CalendarWorks { get; set; }
         public virtual ICollection<MStaff> MStaffs { get; set; }
         public virtual ICollection<MOrder> MOrders { get; set; }

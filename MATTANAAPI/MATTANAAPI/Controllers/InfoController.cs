@@ -20,7 +20,7 @@ namespace MATTANAAPI.Controllers
         public List<ProductInfoResult> products()
         {
 
-            var arr = db.MProducts.ToList();
+            var arr = db.MProducts.Where(p=> p.IsLock != 1).OrderBy(p=> p.PMainCode).ToList();
 
             List<ProductInfoResult> results = new List<ProductInfoResult>();
 
@@ -30,10 +30,10 @@ namespace MATTANAAPI.Controllers
                 {
                     id = item.Id,
                     code = item.PCode,
-                    describes = item.Describes,
                     name = item.PName,
                     price = item.Price,
-                    size = item.Size == null ? 1:item.Size,
+                    size = item.PSize,
+                    mainCode = item.PMainCode,
                     type = item.ProductType.Name
                 });
             }

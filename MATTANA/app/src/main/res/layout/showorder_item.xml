@@ -44,21 +44,28 @@
         android:text="Đại lý: hoài nam"
         android:textSize="14dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#000000"
+        android:id="@+id/txtstaff"
+        android:layout_marginTop="5dp"
+        android:text="Đại lý: hoài nam"
+        android:textSize="14dp" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
-
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:textColor="#2196F3"
-
             android:id="@+id/txtmoney"
             android:text="Số tiền: 21221"
             android:textSize="14dp" />
@@ -77,7 +84,6 @@
           android:fontFamily="sans-serif-light"
           android:textColor="#000000"
           android:id="@+id/txttime"
-
           android:text="Ngayf dat: 21221"
           android:textSize="14dp" />
 

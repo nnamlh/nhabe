@@ -13,14 +13,6 @@
           <Property Name="AgencyId" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <EntityType Name="AreaInfo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="AreaName" Type="nvarchar(max)" />
-          <Property Name="Describes" Type="nvarchar(max)" />
-        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -110,11 +102,11 @@
           <Property Name="Phone" Type="varchar" MaxLength="16" />
           <Property Name="AddressDetail" Type="nvarchar(max)" />
           <Property Name="Province" Type="nvarchar" MaxLength="512" />
-          <Property Name="AreaId" Type="varchar" MaxLength="128" />
           <Property Name="IsLock" Type="int" />
           <Property Name="Lat" Type="float" />
           <Property Name="Lng" Type="float" />
           <Property Name="Discount" Type="float" />
+          <Property Name="AreaInfo" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="MOrder">
           <Key>
@@ -142,14 +134,13 @@
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="PName" Type="nvarchar(max)" />
-          <Property Name="Describes" Type="nvarchar(max)" />
           <Property Name="PImage" Type="nvarchar(max)" />
           <Property Name="PCode" Type="varchar" MaxLength="128" />
           <Property Name="Price" Type="float" />
-          <Property Name="Unit" Type="nvarchar" MaxLength="128" />
           <Property Name="IsLock" Type="int" />
-          <Property Name="Size" Type="int" />
           <Property Name="TypeId" Type="varchar" MaxLength="128" />
+          <Property Name="PSize" Type="varchar" MaxLength="8" />
+          <Property Name="PMainCode" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -269,18 +260,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MAgency__AreaId__2B3F6F97">
-          <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="0..1" />
-          <End Role="MAgency" Type="Self.MAgency" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AreaInfo">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MAgency">
-              <PropertyRef Name="AreaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__MOrder__AgencyId__628FA481">
           <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
           <End Role="MOrder" Type="Self.MOrder" Multiplicity="*" />
@@ -389,7 +368,6 @@
         </Function>
         <EntityContainer Name="MDBModelStoreContainer">
           <EntitySet Name="AgencyWithStaff" EntityType="Self.AgencyWithStaff" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AreaInfo" EntityType="Self.AreaInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
@@ -429,10 +407,6 @@
             <End Role="MStaff" EntitySet="MStaff" />
             <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
           </AssociationSet>
-          <AssociationSet Name="FK__MAgency__AreaId__2B3F6F97" Association="Self.FK__MAgency__AreaId__2B3F6F97">
-            <End Role="AreaInfo" EntitySet="AreaInfo" />
-            <End Role="MAgency" EntitySet="MAgency" />
-          </AssociationSet>
           <AssociationSet Name="FK__MOrder__AgencyId__628FA481" Association="Self.FK__MOrder__AgencyId__628FA481">
             <End Role="MAgency" EntitySet="MAgency" />
             <End Role="MOrder" EntitySet="MOrder" />
@@ -470,15 +444,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AreaInfo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AreaName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Describes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MAgencies" Relationship="Self.FK__MAgency__AreaId__2B3F6F97" FromRole="AreaInfo" ToRole="MAgency" />
-        </EntityType>
         <EntityType Name="CalendarType">
           <Key>
             <PropertyRef Name="Id" />
@@ -522,15 +487,14 @@
           <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="AddressDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Province" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="AreaId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="IsLock" Type="Int32" />
-          <NavigationProperty Name="AreaInfo" Relationship="Self.FK__MAgency__AreaId__2B3F6F97" FromRole="MAgency" ToRole="AreaInfo" />
           <NavigationProperty Name="CalendarWorks" Relationship="Self.FK__CalendarW__Agenc__4CA06362" FromRole="MAgency" ToRole="CalendarWork" />
           <NavigationProperty Name="MStaffs" Relationship="Self.AgencyWithStaff" FromRole="MAgency" ToRole="MStaff" />
           <Property Name="Lat" Type="Double" />
           <Property Name="Lng" Type="Double" />
           <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MAgency" ToRole="MOrder" />
           <Property Name="Discount" Type="Double" />
+          <Property Name="AreaInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MProduct">
           <Key>
@@ -538,16 +502,15 @@
           </Key>
           <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Describes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PCode" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Price" Type="Double" />
-          <Property Name="Unit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="IsLock" Type="Int32" />
           <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
-          <Property Name="Size" Type="Int32" />
           <Property Name="TypeId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ProductType" Relationship="MDBModel.FK__MProduct__TypeId__797309D9" FromRole="MProduct" ToRole="ProductType" />
+          <Property Name="PSize" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="PMainCode" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -564,18 +527,6 @@
           <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MStaff" ToRole="MOrder" />
           <NavigationProperty Name="CalendarInfoes" Relationship="MDBModel.CalendarWithStaff" FromRole="MStaff" ToRole="CalendarInfo" />
         </EntityType>
-        <Association Name="FK__MAgency__AreaId__2B3F6F97">
-          <End Role="AreaInfo" Type="Self.AreaInfo" Multiplicity="0..1" />
-          <End Role="MAgency" Type="Self.MAgency" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AreaInfo">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MAgency">
-              <PropertyRef Name="AreaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__CalendarW__Agenc__4CA06362">
           <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
           <End Role="CalendarWork" Type="Self.CalendarWork" Multiplicity="*" />
@@ -593,16 +544,11 @@
           <End Role="MStaff" Type="Self.MStaff" Multiplicity="*" />
         </Association>
         <EntityContainer Name="MDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AreaInfoes" EntityType="Self.AreaInfo" />
           <EntitySet Name="CalendarTypes" EntityType="Self.CalendarType" />
           <EntitySet Name="CalendarWorks" EntityType="Self.CalendarWork" />
           <EntitySet Name="MAgencies" EntityType="Self.MAgency" />
           <EntitySet Name="MProducts" EntityType="Self.MProduct" />
           <EntitySet Name="MStaffs" EntityType="Self.MStaff" />
-          <AssociationSet Name="FK__MAgency__AreaId__2B3F6F97" Association="Self.FK__MAgency__AreaId__2B3F6F97">
-            <End Role="AreaInfo" EntitySet="AreaInfoes" />
-            <End Role="MAgency" EntitySet="MAgencies" />
-          </AssociationSet>
           <AssociationSet Name="FK__CalendarW__Agenc__4CA06362" Association="Self.FK__CalendarW__Agenc__4CA06362">
             <End Role="MAgency" EntitySet="MAgencies" />
             <End Role="CalendarWork" EntitySet="CalendarWorks" />
@@ -873,15 +819,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MDBModelStoreContainer" CdmEntityContainer="MDBEntities">
-          <EntitySetMapping Name="AreaInfoes">
-            <EntityTypeMapping TypeName="MDBModel.AreaInfo">
-              <MappingFragment StoreEntitySet="AreaInfo">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
-                <ScalarProperty Name="Describes" ColumnName="Describes" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CalendarTypes">
             <EntityTypeMapping TypeName="MDBModel.CalendarType">
               <MappingFragment StoreEntitySet="CalendarType">
@@ -916,6 +853,7 @@
           <EntitySetMapping Name="MAgencies">
             <EntityTypeMapping TypeName="MDBModel.MAgency">
               <MappingFragment StoreEntitySet="MAgency">
+                <ScalarProperty Name="AreaInfo" ColumnName="AreaInfo" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Lng" ColumnName="Lng" />
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
@@ -927,7 +865,6 @@
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
                 <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
                 <ScalarProperty Name="IsLock" ColumnName="IsLock" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -935,15 +872,14 @@
           <EntitySetMapping Name="MProducts">
             <EntityTypeMapping TypeName="MDBModel.MProduct">
               <MappingFragment StoreEntitySet="MProduct">
+                <ScalarProperty Name="PMainCode" ColumnName="PMainCode" />
+                <ScalarProperty Name="PSize" ColumnName="PSize" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PName" ColumnName="PName" />
-                <ScalarProperty Name="Describes" ColumnName="Describes" />
                 <ScalarProperty Name="PImage" ColumnName="PImage" />
                 <ScalarProperty Name="PCode" ColumnName="PCode" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Unit" ColumnName="Unit" />
                 <ScalarProperty Name="IsLock" ColumnName="IsLock" />
               </MappingFragment>
             </EntityTypeMapping>

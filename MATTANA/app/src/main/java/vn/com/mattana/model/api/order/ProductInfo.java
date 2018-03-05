@@ -14,8 +14,6 @@ public class ProductInfo {
     private String code ;
     @SerializedName("name")
     private String name;
-    @SerializedName("describes")
-    private String describes ;
     @SerializedName("price")
     private double price ;
 
@@ -25,7 +23,10 @@ public class ProductInfo {
     private int quantityBuy;
 
     @SerializedName("size")
-    private int size;
+    private String size;
+
+    @SerializedName("mainCode")
+    private String mainCode;
 
     public String getId() {
         return id;
@@ -51,13 +52,6 @@ public class ProductInfo {
         this.name = name;
     }
 
-    public String getDescribes() {
-        return describes;
-    }
-
-    public void setDescribes(String describes) {
-        this.describes = describes;
-    }
 
     public double getPrice() {
         return price;
@@ -75,13 +69,6 @@ public class ProductInfo {
         this.quantityBuy = quantityBuy;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
 
     public String getType() {
         return type;
@@ -89,5 +76,21 @@ public class ProductInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getMainCode() {
+        return mainCode;
+    }
+
+    public void setMainCode(String mainCode) {
+        this.mainCode = mainCode;
     }
 }
