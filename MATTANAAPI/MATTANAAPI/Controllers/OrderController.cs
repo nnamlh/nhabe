@@ -76,9 +76,6 @@ namespace MATTANAAPI.Controllers
                     StaffId = checkStaff.Id,
                     StatusId = "create",
                     Code = newCode,
-                    CDay = DateTime.Now.Day,
-                    CMonth = DateTime.Now.Month,
-                    CYear = DateTime.Now.Year,
                     SuggestDate = sugestTime
                 };
 

@@ -25,11 +25,9 @@ namespace MattanaSite.Models
         public string PCode { get; set; }
         public Nullable<double> Price { get; set; }
         public Nullable<int> IsLock { get; set; }
-        public string TypeId { get; set; }
         public string PSize { get; set; }
-        public string PMainCode { get; set; }
+        public string PSizeCode { get; set; }
     
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
-        public virtual ProductType ProductType { get; set; }
     }
 }

@@ -30,14 +30,12 @@ namespace MattanaSite.Models
         public Nullable<System.DateTime> ModifyTime { get; set; }
         public Nullable<int> CloseOrder { get; set; }
         public string Notes { get; set; }
-        public Nullable<int> CDay { get; set; }
-        public Nullable<int> CMonth { get; set; }
-        public Nullable<int> CYear { get; set; }
         public Nullable<System.DateTime> SuggestDate { get; set; }
+        public string CDate { get; set; }
     
+        public virtual MAgency MAgency { get; set; }
         public virtual MStaff MStaff { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
-        public virtual MAgency MAgency { get; set; }
     }
 }

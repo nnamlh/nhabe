@@ -16,8 +16,6 @@ namespace MATTANAAPI.Models
 
     public class CWorkInfo
     {
-        public string workId { get; set; }
-
         public string store { get; set; }
 
         public string phone { get; set; }
@@ -30,12 +28,7 @@ namespace MATTANAAPI.Models
 
         public string code { get; set; }
 
-        public int? perform { get; set; }
-
-        public int? inplan { get; set; }
-
-        public string status { get; set; }
-
+        public string id { get; set; }
 
     }
 

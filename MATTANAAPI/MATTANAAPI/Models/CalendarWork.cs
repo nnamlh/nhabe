@@ -15,24 +15,21 @@ namespace MATTANAAPI.Models
     public partial class CalendarWork
     {
         public string Id { get; set; }
-        public Nullable<int> CDay { get; set; }
-        public Nullable<int> InPlan { get; set; }
-        public string TypeId { get; set; }
         public string Notes { get; set; }
-        public Nullable<System.TimeSpan> CInTime { get; set; }
-        public Nullable<System.TimeSpan> COutTime { get; set; }
-        public string DayInWeek { get; set; }
         public Nullable<int> Perform { get; set; }
         public string CDate { get; set; }
-        public string AgencyId { get; set; }
-        public string MUser { get; set; }
-        public string StaffCode { get; set; }
-        public Nullable<int> CYear { get; set; }
+        public Nullable<int> CDay { get; set; }
         public Nullable<int> CMonth { get; set; }
-        public string CalendarId { get; set; }
-        public Nullable<double> Targets { get; set; }
+        public Nullable<int> CYear { get; set; }
+        public string AgencyId { get; set; }
+        public string StaffId { get; set; }
+        public Nullable<int> CountWork { get; set; }
+        public Nullable<System.DateTime> FistTime { get; set; }
+        public Nullable<System.DateTime> EndTime { get; set; }
+        public Nullable<System.DateTime> ChangeTime { get; set; }
+        public string DayOfWeek { get; set; }
     
         public virtual MAgency MAgency { get; set; }
-        public virtual CalendarInfo CalendarInfo { get; set; }
+        public virtual MStaff MStaff { get; set; }
     }
 }

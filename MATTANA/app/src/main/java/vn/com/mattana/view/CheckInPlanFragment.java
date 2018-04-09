@@ -61,7 +61,7 @@ public class CheckInPlanFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         workInfos = new ArrayList<>();
-        workInfos.addAll(activity.workInfos);
+
         adapter = new CWorkAdapter(workInfos, activity);
         recyclerView.setAdapter(adapter);
 

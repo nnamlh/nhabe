@@ -37,7 +37,7 @@ namespace MattanaSite.Controllers
         public ActionResult Add()
         {
             AddMenu(1);
-            ViewBag.PType = db.ProductTypes.ToList();
+ 
             return View(new MProduct());
         }
 
@@ -46,14 +46,13 @@ namespace MattanaSite.Controllers
         {
             AddMenu(1);
 
-            var check = db.MProducts.Where(p => p.PCode == info.PCode && p.PMainCode == info.PMainCode).FirstOrDefault();
+            var check = db.MProducts.Where(p => p.PCode == info.PCode && p.PSizeCode == info.PSizeCode).FirstOrDefault();
 
             if (check != null)
             {
                 ViewBag.MSG = "Mã đã tồn tại";
                 return View(info);
             }
-            ViewBag.PType = db.ProductTypes.ToList();
 
             info.Id = Guid.NewGuid().ToString();
 
@@ -72,7 +71,6 @@ namespace MattanaSite.Controllers
             if (check == null)
                 return Redirect("/error");
 
-            ViewBag.PType = db.ProductTypes.ToList();
 
             return View(check);
         }
@@ -87,15 +85,13 @@ namespace MattanaSite.Controllers
 
             check.PCode = info.PCode;
             check.PName = info.PName;
-            check.PMainCode = info.PMainCode;
+            check.PSizeCode = info.PSizeCode;
             check.Price = info.Price;
             check.PSize = info.PSize;
-            check.TypeId = info.TypeId;
+  
 
             db.Entry(check).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
-
-            ViewBag.PType = db.ProductTypes.ToList();
 
             return View(check);
         }
@@ -171,55 +167,10 @@ namespace MattanaSite.Controllers
 
         }
 
-        public ActionResult ShowType()
-        {
-            AddMenu(3);
-            return View(db.ProductTypes.ToList());
-        }
-
-        [HttpPost]
-        public ActionResult AddType(string code, string name)
-        {
-            var check = db.ProductTypes.Find(code);
-
-            if (check == null)
-            {
-                var newType = new ProductType()
-                {
-                    Id = code,
-                    Name = name
-                };
-                db.ProductTypes.Add(newType);
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("showtype", "product");
-        }
-
-        [HttpPost]
-        public ActionResult ModifyType(string Id, string Name)
-        {
-            var check = db.ProductTypes.Find(Id);
-
-            if (check != null)
-            {
-                check.Name = Name;
-
-                db.Entry(check).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("showtype", "product");
-
-        }
-
-
         [HttpGet]
         public ActionResult ImportExcel()
         {
             AddMenu(2);
-
-            ViewBag.PType = db.ProductTypes.ToList();
             return View();
         }
 
@@ -265,10 +216,9 @@ namespace MattanaSite.Controllers
                         Id = Guid.NewGuid().ToString(),
                         IsLock = 0,
                         PCode = code,
-                        PMainCode = mainCode,
+                        PSizeCode = mainCode,
                         PName = name,
                         PSize = size,
-                        TypeId = TypeId,
                         Price = Convert.ToDouble(price)
                         
                     };

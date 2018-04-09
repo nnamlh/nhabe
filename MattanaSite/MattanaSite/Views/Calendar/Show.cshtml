@@ -21,24 +21,35 @@
                 <div class="col-sm-12">
                     <p>Bạn đang ở tuần thứ @ViewBag.Week năm @DateTime.Now.Year</p>
                 </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Tuần</label>
-                        <input type="number" class="form-control" name="week" />
-                    </div>
+                <div class="col-sm-3">
+
+                    <label>Năm</label>
+                    <input type="number" class="form-control changeweek" name="year" value="@ViewBag.Year" id="year" required />
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
+
+                    <label>Tuần</label>
+                    <input type="number" class="form-control changeweek" name="week" value="@ViewBag.Week" id="week" required />
+                </div>
+                <div class="col-sm-3">
                     <div class="form-group">
-                        <label>Năm</label>
-                        <input type="number" class="form-control" name="year" value="@DateTime.Now.Year" />
+                        <label>Từ ngày</label>
+                        <input type="text" class="form-control" name="fdate" value="@ViewBag.FDate" id="fdate" disabled />
                     </div>
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Tới ngày</label>
+                        <input type="text" class="form-control" name="tdate" value="@ViewBag.TDate" id="tdate" disabled />
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label>Nhân viên</label>
                         <select class="form-control selectpicker" data-live-search="true" name="staffId">
-                            <option value="">Tất cả</option>
+                            <option value="all">Tất cả</option>
                             @foreach (var item in staff)
                             {
                                 <option data-tokens="@item.Id @item.FullName" value="@item.Id">@item.FullName - @item.Id</option>
@@ -46,24 +57,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Từ ngày (so với ngày bắt đầu)</label>
-                        <input type="text" class="form-control datetime" name="fdate" value="@ViewBag.FDate.ToString("dd/MM/yyyy")" />
-                    </div>
 
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Tới ngày (so với ngày bắt đầu)</label>
-                        <input type="text" class="form-control datetime" name="tdate" value="@ViewBag.TDate.ToString("dd/MM/yyyy")" />
-                    </div>
-                </div>
-             
                 <div class="col-sm-12">
                     <button type="submit" class="btn btn-primary">Xem</button>
-
                 </div>
             </form>
 
@@ -74,9 +70,8 @@
                         <thead>
                             <tr>
                                 <th>Nhân viên</th>
-                                <th>Thời giàn</th>
-                                <th>Nội dung</th>
-                                <th>Ghi chú</th>
+                                <th>Thời gian</th>
+                                <th>Tiêu đề</th>
                                 <th>#</th>
                             </tr>
                         </thead>
@@ -84,27 +79,18 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>
-                                        @foreach (var cStaff in item.MStaffs.ToList())
-                                        {
-                                            <p>@cStaff.FullName - @cStaff.Id</p><br />
-                                        }
+                                    <td>@item.MStaff.FullName - @item.MStaff.Id</td>
+                                    <td>Tuần @item.WeekOfYear năm @item.CYear</td>
+                                    <td>@item.Title</td>
+                                    <td><a href="/calendar/showdetail/@item.Id" target="_blank">Chi tiêt</a><br />
+                                        <a href="/calendar/excelplan">Tải file</a>
                                     </td>
-                                    <td>
-                                        <span><strong>Tuần thứ: </strong>@item.WeekOfYear của năm @item.CYear</span><br />
-                                        <span><strong>Từ ngày: </strong>@item.FDate.Value.ToString("dd/MM/yyyy")</span><br />
-                                        <span><strong>Đến ngày: </strong>@item.TDate.Value.ToString("dd/MM/yyyy")</span>
-                                    </td>
-                                    <td>@item.Name</td>
-                                    <td>@item.Notes</td>
-                                    <td><a href="/calendar/showdetail/@item.Id" target="_blank">Chi tiêt</a></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-                    @Html.PagedListPager(Model, page => Url.Action("show",
-                                                                     new { page, search = ViewBag.SearchText }))
+                    @Html.PagedListPager(Model, page => Url.Action("show", new { page, week = ViewBag.Week, year = ViewBag.Year, staffId = ViewBag.StaffChoose }))
                 </fieldset>
             </div>
 
@@ -116,21 +102,55 @@
 @section styles {
     <!-- bootstrap select-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
-    <link href="~/content/bootstrap-datepicker.min.css" rel="stylesheet">
 }
 
 @section scripts {
     <!-- bootstrap select js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
-
-    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
-    <script src="~/scripts/bootstrap-datepicker.vi.min.js"></script>
     <script type="text/javascript">
-        $('.datetime').datepicker({
-            language: "vi",
-            format: 'dd/mm/yyyy',
-            orientation: "bottom auto"
+
+        $(document).ready(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
         });
+
+        $(".changeweek").on('input', function (e) {
+            var week = $('#week').val();
+
+            var year = $('#year').val();
+
+            if (week === '' || year === '') {
+                alert('Sai tuần và năm');
+            } else {
+                if (week > 52) {
+                    alert('Tuần không lớn hơn 52')
+                    $('week').val('52');
+                } else {
+                    update(week, year);
+                }
+            }
+        });
+
+
+        function update(week, year) {
+            $.ajax({
+                type: "GET",
+                url: "/calendar/GetDateOfWeek",
+                data: { week: week, year: year },
+                success: function (response) {
+
+                    $('#fdate').val(response.from);
+
+                    $('#tdate').val(response.to);
+
+                }
+            });
+
+        }
 
     </script>
 }

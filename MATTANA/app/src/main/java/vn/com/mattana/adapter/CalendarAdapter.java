@@ -40,14 +40,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
         holder.code.setText("("+info.getCode()+ ")");
         holder.phone.setText("Điện thoại: " + info.getPhone());
         holder.address.setText("Địa chỉ: "+ info.getAddress());
-        holder.status.setText(info.getStatus());
 
-        if (info.getPerform() == 1) {
-            holder.imgLocation.setVisibility(View.VISIBLE);
-            holder.imgLocation.setImageResource(R.mipmap.ic_finish);
-        } else {
-            holder.imgLocation.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -65,7 +58,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
             code = (TextView) view.findViewById(R.id.txtcode);
             phone = (TextView) view.findViewById(R.id.txtphone);
             address = (TextView) view.findViewById(R.id.txtaddress);
-            imgLocation =(ImageView) view.findViewById(R.id.imglocation);
             status = (TextView) view.findViewById(R.id.txtstatus);
         }
     }

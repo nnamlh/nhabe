@@ -27,17 +27,16 @@ namespace MattanaSite.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CalendarType> CalendarTypes { get; set; }
-        public virtual DbSet<CalendarWork> CalendarWorks { get; set; }
         public virtual DbSet<MProduct> MProducts { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
-        public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
-        public virtual DbSet<MOrder> MOrders { get; set; }
         public virtual DbSet<OrderNumber> OrderNumbers { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }
-        public virtual DbSet<ProductOrder> ProductOrders { get; set; }
-        public virtual DbSet<ProductType> ProductTypes { get; set; }
         public virtual DbSet<MAgency> MAgencies { get; set; }
+        public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
+        public virtual DbSet<CalendarPlan> CalendarPlans { get; set; }
+        public virtual DbSet<CalendarWork> CalendarWorks { get; set; }
+        public virtual DbSet<MOrder> MOrders { get; set; }
+        public virtual DbSet<ProductOrder> ProductOrders { get; set; }
     
         public virtual ObjectResult<get_detail_calendar_by_calendarid_Result> get_detail_calendar_by_calendarid(string calendarId)
         {

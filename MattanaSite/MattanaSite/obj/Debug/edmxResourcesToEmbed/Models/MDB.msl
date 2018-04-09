@@ -1,43 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="MDBModelStoreContainer" CdmEntityContainer="MDBEntities">
-    <EntitySetMapping Name="CalendarTypes">
-      <EntityTypeMapping TypeName="MDBModel.CalendarType">
-        <MappingFragment StoreEntitySet="CalendarType">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CalendarWorks">
-      <EntityTypeMapping TypeName="MDBModel.CalendarWork">
-        <MappingFragment StoreEntitySet="CalendarWork">
-          <ScalarProperty Name="Targets" ColumnName="Targets" />
-          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
-          <ScalarProperty Name="CYear" ColumnName="CYear" />
-          <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
-          <ScalarProperty Name="MUser" ColumnName="MUser" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CDay" ColumnName="CDay" />
-          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
-          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-          <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
-          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
-          <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-          <ScalarProperty Name="Perform" ColumnName="Perform" />
-          <ScalarProperty Name="CDate" ColumnName="CDate" />
-          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="MProducts">
       <EntityTypeMapping TypeName="MDBModel.MProduct">
         <MappingFragment StoreEntitySet="MProduct">
-          <ScalarProperty Name="PMainCode" ColumnName="PMainCode" />
+          <ScalarProperty Name="PSizeCode" ColumnName="PSizeCode" />
           <ScalarProperty Name="PSize" ColumnName="PSize" />
-          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
           <ScalarProperty Name="IsLock" ColumnName="IsLock" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PName" ColumnName="PName" />
@@ -60,46 +28,10 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CalendarInfoes">
-      <EntityTypeMapping TypeName="MDBModel.CalendarInfo">
-        <MappingFragment StoreEntitySet="CalendarInfo">
-          <ScalarProperty Name="CYear" ColumnName="CYear" />
-          <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
-          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="WeekOfYear" ColumnName="WeekOfYear" />
-          <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="TDate" ColumnName="TDate" />
-          <ScalarProperty Name="FDate" ColumnName="FDate" />
-          <ScalarProperty Name="IsLock" ColumnName="IsLock" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="MOrders">
-      <EntityTypeMapping TypeName="MDBModel.MOrder">
-        <MappingFragment StoreEntitySet="MOrder">
-          <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
-          <ScalarProperty Name="CYear" ColumnName="CYear" />
-          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
-          <ScalarProperty Name="CDay" ColumnName="CDay" />
-          <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="CloseOrder" ColumnName="CloseOrder" />
-          <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
-          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-          <ScalarProperty Name="PriceReal" ColumnName="PriceReal" />
-          <ScalarProperty Name="PriceOrder" ColumnName="PriceOrder" />
-          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
-          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
-          <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="OrderNumbers">
       <EntityTypeMapping TypeName="MDBModel.OrderNumber">
         <MappingFragment StoreEntitySet="OrderNumber">
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="CharId" ColumnName="CharId" />
           <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -112,17 +44,6 @@
           <ScalarProperty Name="PreStt" ColumnName="PreStt" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProductOrders">
-      <EntityTypeMapping TypeName="MDBModel.ProductOrder">
-        <MappingFragment StoreEntitySet="ProductOrder">
-          <ScalarProperty Name="QuantityReal" ColumnName="QuantityReal" />
-          <ScalarProperty Name="QuantityBuy" ColumnName="QuantityBuy" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -167,14 +88,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="delete_calendar" FunctionName="MDBModel.Store.delete_calendar" />
-    <AssociationSetMapping Name="CalendarWithStaff" TypeName="MDBModel.CalendarWithStaff" StoreEntitySet="CalendarWithStaff">
-      <EndProperty Name="MStaff">
-        <ScalarProperty Name="Id" ColumnName="StaffId" />
-      </EndProperty>
-      <EndProperty Name="CalendarInfo">
-        <ScalarProperty Name="Id" ColumnName="CalendarId" />
-      </EndProperty>
-    </AssociationSetMapping>
     <FunctionImportMapping FunctionImportName="get_calendar_in_month_by_staff" FunctionName="MDBModel.Store.get_calendar_in_month_by_staff">
       <ResultMapping>
         <ComplexTypeMapping TypeName="MDBModel.get_calendar_in_month_by_staff_Result">
@@ -203,14 +116,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <EntitySetMapping Name="ProductTypes">
-      <EntityTypeMapping TypeName="MDBModel.ProductType">
-        <MappingFragment StoreEntitySet="ProductType">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="check_staff_has_create_calendar" FunctionName="MDBModel.Store.check_staff_has_create_calendar">
       <ResultMapping>
         <ComplexTypeMapping TypeName="MDBModel.check_staff_has_create_calendar_Result">
@@ -274,5 +179,86 @@
         <ScalarProperty Name="Id" ColumnName="AgencyId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="CalendarInfoes">
+      <EntityTypeMapping TypeName="MDBModel.CalendarInfo">
+        <MappingFragment StoreEntitySet="CalendarInfo">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="CreateTine" ColumnName="CreateTine" />
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="CStatus" ColumnName="CStatus" />
+          <ScalarProperty Name="WeekOfYear" ColumnName="WeekOfYear" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="TDate" ColumnName="TDate" />
+          <ScalarProperty Name="FDate" ColumnName="FDate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CalendarPlans">
+      <EntityTypeMapping TypeName="MDBModel.CalendarPlan">
+        <MappingFragment StoreEntitySet="CalendarPlan">
+          <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+          <ScalarProperty Name="Targets" ColumnName="Targets" />
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="CDay" ColumnName="CDay" />
+          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+          <ScalarProperty Name="CDate" ColumnName="CDate" />
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CalendarWorks">
+      <EntityTypeMapping TypeName="MDBModel.CalendarWork">
+        <MappingFragment StoreEntitySet="CalendarWork">
+          <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+          <ScalarProperty Name="ChangeTime" ColumnName="ChangeTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="FistTime" ColumnName="FistTime" />
+          <ScalarProperty Name="CountWork" ColumnName="CountWork" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
+          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
+          <ScalarProperty Name="CDay" ColumnName="CDay" />
+          <ScalarProperty Name="CDate" ColumnName="CDate" />
+          <ScalarProperty Name="Perform" ColumnName="Perform" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MOrders">
+      <EntityTypeMapping TypeName="MDBModel.MOrder">
+        <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="CDate" ColumnName="CDate" />
+          <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CloseOrder" ColumnName="CloseOrder" />
+          <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="PriceReal" ColumnName="PriceReal" />
+          <ScalarProperty Name="PriceOrder" ColumnName="PriceOrder" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductOrders">
+      <EntityTypeMapping TypeName="MDBModel.ProductOrder">
+        <MappingFragment StoreEntitySet="ProductOrder">
+          <ScalarProperty Name="QuantityReal" ColumnName="QuantityReal" />
+          <ScalarProperty Name="QuantityBuy" ColumnName="QuantityBuy" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

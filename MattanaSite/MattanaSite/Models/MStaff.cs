@@ -16,9 +16,10 @@ namespace MattanaSite.Models
     {
         public MStaff()
         {
-            this.MOrders = new HashSet<MOrder>();
-            this.CalendarInfoes = new HashSet<CalendarInfo>();
             this.MAgencies = new HashSet<MAgency>();
+            this.CalendarInfoes = new HashSet<CalendarInfo>();
+            this.CalendarWorks = new HashSet<CalendarWork>();
+            this.MOrders = new HashSet<MOrder>();
         }
     
         public string Id { get; set; }
@@ -29,8 +30,9 @@ namespace MattanaSite.Models
         public string IdentityCard { get; set; }
         public Nullable<int> IsLock { get; set; }
     
-        public virtual ICollection<MOrder> MOrders { get; set; }
-        public virtual ICollection<CalendarInfo> CalendarInfoes { get; set; }
         public virtual ICollection<MAgency> MAgencies { get; set; }
+        public virtual ICollection<CalendarInfo> CalendarInfoes { get; set; }
+        public virtual ICollection<CalendarWork> CalendarWorks { get; set; }
+        public virtual ICollection<MOrder> MOrders { get; set; }
     }
 }

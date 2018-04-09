@@ -42,4 +42,34 @@ namespace MattanaSite.Models
 
         public string Time { get; set; }
     }
+
+    public class ShowCalendarAgency {
+
+
+        public string id { get; set; }
+        public string code { get; set; }
+
+        public string name { get; set; }
+
+        public string target { get; set; }
+
+    }
+
+    public class EditCalendarDay
+    {
+        public string code { get; set; }
+        public string date { get; set; }
+        public string dayOfWeek { get; set; }
+        public List<ShowCalendarAgency> agency { get; set; }
+    }
+
+    public class ShowCalendarDay
+    {
+        public string code { get; set; }
+        public string date { get; set; }
+        public string dayOfWeek { get; set; }
+        public List<ShowCalendarAgency> plan { get; set; }
+
+        public List<ShowCalendarAgency> work { get; set; }
+    }
 }

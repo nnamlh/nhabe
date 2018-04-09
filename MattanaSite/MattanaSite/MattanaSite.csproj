@@ -231,7 +231,7 @@
     <Compile Include="Models\CalendarInfo.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CalendarType.cs">
+    <Compile Include="Models\CalendarPlan.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CalendarWork.cs">
@@ -286,9 +286,6 @@
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductOrder.cs">
-      <DependentUpon>MDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ProductType.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\show_user_role_Result.cs">
@@ -430,6 +427,7 @@
     <Content Include="Views\Product\ImportExcel.cshtml" />
     <Content Include="Views\Staff\Delete.cshtml" />
     <Content Include="Views\Agency\Delete.cshtml" />
+    <Content Include="Views\Calendar\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

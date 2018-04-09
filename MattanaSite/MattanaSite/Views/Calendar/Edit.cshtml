@@ -1,0 +1,218 @@
+﻿@model MattanaSite.Models.CalendarInfo
+@{
+    ViewBag.Title = "Edit time";
+
+    var planTime = ViewBag.PlanTime as IEnumerable<MattanaSite.Models.EditCalendarDay>;
+}
+
+
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Lịch tuần @Model.WeekOfYear năm @Model.CYear - @Model.MStaff.FullName
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <p class="">@ViewBag.MSG</p>
+
+            <div class="col-sm-3">
+
+                <label>Năm</label>
+                <input type="number" class="form-control changeweek" name="year" value="@Model.CYear" id="year" />
+            </div>
+            <div class="col-sm-3">
+
+                <label>Tuần</label>
+                <input type="number" class="form-control changeweek" name="week" value="@Model.WeekOfYear" id="week" />
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Từ ngày</label>
+                    <input type="text" class="form-control" name="fdate" value="@Model.FDate" id="fdate" disabled />
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Tới ngày</label>
+                    <input type="text" class="form-control" name="tdate" value="@Model.TDate" id="tdate" disabled />
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label>Tiêu đề</label>
+                <input type="text" class="form-control" name="title" value="@Model.Title" />
+            </div>
+
+            <div class="col-sm-6">
+                <label>Nhân viên</label>
+                <input type="text" class="form-control" name="staff" value="@Model.MStaff.FullName - @Model.MStaff.Id" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <br />
+        <fieldset>
+            <a href="/calendar/showdetail/@Model.Id">Xem lịch</a>
+            <table class="table table-striped table-bordered thumbnail-table">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Danh sách đại lý</th>
+                        <th>Thêm đại lý</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in planTime)
+                    {
+                        <tr>
+                            <td>
+                                @item.date <br />
+                                @item.dayOfWeek
+                            </td>
+                            <td>
+                                <div id="@("date" + item.code)">
+                                    @foreach (var plan in item.agency)
+                                    {
+                                        <span id="@(plan.id + item.code)">@plan.name-target:@plan.target &nbsp;&nbsp;<a href="javascript:removeplan('@plan.id', '@item.code')">Xóa</a> <br /></span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Mã đại lý" class="addagency" data-uid="@item.code" /> <br />
+                                <input type="number" placeholder="Target" id="@("target" + item.code)" value="10000000" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+
+
+</div>
+
+@section styles {
+    <!-- bootstrap select-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <link href="~/content/bootstrap-datepicker.min.css" rel="stylesheet">
+}
+
+@section scripts {
+    <!-- bootstrap select js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+
+    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/scripts/bootstrap-datepicker.vi.min.js"></script>
+    <script type="text/javascript">
+        $('.datetime').datepicker({
+            language: "vi",
+            format: 'dd/mm/yyyy',
+            orientation: "bottom auto"
+        });
+
+        $(document).ready(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+        $(".changeweek").on('input', function (e) {
+            var week = $('#week').val();
+
+            var year = $('#year').val();
+
+            if (week === '' || year === '') {
+                alert('Sai tuần và năm');
+            } else {
+                if (week > 52) {
+                    alert('Tuần không lớn hơn 52')
+                    $('week').val('52');
+                } else {
+                    update(week, year);
+                }
+            }
+        });
+
+
+        function update(week, year) {
+            $.ajax({
+                type: "GET",
+                url: "/calendar/GetDateOfWeek",
+                data: { week: week, year: year },
+                success: function (response) {
+
+                    $('#fdate').val(response.from);
+
+                    $('#tdate').val(response.to);
+
+                }
+            });
+
+        }
+
+
+        $(".addagency").keyup(function (event) {
+            if (event.keyCode === 13) {
+                var date = $(this).attr("data-uid");
+                console.log(date);
+                var agency = $(this).val();
+                var target = $('#target' + date).val();
+
+                if (target === '') {
+                    alert('nhập target');
+                } else
+                    if (agency === '') {
+                        alert('Nhập mã đại lý');
+                    } else {
+                        $(this).val('');
+                        $.ajax({
+                            type: "POST",
+                            url: "/calendar/addcalendarplan",
+                            data: { date: date, id: '@Model.Id', agency: agency, target: target },
+                            success: function (response) {
+                                if (response.id === 1) {
+                                    var agencyId = "'" + response.agencyId + "'";
+                                    var dateResult = "'" + response.date + "'";
+                                    $('#date' + date).append('<span id="' + response.agencyId + response.date + '">' + response.msg + '&nbsp;&nbsp;<a href= "javascript:removeplan(' + agencyId + ', ' + dateResult + ')">Xóa</a> <br /></span>');
+
+                                } else {
+                                    alert(response.msg);
+                                }
+                            }
+                        });
+                    }
+            }
+        });
+
+
+
+        function removeplan(agency, date) {
+
+            if (confirm("Xóa kế hoạch thăm đại lý này ?")) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/calendar/RemovePlanAgency",
+                    data: { agency: agency, date: date, calendarId: '@Model.Id' },
+                    success: function (response) {
+                        $('#' + agency + date).remove();
+                    }
+                });
+
+            } else {
+
+            }
+        }
+
+    </script>
+}

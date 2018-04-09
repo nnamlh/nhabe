@@ -224,7 +224,7 @@
     <Compile Include="Models\CalendarInfo.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CalendarType.cs">
+    <Compile Include="Models\CalendarPlan.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CalendarWork.cs">
@@ -274,9 +274,6 @@
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductOrder.cs">
-      <DependentUpon>MDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ProductType.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

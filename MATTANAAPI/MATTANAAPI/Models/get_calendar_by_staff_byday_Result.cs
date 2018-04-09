@@ -20,11 +20,11 @@ namespace MATTANAAPI.Models
         public string AddressDetail { get; set; }
         public Nullable<double> Lat { get; set; }
         public Nullable<double> Lng { get; set; }
-        public Nullable<System.TimeSpan> CInTime { get; set; }
-        public Nullable<System.TimeSpan> COutTime { get; set; }
-        public Nullable<int> Perform { get; set; }
-        public Nullable<int> InPlan { get; set; }
-        public string StaffCheck { get; set; }
-        public string StaffCheckName { get; set; }
+        public string Deputy { get; set; }
+        public string IdentityCard { get; set; }
+        public string Province { get; set; }
+        public Nullable<int> IsLock { get; set; }
+        public Nullable<double> Discount { get; set; }
+        public string AreaInfo { get; set; }
     }
 }

@@ -4,36 +4,42 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.com.mattana.adapter.ViewPagerAdapter;
+import vn.com.mattana.adapter.CWorkAdapter;
 import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
 import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.checkin.CWorkInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
 import vn.com.mattana.util.MRes;
-import vn.com.mattana.view.CheckInPlanFragment;
-import vn.com.mattana.view.CheckOutPlanFragment;
+
 
 public class CheckInActivity extends BaseActivity {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+
     int SHOW_TASK = 1;
-    public List<CWorkInfo> workInfos;
-    CheckInPlanFragment inPlanFragment;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    CWorkAdapter adapter;
+
+    List<CWorkInfo> workInfos;
+
+    @BindView(R.id.swiperefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +50,28 @@ public class CheckInActivity extends BaseActivity {
 
         workInfos = new ArrayList<>();
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        createTab();
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        workInfos = new ArrayList<>();
+        workInfos.addAll(workInfos);
+        adapter = new CWorkAdapter(workInfos, this);
+        recyclerView.setAdapter(adapter);
+
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        adapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
+
         makeRequest();
+
     }
 
     private void makeRequest() {
@@ -63,8 +87,8 @@ public class CheckInActivity extends BaseActivity {
                 if (response.body() != null) {
 
                     if ("1".equals(response.body().getId())) {
-                       // workInfos.addAll(response.body().getWorks());
-                        inPlanFragment.refestData(response.body().getWorks());
+                        workInfos.addAll(response.body().getWorks());
+                        adapter.notifyDataSetChanged();
                     } else {
                         commons.makeToast(CheckInActivity.this, response.body().getMsg()).show();
                     }
@@ -120,8 +144,7 @@ public class CheckInActivity extends BaseActivity {
                 final double lat = getLat();
                 final double lng = getLng();
 
-                if (lat == 0 || lng == 0)
-                {
+                if (lat == 0 || lng == 0) {
                     Toast.makeText(CheckInActivity.this, "Không tìm thấy tọa độ, kiểm tra GPS", Toast.LENGTH_LONG).show();
                     hidepDialog();
                 } else {
@@ -133,7 +156,7 @@ public class CheckInActivity extends BaseActivity {
 
                             if (response.body() != null) {
                                 if (response.body().getId().equals("1")) {
-                                    inPlanFragment.updateLocation(position, lat, lng);
+                                    adapter.notifyDataSetChanged();
                                 } else {
                                     commons.makeToast(CheckInActivity.this, response.body().getMsg()).show();
                                 }
@@ -154,22 +177,6 @@ public class CheckInActivity extends BaseActivity {
         });
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-         inPlanFragment = new CheckInPlanFragment();
-        inPlanFragment.setData(CheckInActivity.this);
-        adapter.addFragment(inPlanFragment, "DANH SÁCH GHÉ THĂM");
-
-
-        CheckOutPlanFragment otherFragment = new CheckOutPlanFragment();
-        adapter.addFragment(otherFragment, "NGOÀI KẾ HOẠCH");
-        viewPager.setAdapter(adapter);
-    }
-
-    private void createTab() {
-        setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SHOW_TASK) {
@@ -183,7 +190,7 @@ public class CheckInActivity extends BaseActivity {
 
     public float distance(double lat, double lng) {
         if (getLat() == 0 || getLng() == 0)
-            return  -1;
+            return -1;
 
         Location locationA = new Location("point A");
 
@@ -197,6 +204,6 @@ public class CheckInActivity extends BaseActivity {
 
         float distance = locationA.distanceTo(locationB);
 
-        return  distance;
+        return distance;
     }
 }

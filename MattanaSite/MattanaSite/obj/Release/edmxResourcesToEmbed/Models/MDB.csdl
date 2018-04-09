@@ -1,36 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="MDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="CalendarType">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="CalendarWork">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="CDay" Type="Int32" />
-    <Property Name="InPlan" Type="Int32" />
-    <Property Name="TypeId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CInTime" Type="Time" Precision="7" />
-    <Property Name="COutTime" Type="Time" Precision="7" />
-    <Property Name="DayInWeek" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-    <Property Name="Perform" Type="Int32" />
-    <Property Name="CDate" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-    <Property Name="AgencyId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="MUser" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="StaffCode" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="CYear" Type="Int32" />
-    <Property Name="CMonth" Type="Int32" />
-    <Property Name="CalendarId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="CalendarInfo" Relationship="MDBModel.FK__CalendarW__Calen__5629CD9C" FromRole="CalendarWork" ToRole="CalendarInfo" />
-    <Property Name="Targets" Type="Double" />
-    <NavigationProperty Name="MAgency" Relationship="MDBModel.FK__CalendarW__Agenc__4CA06362" FromRole="CalendarWork" ToRole="MAgency" />
-  </EntityType>
   <EntityType Name="MProduct">
     <Key>
       <PropertyRef Name="Id" />
@@ -41,11 +10,9 @@
     <Property Name="PCode" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
     <Property Name="Price" Type="Double" />
     <Property Name="IsLock" Type="Int32" />
-    <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
-    <Property Name="TypeId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="ProductType" Relationship="MDBModel.FK__MProduct__TypeId__797309D9" FromRole="MProduct" ToRole="ProductType" />
     <Property Name="PSize" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-    <Property Name="PMainCode" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="PSizeCode" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="MProduct" ToRole="ProductOrder" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>
@@ -58,24 +25,72 @@
     <Property Name="GroupNumber" Type="Int32" />
     <Property Name="IdentityCard" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
     <Property Name="IsLock" Type="Int32" />
-    <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MStaff" ToRole="MOrder" />
-    <NavigationProperty Name="CalendarInfoes" Relationship="MDBModel.CalendarWithStaff" FromRole="MStaff" ToRole="CalendarInfo" />
     <NavigationProperty Name="MAgencies" Relationship="MDBModel.AgencyWithStaff" FromRole="MStaff" ToRole="MAgency" />
+    <NavigationProperty Name="CalendarInfoes" Relationship="MDBModel.FK__CalendarI__Staff__0C85DE4D" FromRole="MStaff" ToRole="CalendarInfo" />
+    <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Staff__17F790F9" FromRole="MStaff" ToRole="CalendarWork" />
+    <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MStaff" ToRole="MOrder" />
   </EntityType>
   <EntityContainer Name="MDBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="CalendarTypes" EntityType="Self.CalendarType" />
-    <EntitySet Name="CalendarWorks" EntityType="Self.CalendarWork" />
     <EntitySet Name="MProducts" EntityType="Self.MProduct" />
     <EntitySet Name="MStaffs" EntityType="Self.MStaff" />
-    <EntitySet Name="CalendarInfoes" EntityType="MDBModel.CalendarInfo" />
-    <AssociationSet Name="FK__CalendarW__Calen__5629CD9C" Association="MDBModel.FK__CalendarW__Calen__5629CD9C">
-      <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
-      <End Role="CalendarWork" EntitySet="CalendarWorks" />
-    </AssociationSet>
-    <EntitySet Name="MOrders" EntityType="MDBModel.MOrder" />
     <EntitySet Name="OrderNumbers" EntityType="MDBModel.OrderNumber" />
     <EntitySet Name="OrderStatus" EntityType="MDBModel.OrderStatu" />
+    <FunctionImport Name="get_detail_calendar_by_calendarid" ReturnType="Collection(MDBModel.get_detail_calendar_by_calendarid_Result)">
+      <Parameter Name="calendarId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="show_user_role" ReturnType="Collection(MDBModel.show_user_role_Result)" />
+    <FunctionImport Name="delete_calendar">
+      <Parameter Name="calendarId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="get_calendar_in_month_by_staff" ReturnType="Collection(MDBModel.get_calendar_in_month_by_staff_Result)">
+      <Parameter Name="Month" Mode="In" Type="Int32" />
+      <Parameter Name="Year" Mode="In" Type="Int32" />
+      <Parameter Name="StaffId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="check_staff_has_create_calendar" ReturnType="Collection(MDBModel.check_staff_has_create_calendar_Result)">
+      <Parameter Name="day" Mode="In" Type="Int32" />
+      <Parameter Name="month" Mode="In" Type="Int32" />
+      <Parameter Name="year" Mode="In" Type="Int32" />
+      <Parameter Name="staffId" Mode="In" Type="String" />
+      <Parameter Name="calendarId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="get_calendar_by_id" ReturnType="Collection(MDBModel.get_calendar_by_id_Result)">
+      <Parameter Name="CalendarId" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="MAgencies" EntityType="MDBModel.MAgency" />
+    <AssociationSet Name="AgencyWithStaff" Association="MDBModel.AgencyWithStaff">
+      <End Role="MAgency" EntitySet="MAgencies" />
+      <End Role="MStaff" EntitySet="MStaffs" />
+    </AssociationSet>
+    <EntitySet Name="CalendarInfoes" EntityType="MDBModel.CalendarInfo" />
+    <EntitySet Name="CalendarPlans" EntityType="MDBModel.CalendarPlan" />
+    <EntitySet Name="CalendarWorks" EntityType="MDBModel.CalendarWork" />
+    <EntitySet Name="MOrders" EntityType="MDBModel.MOrder" />
     <EntitySet Name="ProductOrders" EntityType="MDBModel.ProductOrder" />
+    <AssociationSet Name="FK__CalendarI__Staff__0C85DE4D" Association="MDBModel.FK__CalendarI__Staff__0C85DE4D">
+      <End Role="MStaff" EntitySet="MStaffs" />
+      <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarP__Calen__114A936A" Association="MDBModel.FK__CalendarP__Calen__114A936A">
+      <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
+      <End Role="CalendarPlan" EntitySet="CalendarPlans" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarP__Agenc__123EB7A3" Association="MDBModel.FK__CalendarP__Agenc__123EB7A3">
+      <End Role="MAgency" EntitySet="MAgencies" />
+      <End Role="CalendarPlan" EntitySet="CalendarPlans" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Agenc__17036CC0" Association="MDBModel.FK__CalendarW__Agenc__17036CC0">
+      <End Role="MAgency" EntitySet="MAgencies" />
+      <End Role="CalendarWork" EntitySet="CalendarWorks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Staff__17F790F9" Association="MDBModel.FK__CalendarW__Staff__17F790F9">
+      <End Role="MStaff" EntitySet="MStaffs" />
+      <End Role="CalendarWork" EntitySet="CalendarWorks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MOrder__AgencyId__628FA481" Association="MDBModel.FK__MOrder__AgencyId__628FA481">
+      <End Role="MAgency" EntitySet="MAgencies" />
+      <End Role="MOrder" EntitySet="MOrders" />
+    </AssociationSet>
     <AssociationSet Name="FK__MOrder__StaffId__6383C8BA" Association="MDBModel.FK__MOrder__StaffId__6383C8BA">
       <End Role="MStaff" EntitySet="MStaffs" />
       <End Role="MOrder" EntitySet="MOrders" />
@@ -92,80 +107,190 @@
       <End Role="MProduct" EntitySet="MProducts" />
       <End Role="ProductOrder" EntitySet="ProductOrders" />
     </AssociationSet>
-    <FunctionImport Name="get_detail_calendar_by_calendarid" ReturnType="Collection(MDBModel.get_detail_calendar_by_calendarid_Result)">
-      <Parameter Name="calendarId" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="show_user_role" ReturnType="Collection(MDBModel.show_user_role_Result)" />
-    <FunctionImport Name="delete_calendar">
-      <Parameter Name="calendarId" Mode="In" Type="String" />
-    </FunctionImport>
-    <AssociationSet Name="CalendarWithStaff" Association="MDBModel.CalendarWithStaff">
-      <End Role="CalendarInfo" EntitySet="CalendarInfoes" />
-      <End Role="MStaff" EntitySet="MStaffs" />
-    </AssociationSet>
-    <FunctionImport Name="get_calendar_in_month_by_staff" ReturnType="Collection(MDBModel.get_calendar_in_month_by_staff_Result)">
-      <Parameter Name="Month" Mode="In" Type="Int32" />
-      <Parameter Name="Year" Mode="In" Type="Int32" />
-      <Parameter Name="StaffId" Mode="In" Type="String" />
-    </FunctionImport>
-    <EntitySet Name="ProductTypes" EntityType="MDBModel.ProductType" />
-    <AssociationSet Name="FK__MProduct__TypeId__797309D9" Association="MDBModel.FK__MProduct__TypeId__797309D9">
-      <End Role="ProductType" EntitySet="ProductTypes" />
-      <End Role="MProduct" EntitySet="MProducts" />
-    </AssociationSet>
-    <FunctionImport Name="check_staff_has_create_calendar" ReturnType="Collection(MDBModel.check_staff_has_create_calendar_Result)">
-      <Parameter Name="day" Mode="In" Type="Int32" />
-      <Parameter Name="month" Mode="In" Type="Int32" />
-      <Parameter Name="year" Mode="In" Type="Int32" />
-      <Parameter Name="staffId" Mode="In" Type="String" />
-      <Parameter Name="calendarId" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="get_calendar_by_id" ReturnType="Collection(MDBModel.get_calendar_by_id_Result)">
-      <Parameter Name="CalendarId" Mode="In" Type="String" />
-    </FunctionImport>
-    <EntitySet Name="MAgencies" EntityType="MDBModel.MAgency" />
-    <AssociationSet Name="FK__CalendarW__Agenc__4CA06362" Association="MDBModel.FK__CalendarW__Agenc__4CA06362">
-      <End Role="MAgency" EntitySet="MAgencies" />
-      <End Role="CalendarWork" EntitySet="CalendarWorks" />
-    </AssociationSet>
-    <AssociationSet Name="FK__MOrder__AgencyId__628FA481" Association="MDBModel.FK__MOrder__AgencyId__628FA481">
-      <End Role="MAgency" EntitySet="MAgencies" />
-      <End Role="MOrder" EntitySet="MOrders" />
-    </AssociationSet>
-    <AssociationSet Name="AgencyWithStaff" Association="MDBModel.AgencyWithStaff">
-      <End Role="MAgency" EntitySet="MAgencies" />
-      <End Role="MStaff" EntitySet="MStaffs" />
-    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="OrderNumber">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Number" Type="Int32" />
+    <Property Name="CharId" Type="Int32" />
+    <Property Name="Code" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="OrderStatu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PreStt" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="OrderStatu" ToRole="MOrder" />
+  </EntityType>
+  <ComplexType Name="get_detail_calendar_by_calendarid_Result">
+    <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="CDay" Nullable="true" />
+    <Property Type="Int32" Name="InPlan" Nullable="true" />
+    <Property Type="String" Name="TypeId" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="Time" Name="CInTime" Nullable="true" />
+    <Property Type="Time" Name="COutTime" Nullable="true" />
+    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
+    <Property Type="Int32" Name="Perform" Nullable="true" />
+    <Property Type="String" Name="CDate" Nullable="true" MaxLength="32" />
+    <Property Type="String" Name="AgencyId" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="MUser" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="StaffCode" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="CYear" Nullable="true" />
+    <Property Type="Int32" Name="CMonth" Nullable="true" />
+    <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Code" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Store" Nullable="true" />
+    <Property Type="String" Name="Phone" Nullable="true" MaxLength="16" />
+    <Property Type="String" Name="AddressDetail" Nullable="true" />
+    <Property Type="Double" Name="Lat" Nullable="true" />
+    <Property Type="Double" Name="Lng" Nullable="true" />
+    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="StaffCheckName" Nullable="true" MaxLength="512" />
+  </ComplexType>
+  <ComplexType Name="show_user_role_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="512" />
+    <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="UserName" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="UserId" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="get_calendar_in_month_by_staff_Result">
+    <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="CDay" Nullable="true" />
+    <Property Type="Int32" Name="CMonth" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="Int32" Name="CYear" Nullable="true" />
+    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
+    <Property Type="Int32" Name="InPlan" Nullable="true" />
+    <Property Type="Int32" Name="Perform" Nullable="true" />
+    <Property Type="Time" Name="CInTime" Nullable="true" />
+    <Property Type="Time" Name="COutTime" Nullable="true" />
+    <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
+    <Property Type="String" Name="Store" Nullable="true" />
+    <Property Type="String" Name="Deputy" Nullable="true" />
+    <Property Type="String" Name="AgencyAddress" Nullable="true" />
+    <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
+    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
+    <Property Type="Int32" Name="StaffGroup" Nullable="true" />
+    <Property Type="Double" Name="TotalMoney" Nullable="true" />
+    <Property Type="Double" Name="Targets" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="check_staff_has_create_calendar_Result">
+    <Property Type="String" Name="StaffId" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
+  </ComplexType>
+  <ComplexType Name="get_calendar_by_id_Result">
+    <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="CDay" Nullable="true" />
+    <Property Type="Int32" Name="CMonth" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="Int32" Name="CYear" Nullable="true" />
+    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
+    <Property Type="Int32" Name="InPlan" Nullable="true" />
+    <Property Type="Int32" Name="Perform" Nullable="true" />
+    <Property Type="Time" Name="CInTime" Nullable="true" />
+    <Property Type="Time" Name="COutTime" Nullable="true" />
+    <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Store" Nullable="true" />
+    <Property Type="String" Name="Deputy" Nullable="true" />
+    <Property Type="String" Name="AgencyAddress" Nullable="true" />
+    <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
+    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
+    <Property Type="Int32" Name="StaffGroup" Nullable="true" />
+    <Property Type="Double" Name="TotalMoney" Nullable="true" />
+    <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
+    <Property Type="Double" Name="Targets" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="MAgency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Code" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Deputy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IdentityCard" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="AddressDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Province" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Int32" />
+    <Property Name="Lat" Type="Double" />
+    <Property Name="Lng" Type="Double" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="AreaInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MStaffs" Relationship="MDBModel.AgencyWithStaff" FromRole="MAgency" ToRole="MStaff" />
+    <NavigationProperty Name="CalendarPlans" Relationship="MDBModel.FK__CalendarP__Agenc__123EB7A3" FromRole="MAgency" ToRole="CalendarPlan" />
+    <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Agenc__17036CC0" FromRole="MAgency" ToRole="CalendarWork" />
+    <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MAgency" ToRole="MOrder" />
+  </EntityType>
+  <Association Name="AgencyWithStaff">
+    <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="*" />
+    <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="*" />
+  </Association>
   <EntityType Name="CalendarInfo">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="IsLock" Type="Int32" />
-    <Property Name="FDate" Type="DateTime" Precision="0" />
-    <Property Name="TDate" Type="DateTime" Precision="0" />
-    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FDate" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="TDate" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="StaffId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
     <Property Name="WeekOfYear" Type="Int32" />
-    <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Calen__5629CD9C" FromRole="CalendarInfo" ToRole="CalendarWork" />
-    <NavigationProperty Name="MStaffs" Relationship="MDBModel.CalendarWithStaff" FromRole="CalendarInfo" ToRole="MStaff" />
-    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CreateTime" Type="DateTime" Precision="3" />
-    <Property Name="UserCreate" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CStatus" Type="Int32" />
+    <Property Name="CMonth" Type="Int32" />
     <Property Name="CYear" Type="Int32" />
+    <Property Name="CreateTine" Type="DateTime" Precision="0" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__CalendarI__Staff__0C85DE4D" FromRole="CalendarInfo" ToRole="MStaff" />
+    <NavigationProperty Name="CalendarPlans" Relationship="MDBModel.FK__CalendarP__Calen__114A936A" FromRole="CalendarInfo" ToRole="CalendarPlan" />
   </EntityType>
-  <Association Name="FK__CalendarW__Calen__5629CD9C">
-    <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="0..1" />
-    <End Type="MDBModel.CalendarWork" Role="CalendarWork" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CalendarInfo">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CalendarWork">
-        <PropertyRef Name="CalendarId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityType Name="CalendarPlan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CalendarId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CDate" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="AgencyId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CDay" Type="Int32" />
+    <Property Name="CMonth" Type="Int32" />
+    <Property Name="CYear" Type="Int32" />
+    <Property Name="Targets" Type="Double" />
+    <NavigationProperty Name="CalendarInfo" Relationship="MDBModel.FK__CalendarP__Calen__114A936A" FromRole="CalendarPlan" ToRole="CalendarInfo" />
+    <NavigationProperty Name="MAgency" Relationship="MDBModel.FK__CalendarP__Agenc__123EB7A3" FromRole="CalendarPlan" ToRole="MAgency" />
+    <Property Name="DayOfWeek" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="CalendarWork">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Perform" Type="Int32" />
+    <Property Name="CDate" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="CDay" Type="Int32" />
+    <Property Name="CMonth" Type="Int32" />
+    <Property Name="CYear" Type="Int32" />
+    <Property Name="AgencyId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="StaffId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CountWork" Type="Int32" />
+    <Property Name="FistTime" Type="DateTime" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <Property Name="ChangeTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="MAgency" Relationship="MDBModel.FK__CalendarW__Agenc__17036CC0" FromRole="CalendarWork" ToRole="MAgency" />
+    <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__CalendarW__Staff__17F790F9" FromRole="CalendarWork" ToRole="MStaff" />
+    <Property Name="DayOfWeek" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="MOrder">
     <Key>
       <PropertyRef Name="Id" />
@@ -181,31 +306,12 @@
     <Property Name="ModifyTime" Type="DateTime" Precision="3" />
     <Property Name="CloseOrder" Type="Int32" />
     <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CDay" Type="Int32" />
-    <Property Name="CMonth" Type="Int32" />
-    <Property Name="CYear" Type="Int32" />
+    <Property Name="SuggestDate" Type="DateTime" Precision="3" />
+    <Property Name="CDate" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MAgency" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MOrder" ToRole="MAgency" />
     <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MOrder" ToRole="MStaff" />
     <NavigationProperty Name="OrderStatu" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="MOrder" ToRole="OrderStatu" />
     <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="MOrder" ToRole="ProductOrder" />
-    <Property Name="SuggestDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="MAgency" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MOrder" ToRole="MAgency" />
-  </EntityType>
-  <EntityType Name="OrderNumber">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="Number" Type="Int32" />
-    <Property Name="CharId" Type="Int32" />
-  </EntityType>
-  <EntityType Name="OrderStatu">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="OrderStatu" ToRole="MOrder" />
-    <Property Name="PreStt" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="ProductOrder">
     <Key>
@@ -220,6 +326,78 @@
     <NavigationProperty Name="MOrder" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="ProductOrder" ToRole="MOrder" />
     <NavigationProperty Name="MProduct" Relationship="MDBModel.FK__ProductOr__Produ__68487DD7" FromRole="ProductOrder" ToRole="MProduct" />
   </EntityType>
+  <Association Name="FK__CalendarI__Staff__0C85DE4D">
+    <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="1" />
+    <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MStaff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarInfo">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarP__Calen__114A936A">
+    <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="1" />
+    <End Type="MDBModel.CalendarPlan" Role="CalendarPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CalendarInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarPlan">
+        <PropertyRef Name="CalendarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarP__Agenc__123EB7A3">
+    <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="0..1" />
+    <End Type="MDBModel.CalendarPlan" Role="CalendarPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarPlan">
+        <PropertyRef Name="AgencyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Agenc__17036CC0">
+    <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="0..1" />
+    <End Type="MDBModel.CalendarWork" Role="CalendarWork" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarWork">
+        <PropertyRef Name="AgencyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Staff__17F790F9">
+    <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="1" />
+    <End Type="MDBModel.CalendarWork" Role="CalendarWork" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MStaff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarWork">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MOrder__AgencyId__628FA481">
+    <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="0..1" />
+    <End Type="MDBModel.MOrder" Role="MOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MOrder">
+        <PropertyRef Name="AgencyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__MOrder__StaffId__6383C8BA">
     <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="0..1" />
     <End Type="MDBModel.MOrder" Role="MOrder" Multiplicity="*" />
@@ -267,163 +445,5 @@
         <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
-  </Association>
-  <ComplexType Name="get_detail_calendar_by_calendarid_Result">
-    <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="CDay" Nullable="true" />
-    <Property Type="Int32" Name="InPlan" Nullable="true" />
-    <Property Type="String" Name="TypeId" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Notes" Nullable="true" />
-    <Property Type="Time" Name="CInTime" Nullable="true" />
-    <Property Type="Time" Name="COutTime" Nullable="true" />
-    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-    <Property Type="Int32" Name="Perform" Nullable="true" />
-    <Property Type="String" Name="CDate" Nullable="true" MaxLength="32" />
-    <Property Type="String" Name="AgencyId" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="MUser" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="StaffCode" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="CYear" Nullable="true" />
-    <Property Type="Int32" Name="CMonth" Nullable="true" />
-    <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Code" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Store" Nullable="true" />
-    <Property Type="String" Name="Phone" Nullable="true" MaxLength="16" />
-    <Property Type="String" Name="AddressDetail" Nullable="true" />
-    <Property Type="Double" Name="Lat" Nullable="true" />
-    <Property Type="Double" Name="Lng" Nullable="true" />
-    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="StaffCheckName" Nullable="true" MaxLength="512" />
-  </ComplexType>
-  <ComplexType Name="show_user_role_Result">
-    <Property Type="String" Name="FullName" Nullable="true" MaxLength="512" />
-    <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
-    <Property Type="String" Name="UserName" Nullable="true" />
-    <Property Type="String" Name="Name" Nullable="false" />
-    <Property Type="String" Name="UserId" Nullable="false" />
-  </ComplexType>
-  <Association Name="CalendarWithStaff">
-    <End Type="MDBModel.CalendarInfo" Role="CalendarInfo" Multiplicity="*" />
-    <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="*" />
-  </Association>
-  <ComplexType Name="get_calendar_in_month_by_staff_Result">
-    <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="CDay" Nullable="true" />
-    <Property Type="Int32" Name="CMonth" Nullable="true" />
-    <Property Type="String" Name="Notes" Nullable="true" />
-    <Property Type="Int32" Name="CYear" Nullable="true" />
-    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-    <Property Type="Int32" Name="InPlan" Nullable="true" />
-    <Property Type="Int32" Name="Perform" Nullable="true" />
-    <Property Type="Time" Name="CInTime" Nullable="true" />
-    <Property Type="Time" Name="COutTime" Nullable="true" />
-    <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
-    <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
-    <Property Type="String" Name="Store" Nullable="true" />
-    <Property Type="String" Name="Deputy" Nullable="true" />
-    <Property Type="String" Name="AgencyAddress" Nullable="true" />
-    <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
-    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
-    <Property Type="Int32" Name="StaffGroup" Nullable="true" />
-    <Property Type="Double" Name="TotalMoney" Nullable="true" />
-    <Property Type="Double" Name="Targets" Nullable="true" />
-  </ComplexType>
-  <EntityType Name="ProductType">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="MProducts" Relationship="MDBModel.FK__MProduct__TypeId__797309D9" FromRole="ProductType" ToRole="MProduct" />
-  </EntityType>
-  <Association Name="FK__MProduct__TypeId__797309D9">
-    <End Type="MDBModel.ProductType" Role="ProductType" Multiplicity="0..1" />
-    <End Type="MDBModel.MProduct" Role="MProduct" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProductType">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MProduct">
-        <PropertyRef Name="TypeId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <ComplexType Name="check_staff_has_create_calendar_Result">
-    <Property Type="String" Name="StaffId" Nullable="false" MaxLength="128" />
-    <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
-  </ComplexType>
-  <ComplexType Name="get_calendar_by_id_Result">
-    <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="CDay" Nullable="true" />
-    <Property Type="Int32" Name="CMonth" Nullable="true" />
-    <Property Type="String" Name="Notes" Nullable="true" />
-    <Property Type="Int32" Name="CYear" Nullable="true" />
-    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-    <Property Type="Int32" Name="InPlan" Nullable="true" />
-    <Property Type="Int32" Name="Perform" Nullable="true" />
-    <Property Type="Time" Name="CInTime" Nullable="true" />
-    <Property Type="Time" Name="COutTime" Nullable="true" />
-    <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
-    <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Store" Nullable="true" />
-    <Property Type="String" Name="Deputy" Nullable="true" />
-    <Property Type="String" Name="AgencyAddress" Nullable="true" />
-    <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
-    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
-    <Property Type="Int32" Name="StaffGroup" Nullable="true" />
-    <Property Type="Double" Name="TotalMoney" Nullable="true" />
-    <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
-    <Property Type="Double" Name="Targets" Nullable="true" />
-  </ComplexType>
-  <EntityType Name="MAgency">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="Code" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Deputy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="IdentityCard" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-    <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-    <Property Name="AddressDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Province" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-    <Property Name="IsLock" Type="Int32" />
-    <Property Name="Lat" Type="Double" />
-    <Property Name="Lng" Type="Double" />
-    <Property Name="Discount" Type="Double" />
-    <Property Name="AreaInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Agenc__4CA06362" FromRole="MAgency" ToRole="CalendarWork" />
-    <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__AgencyId__628FA481" FromRole="MAgency" ToRole="MOrder" />
-    <NavigationProperty Name="MStaffs" Relationship="MDBModel.AgencyWithStaff" FromRole="MAgency" ToRole="MStaff" />
-  </EntityType>
-  <Association Name="FK__CalendarW__Agenc__4CA06362">
-    <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="0..1" />
-    <End Type="MDBModel.CalendarWork" Role="CalendarWork" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MAgency">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CalendarWork">
-        <PropertyRef Name="AgencyId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__MOrder__AgencyId__628FA481">
-    <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="0..1" />
-    <End Type="MDBModel.MOrder" Role="MOrder" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MAgency">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MOrder">
-        <PropertyRef Name="AgencyId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AgencyWithStaff">
-    <End Type="MDBModel.MAgency" Role="MAgency" Multiplicity="*" />
-    <End Type="MDBModel.MStaff" Role="MStaff" Multiplicity="*" />
   </Association>
 </Schema>

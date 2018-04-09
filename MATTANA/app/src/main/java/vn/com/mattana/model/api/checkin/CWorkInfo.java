@@ -8,8 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class CWorkInfo {
 
-    @SerializedName("workId")
-    private String workId;
     @SerializedName("store")
     private String store;
     @SerializedName("phone")
@@ -23,37 +21,10 @@ public class CWorkInfo {
 
     @SerializedName("code")
     private String code;
-    @SerializedName("inplan")
-    private int inplan;
-    @SerializedName("perform")
-    private  int perform;
 
-    @SerializedName("status")
-    private String status;
+    @SerializedName("id")
+    private String id;
 
-    public int getInplan() {
-        return inplan;
-    }
-
-    public void setInplan(int inplan) {
-        this.inplan = inplan;
-    }
-
-    public int getPerform() {
-        return perform;
-    }
-
-    public void setPerform(int perform) {
-        this.perform = perform;
-    }
-
-    public String getWorkId() {
-        return workId;
-    }
-
-    public void setWorkId(String workId) {
-        this.workId = workId;
-    }
 
     public String getStore() {
         return store;
@@ -103,11 +74,11 @@ public class CWorkInfo {
         this.code = code;
     }
 
-    public String getStatus() {
-        return status;
+    public String getId() {
+        return id;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setId(String id) {
+        this.id = id;
     }
 }

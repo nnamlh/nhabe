@@ -17,5 +17,6 @@ namespace MATTANAAPI.Models
         public string Id { get; set; }
         public Nullable<int> Number { get; set; }
         public Nullable<int> CharId { get; set; }
+        public string Code { get; set; }
     }
 }

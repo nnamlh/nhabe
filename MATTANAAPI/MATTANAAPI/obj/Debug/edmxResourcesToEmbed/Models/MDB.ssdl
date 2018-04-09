@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="MDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="MDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="AgencyWithStaff">
     <Key>
       <PropertyRef Name="AgencyId" />
@@ -38,52 +38,48 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="IsLock" Type="int" />
-    <Property Name="FDate" Type="date" />
-    <Property Name="TDate" Type="date" />
-    <Property Name="Notes" Type="nvarchar(max)" />
+    <Property Name="FDate" Type="varchar" MaxLength="128" />
+    <Property Name="TDate" Type="varchar" MaxLength="128" />
+    <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="WeekOfYear" Type="int" />
-    <Property Name="Name" Type="nvarchar(max)" />
-    <Property Name="CreateTime" Type="datetime" />
-    <Property Name="UserCreate" Type="varchar" MaxLength="128" />
+    <Property Name="CStatus" Type="int" />
+    <Property Name="CMonth" Type="int" />
     <Property Name="CYear" Type="int" />
+    <Property Name="CreateTine" Type="date" />
+    <Property Name="Title" Type="nvarchar(max)" />
   </EntityType>
-  <EntityType Name="CalendarType">
+  <EntityType Name="CalendarPlan">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" />
-  </EntityType>
-  <EntityType Name="CalendarWithStaff">
-    <Key>
-      <PropertyRef Name="CalendarId" />
-      <PropertyRef Name="StaffId" />
-    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="CalendarId" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="CDate" Type="varchar" MaxLength="16" />
+    <Property Name="AgencyId" Type="varchar" MaxLength="128" />
+    <Property Name="CDay" Type="int" />
+    <Property Name="CMonth" Type="int" />
+    <Property Name="CYear" Type="int" />
+    <Property Name="Targets" Type="float" />
+    <Property Name="DayOfWeek" Type="nvarchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="CalendarWork">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="CDay" Type="int" />
-    <Property Name="InPlan" Type="int" />
-    <Property Name="TypeId" Type="nvarchar" MaxLength="128" />
     <Property Name="Notes" Type="nvarchar(max)" />
-    <Property Name="CInTime" Type="time" Precision="7" />
-    <Property Name="COutTime" Type="time" Precision="7" />
-    <Property Name="DayInWeek" Type="nvarchar" MaxLength="32" />
     <Property Name="Perform" Type="int" />
     <Property Name="CDate" Type="varchar" MaxLength="32" />
-    <Property Name="AgencyId" Type="varchar" MaxLength="128" />
-    <Property Name="MUser" Type="varchar" MaxLength="128" />
-    <Property Name="StaffCode" Type="varchar" MaxLength="128" />
-    <Property Name="CYear" Type="int" />
+    <Property Name="CDay" Type="int" />
     <Property Name="CMonth" Type="int" />
-    <Property Name="CalendarId" Type="varchar" MaxLength="128" />
-    <Property Name="Targets" Type="float" />
+    <Property Name="CYear" Type="int" />
+    <Property Name="AgencyId" Type="varchar" MaxLength="128" />
+    <Property Name="StaffId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="CountWork" Type="int" />
+    <Property Name="FistTime" Type="datetime" />
+    <Property Name="EndTime" Type="datetime" />
+    <Property Name="ChangeTime" Type="datetime" />
+    <Property Name="DayOfWeek" Type="nvarchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="MAgency">
     <Key>
@@ -118,10 +114,8 @@
     <Property Name="ModifyTime" Type="datetime" />
     <Property Name="CloseOrder" Type="int" />
     <Property Name="Notes" Type="nvarchar(max)" />
-    <Property Name="CDay" Type="int" />
-    <Property Name="CMonth" Type="int" />
-    <Property Name="CYear" Type="int" />
     <Property Name="SuggestDate" Type="datetime" />
+    <Property Name="CDate" Type="varchar" MaxLength="16" />
   </EntityType>
   <EntityType Name="MProduct">
     <Key>
@@ -133,9 +127,8 @@
     <Property Name="PCode" Type="varchar" MaxLength="128" />
     <Property Name="Price" Type="float" />
     <Property Name="IsLock" Type="int" />
-    <Property Name="TypeId" Type="varchar" MaxLength="128" />
     <Property Name="PSize" Type="varchar" MaxLength="8" />
-    <Property Name="PMainCode" Type="varchar" MaxLength="128" />
+    <Property Name="PSizeCode" Type="varchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="MStaff">
     <Key>
@@ -156,6 +149,7 @@
     <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="Number" Type="int" />
     <Property Name="CharId" Type="int" />
+    <Property Name="Code" Type="nvarchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="OrderStatus">
     <Key>
@@ -175,13 +169,6 @@
     <Property Name="Price" Type="float" />
     <Property Name="QuantityBuy" Type="int" />
     <Property Name="QuantityReal" Type="int" />
-  </EntityType>
-  <EntityType Name="ProductType">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" MaxLength="512" />
   </EntityType>
   <Association Name="FK__AgencyWit__Agenc__2E1BDC42">
     <End Role="MAgency" Type="Self.MAgency" Multiplicity="1" />
@@ -207,7 +194,43 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CalendarW__Agenc__4CA06362">
+  <Association Name="FK__CalendarI__Staff__0C85DE4D">
+    <End Role="MStaff" Type="Self.MStaff" Multiplicity="1" />
+    <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MStaff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarInfo">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarP__Agenc__123EB7A3">
+    <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
+    <End Role="CalendarPlan" Type="Self.CalendarPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarPlan">
+        <PropertyRef Name="AgencyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarP__Calen__114A936A">
+    <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="1" />
+    <End Role="CalendarPlan" Type="Self.CalendarPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CalendarInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CalendarPlan">
+        <PropertyRef Name="CalendarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CalendarW__Agenc__17036CC0">
     <End Role="MAgency" Type="Self.MAgency" Multiplicity="0..1" />
     <End Role="CalendarWork" Type="Self.CalendarWork" Multiplicity="*" />
     <ReferentialConstraint>
@@ -219,38 +242,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CalendarW__Calen__5441852A">
-    <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="1" />
-    <End Role="CalendarWithStaff" Type="Self.CalendarWithStaff" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CalendarInfo">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CalendarWithStaff">
-        <PropertyRef Name="CalendarId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__CalendarW__Calen__5629CD9C">
-    <End Role="CalendarInfo" Type="Self.CalendarInfo" Multiplicity="0..1" />
-    <End Role="CalendarWork" Type="Self.CalendarWork" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CalendarInfo">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CalendarWork">
-        <PropertyRef Name="CalendarId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__CalendarW__Staff__5535A963">
+  <Association Name="FK__CalendarW__Staff__17F790F9">
     <End Role="MStaff" Type="Self.MStaff" Multiplicity="1" />
-    <End Role="CalendarWithStaff" Type="Self.CalendarWithStaff" Multiplicity="*" />
+    <End Role="CalendarWork" Type="Self.CalendarWork" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="MStaff">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="CalendarWithStaff">
+      <Dependent Role="CalendarWork">
         <PropertyRef Name="StaffId" />
       </Dependent>
     </ReferentialConstraint>
@@ -288,18 +287,6 @@
       </Principal>
       <Dependent Role="MOrder">
         <PropertyRef Name="StatusId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__MProduct__TypeId__797309D9">
-    <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
-    <End Role="MProduct" Type="Self.MProduct" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProductType">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MProduct">
-        <PropertyRef Name="TypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -356,8 +343,7 @@
     </ReferentialConstraint>
   </Association>
   <Function Name="get_calendar_by_staff_byday" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="day" Type="int" Mode="In" />
-    <Parameter Name="month" Type="int" Mode="In" />
+    <Parameter Name="week" Type="int" Mode="In" />
     <Parameter Name="year" Type="int" Mode="In" />
     <Parameter Name="staffId" Type="varchar" Mode="In" />
   </Function>
@@ -367,8 +353,7 @@
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CalendarInfo" EntityType="Self.CalendarInfo" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CalendarType" EntityType="Self.CalendarType" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CalendarWithStaff" EntityType="Self.CalendarWithStaff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CalendarPlan" EntityType="Self.CalendarPlan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CalendarWork" EntityType="Self.CalendarWork" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MAgency" EntityType="Self.MAgency" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MOrder" EntityType="Self.MOrder" Schema="dbo" store:Type="Tables" />
@@ -377,7 +362,6 @@
     <EntitySet Name="OrderNumber" EntityType="Self.OrderNumber" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__AgencyWit__Agenc__2E1BDC42" Association="Self.FK__AgencyWit__Agenc__2E1BDC42">
       <End Role="MAgency" EntitySet="MAgency" />
       <End Role="AgencyWithStaff" EntitySet="AgencyWithStaff" />
@@ -386,21 +370,25 @@
       <End Role="MStaff" EntitySet="MStaff" />
       <End Role="AgencyWithStaff" EntitySet="AgencyWithStaff" />
     </AssociationSet>
-    <AssociationSet Name="FK__CalendarW__Agenc__4CA06362" Association="Self.FK__CalendarW__Agenc__4CA06362">
+    <AssociationSet Name="FK__CalendarI__Staff__0C85DE4D" Association="Self.FK__CalendarI__Staff__0C85DE4D">
+      <End Role="MStaff" EntitySet="MStaff" />
+      <End Role="CalendarInfo" EntitySet="CalendarInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarP__Agenc__123EB7A3" Association="Self.FK__CalendarP__Agenc__123EB7A3">
+      <End Role="MAgency" EntitySet="MAgency" />
+      <End Role="CalendarPlan" EntitySet="CalendarPlan" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarP__Calen__114A936A" Association="Self.FK__CalendarP__Calen__114A936A">
+      <End Role="CalendarInfo" EntitySet="CalendarInfo" />
+      <End Role="CalendarPlan" EntitySet="CalendarPlan" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CalendarW__Agenc__17036CC0" Association="Self.FK__CalendarW__Agenc__17036CC0">
       <End Role="MAgency" EntitySet="MAgency" />
       <End Role="CalendarWork" EntitySet="CalendarWork" />
     </AssociationSet>
-    <AssociationSet Name="FK__CalendarW__Calen__5441852A" Association="Self.FK__CalendarW__Calen__5441852A">
-      <End Role="CalendarInfo" EntitySet="CalendarInfo" />
-      <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
-    </AssociationSet>
-    <AssociationSet Name="FK__CalendarW__Calen__5629CD9C" Association="Self.FK__CalendarW__Calen__5629CD9C">
-      <End Role="CalendarInfo" EntitySet="CalendarInfo" />
-      <End Role="CalendarWork" EntitySet="CalendarWork" />
-    </AssociationSet>
-    <AssociationSet Name="FK__CalendarW__Staff__5535A963" Association="Self.FK__CalendarW__Staff__5535A963">
+    <AssociationSet Name="FK__CalendarW__Staff__17F790F9" Association="Self.FK__CalendarW__Staff__17F790F9">
       <End Role="MStaff" EntitySet="MStaff" />
-      <End Role="CalendarWithStaff" EntitySet="CalendarWithStaff" />
+      <End Role="CalendarWork" EntitySet="CalendarWork" />
     </AssociationSet>
     <AssociationSet Name="FK__MOrder__AgencyId__628FA481" Association="Self.FK__MOrder__AgencyId__628FA481">
       <End Role="MAgency" EntitySet="MAgency" />
@@ -413,10 +401,6 @@
     <AssociationSet Name="FK__MOrder__StatusId__6477ECF3" Association="Self.FK__MOrder__StatusId__6477ECF3">
       <End Role="OrderStatus" EntitySet="OrderStatus" />
       <End Role="MOrder" EntitySet="MOrder" />
-    </AssociationSet>
-    <AssociationSet Name="FK__MProduct__TypeId__797309D9" Association="Self.FK__MProduct__TypeId__797309D9">
-      <End Role="ProductType" EntitySet="ProductType" />
-      <End Role="MProduct" EntitySet="MProduct" />
     </AssociationSet>
     <AssociationSet Name="FK__ProductOr__Order__6754599E" Association="Self.FK__ProductOr__Order__6754599E">
       <End Role="MOrder" EntitySet="MOrder" />

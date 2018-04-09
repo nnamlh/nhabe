@@ -44,39 +44,12 @@ public class CWorkAdapter extends RecyclerView.Adapter<CWorkAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final CWorkInfo info = workInfos.get(position);
         holder.name.setText(info.getStore());
-        holder.code.setText("(" + info.getCode() + ")");
+        holder.code.setText(info.getCode() );
         holder.phone.setText("Điện thoại: " + info.getPhone());
         holder.address.setText("Địa chỉ: " + info.getAddress());
-        holder.status.setText(info.getStatus());
 
-        holder.imgLocation.setVisibility(View.GONE);
         holder.btnUpdate.setVisibility(View.GONE);
         holder.btnCheckIn.setVisibility(View.GONE);
-        holder.notice.setVisibility(View.VISIBLE);
-
-        if (info.getPerform() == 1) {
-            holder.imgLocation.setImageResource(R.mipmap.ic_finish);
-            holder.imgLocation.setVisibility(View.VISIBLE);
-            holder.notice.setText("Hoàn thành ghé thăm");
-        } else {
-            if (info.getLat() == 0 || info.getLng() == 0) {
-                holder.btnUpdate.setVisibility(View.VISIBLE);
-                holder.notice.setText("Khách hàng chưa có tọa độ");
-            } else {
-
-                float distance = activity.distance(info.getLat(), info.getLng());
-
-                if (distance == -1)
-                    holder.notice.setText("Thử lại để cập nhật checkin");
-                else if (distance > 1000)
-                    holder.notice.setText("Bạn đang ở xa khách hàng");
-                else{
-                    holder.btnCheckIn.setVisibility(View.VISIBLE);
-                    holder.notice.setText("Bạn có thể ghé thăm");
-                }
-
-            }
-        }
 
         holder.btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +62,6 @@ public class CWorkAdapter extends RecyclerView.Adapter<CWorkAdapter.MyViewHolder
                 agencyInfo.setLat(info.getLat());
                 agencyInfo.setLng(info.getLng());
                 MRes.getInstance().agency = agencyInfo;
-                activity.makeCheckIn(info.getWorkId());
             }
         });
 
@@ -99,6 +71,21 @@ public class CWorkAdapter extends RecyclerView.Adapter<CWorkAdapter.MyViewHolder
                 activity.makeUpdateLocation(info.getCode(), position);
             }
         });
+
+        if (info.getLng() == 0 || info.getLat() == 0) {
+            holder.notice.setText("Cập nhật tọa độ mới");
+            holder.btnUpdate.setVisibility(View.VISIBLE);
+        } else {
+            float distance = activity.distance(info.getLat(), info.getLng());
+
+            if (distance > 1000) {
+                holder.notice.setText("Bạn còn ở xa khách hàng");
+            } else {
+                holder.notice.setText("Bạn có thể ghé thăm");
+                holder.btnCheckIn.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 
     @Override
@@ -107,8 +94,8 @@ public class CWorkAdapter extends RecyclerView.Adapter<CWorkAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, code, phone, address, status, notice;
-        public ImageView imgLocation;
+        public TextView name, code, phone, address, notice;
+
         public Button btnCheckIn, btnUpdate;
 
         public MyViewHolder(View view) {
@@ -117,8 +104,6 @@ public class CWorkAdapter extends RecyclerView.Adapter<CWorkAdapter.MyViewHolder
             code = (TextView) view.findViewById(R.id.txtcode);
             phone = (TextView) view.findViewById(R.id.txtphone);
             address = (TextView) view.findViewById(R.id.txtaddress);
-            imgLocation = (ImageView) view.findViewById(R.id.imglocation);
-            status = (TextView) view.findViewById(R.id.txtstatus);
             btnCheckIn = (Button) view.findViewById(R.id.btncheckin);
             btnUpdate = (Button) view.findViewById(R.id.btnupdatelocation);
             notice = (TextView) view.findViewById(R.id.enotice);

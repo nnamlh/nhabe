@@ -38,22 +38,19 @@ namespace MATTANAAPI.Controllers
                 if (checkStaff == null)
                     throw new Exception("Sai thông tin");
 
-                var works = db.get_calendar_by_staff_byday(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, checkStaff.Id).ToList();
+                var works = db.get_calendar_by_staff_byday(GetIso8601WeekOfYear(DateTime.Now), DateTime.Now.Year, checkStaff.Id).ToList();
 
                 foreach (var item in works)
                 {
                     result.works.Add(new CWorkInfo()
                     {
-                        workId = item.Id,
                         store = item.Store,
                         phone = item.Phone,
                         lng = item.Lng == null ? 0 : item.Lng,
                         lat = item.Lat == null ? 0 : item.Lat,
                         address = item.AddressDetail,
                         code = item.Code,
-                        perform = item.Perform,
-                        inplan = item.InPlan,
-                        status = item.CInTime != null ? "Ghé thăm lúc: " + new DateTime(item.CInTime.Value.Ticks).ToString("HH:mm") + " - nhân viên: " + item.StaffCheckName : "Chưa ghé thăm"
+                        id = item.Id
                     });
                 }
 
@@ -110,6 +107,7 @@ namespace MATTANAAPI.Controllers
                 if (checkWork.Perform == 1)
                     throw new Exception("Đã hoàn thành");
 
+                /*
                 if (checkWork.CInTime != null)
                 {
                     if (checkWork.StaffCode != null)
@@ -129,9 +127,9 @@ namespace MATTANAAPI.Controllers
                     db.Entry(checkWork).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
+                */
 
-
-                result.msg = new DateTime(checkWork.CInTime.Value.Ticks).ToString("HH:mm");
+              //  result.msg = new DateTime(checkWork.CInTime.Value.Ticks).ToString("HH:mm");
 
 
             }
@@ -181,11 +179,13 @@ namespace MATTANAAPI.Controllers
                 if (checkWork == null)
                     throw new Exception("Sai thông tin");
 
+                /*
                 if (checkWork.CInTime == null || checkWork.Perform == 1)
                     throw new Exception("Không thể thực hiện");
 
                 checkWork.Perform = 1;
                 checkWork.COutTime = DateTime.Now.TimeOfDay;
+                 * */
                 checkWork.Notes = notes;
                 db.Entry(checkWork).State = System.Data.Entity.EntityState.Modified;
 
@@ -232,25 +232,7 @@ namespace MATTANAAPI.Controllers
                 if (checkStaff == null)
                     throw new Exception("Sai thông tin");
 
-                var works = db.get_calendar_by_staff_byday(day, month, year, checkStaff.Id).ToList();
-
-                foreach (var item in works)
-                {
-                    result.works.Add(new CWorkInfo()
-                    {
-                        workId = item.Id,
-                        store = item.Store,
-                        phone = item.Phone,
-                        lng = item.Lng == null ? 0 : item.Lng,
-                        lat = item.Lat == null ? 0 : item.Lat,
-                        address = item.AddressDetail,
-                        code = item.Code,
-                        perform = item.Perform,
-                        inplan = item.InPlan,
-                        status = item.CInTime != null ? "Ghé thăm lúc: " + new DateTime(item.CInTime.Value.Ticks).ToString("HH:mm") + " - nhân viên: " + item.StaffCheckName : "Chưa ghé thăm"
-                    });
-                }
-
+              
             }
             catch (Exception e)
             {

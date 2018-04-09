@@ -27,29 +27,24 @@ namespace MATTANAAPI.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CalendarType> CalendarTypes { get; set; }
-        public virtual DbSet<CalendarWork> CalendarWorks { get; set; }
         public virtual DbSet<MAgency> MAgencies { get; set; }
         public virtual DbSet<MProduct> MProducts { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
-        public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
-        public virtual DbSet<MOrder> MOrders { get; set; }
         public virtual DbSet<OrderNumber> OrderNumbers { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }
-        public virtual DbSet<ProductOrder> ProductOrders { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<ProductType> ProductTypes { get; set; }
+        public virtual DbSet<CalendarInfo> CalendarInfoes { get; set; }
+        public virtual DbSet<CalendarPlan> CalendarPlans { get; set; }
+        public virtual DbSet<CalendarWork> CalendarWorks { get; set; }
+        public virtual DbSet<MOrder> MOrders { get; set; }
+        public virtual DbSet<ProductOrder> ProductOrders { get; set; }
     
-        public virtual ObjectResult<get_calendar_by_staff_byday_Result> get_calendar_by_staff_byday(Nullable<int> day, Nullable<int> month, Nullable<int> year, string staffId)
+        public virtual ObjectResult<get_calendar_by_staff_byday_Result> get_calendar_by_staff_byday(Nullable<int> week, Nullable<int> year, string staffId)
         {
-            var dayParameter = day.HasValue ?
-                new ObjectParameter("day", day) :
-                new ObjectParameter("day", typeof(int));
-    
-            var monthParameter = month.HasValue ?
-                new ObjectParameter("month", month) :
-                new ObjectParameter("month", typeof(int));
+            var weekParameter = week.HasValue ?
+                new ObjectParameter("week", week) :
+                new ObjectParameter("week", typeof(int));
     
             var yearParameter = year.HasValue ?
                 new ObjectParameter("year", year) :
@@ -59,7 +54,7 @@ namespace MATTANAAPI.Models
                 new ObjectParameter("staffId", staffId) :
                 new ObjectParameter("staffId", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_calendar_by_staff_byday_Result>("get_calendar_by_staff_byday", dayParameter, monthParameter, yearParameter, staffIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_calendar_by_staff_byday_Result>("get_calendar_by_staff_byday", weekParameter, yearParameter, staffIdParameter);
         }
     }
 }

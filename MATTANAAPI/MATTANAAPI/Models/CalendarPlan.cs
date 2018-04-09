@@ -12,9 +12,19 @@ namespace MATTANAAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CalendarType
+    public partial class CalendarPlan
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string CalendarId { get; set; }
+        public string CDate { get; set; }
+        public string AgencyId { get; set; }
+        public Nullable<int> CDay { get; set; }
+        public Nullable<int> CMonth { get; set; }
+        public Nullable<int> CYear { get; set; }
+        public Nullable<double> Targets { get; set; }
+        public string DayOfWeek { get; set; }
+    
+        public virtual CalendarInfo CalendarInfo { get; set; }
+        public virtual MAgency MAgency { get; set; }
     }
 }

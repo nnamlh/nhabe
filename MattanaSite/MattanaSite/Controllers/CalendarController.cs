@@ -18,56 +18,45 @@ namespace MattanaSite.Controllers
         //
         // GET: /Calendar/
         [HttpGet]
-        public ActionResult Show(int? page, int? year, int? week, string staffId = "", string fdate = "", string tdate = "")
+        public ActionResult Show(int? page, int? year, int? week, string staffId = "all")
         {
             AddMenu(0);
-
 
             int pageSize = 30;
             int pageNumber = (page ?? 1);
 
             ViewBag.Staff = db.MStaffs.ToList();
 
-            DateTime fromDate;
-
-            DateTime toDate;
-            ViewBag.Week = GetIso8601WeekOfYear(DateTime.Now);
-            if (String.IsNullOrEmpty(fdate) || String.IsNullOrEmpty(tdate))
+            if (week == null)
             {
-                var currentDate = DateTime.Now;
-                fromDate = currentDate;
-                toDate = currentDate.AddDays(5);
-            }
-            else
-            {
-                fromDate = DateTime.ParseExact(fdate, "dd/MM/yyyy", null);
-                toDate = DateTime.ParseExact(tdate, "dd/MM/yyyy", null);
+                week = GetIso8601WeekOfYear(DateTime.Now);
+                
             }
 
-            ViewBag.FDate = fromDate;
-            ViewBag.TDate = toDate;
+            if (year == null)
+                year = DateTime.Now.Year;
 
-            //  var calendars = db.CalendarWithStaffs.Where(p => p.StaffId.Contains(staffId)).Select(p => p.CalendarInfo).OrderByDescending(p => p.FDate).ToList();
+            var firstWeekCreate = FirstDateOfWeekISO8601((int)year, (int)week);
 
+            ViewBag.FDate = firstWeekCreate.ToString("dd/MM/yyyy");
+            ViewBag.TDate = firstWeekCreate.AddDays(5).ToString("dd/MM/yyyy");
+
+            ViewBag.Week = week;
+
+            ViewBag.Year = DateTime.Now.Year;
+           
             var data = new List<CalendarInfo>();
 
-            if (week != null)
+            ViewBag.StaffChoose = staffId;
+
+            if (staffId == "all")
             {
                 data = db.CalendarInfoes.Where(p => p.WeekOfYear == week && p.CYear == year).ToList();
             }
             else
             {
-                data = (from log in db.CalendarInfoes
-                        where (DbFunctions.TruncateTime(log.FDate)
-                                           >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.FDate)
-                                           <= DbFunctions.TruncateTime(toDate))
-                        select log).ToList();
+                data = db.CalendarInfoes.Where(p => p.WeekOfYear == week && p.CYear == year && p.StaffId == staffId).ToList();
             }
-
-            var staff = db.MStaffs.Find(staffId);
-
-            if (staff != null)
-                return View(data.Where(p => p.MStaffs.Contains(staff)).OrderByDescending(p => p.FDate).ToPagedList(pageNumber, pageSize));
 
             return View(data.OrderByDescending(p => p.FDate).ToPagedList(pageNumber, pageSize));
         }
@@ -76,29 +65,88 @@ namespace MattanaSite.Controllers
         public ActionResult Remove(string id)
         {
 
-            var check = (from log in db.CalendarInfoes
-                         where (DbFunctions.TruncateTime(log.FDate)
-                                            >= DbFunctions.TruncateTime(DateTime.Now) && DbFunctions.TruncateTime(log.FDate)
-                                            <= DbFunctions.TruncateTime(DateTime.Now)) && log.Id == id
-                         select log).FirstOrDefault();
-
-            if (check == null)
-                return Content("Lịch đang chạy không thể xóa");
-
-            var result = db.delete_calendar(id);
 
             return RedirectToAction("show", "calendar");
         }
+        
+        [HttpGet]
+        public ActionResult FindCalendarPlan(int week, int year, string staffId)
+        {
+            var check = db.CalendarInfoes.Where(p => p.WeekOfYear == week && p.CYear == year && p.StaffId == staffId).FirstOrDefault();
+
+            if (check == null)
+                return Content("Chưa có lịch tuần " + week + " năm " + year);
+
+            return RedirectToAction("showdetail", "calendar", new { id = check.Id });
+        }
+
 
         [HttpGet]
         public ActionResult ShowDetail(string id)
         {
+            AddMenu(0);
 
-            ViewBag.CStaff = db.CalendarInfoes.Find(id);
+            var check = db.CalendarInfoes.Find(id);
 
-            var detail = db.get_detail_calendar_by_calendarid(id).ToList();
+            if (check == null || check.CStatus != 0)
+            {
+                return Redirect("/error");
+            }
 
-            return View(detail);
+            var startDate = DateTime.ParseExact(check.FDate, "dd/MM/yyyy", null);
+
+            var endDate = DateTime.ParseExact(check.TDate, "dd/MM/yyyy", null);
+
+            List<ShowCalendarDay> planTimes = new List<ShowCalendarDay>();
+
+            for (DateTime date = startDate; date <= endDate; )
+            {
+                ShowCalendarDay data = new ShowCalendarDay()
+                {
+                    date = date.ToString("dd/MM/yyyy"),
+                    code = date.ToString("ddMMyyyy"),
+                    dayOfWeek = mapDayOfWeeks[date.DayOfWeek],
+                    plan = new List<ShowCalendarAgency>(),
+                    work = new List<ShowCalendarAgency>()
+
+                };
+
+                var planCode = date.ToString("ddMMyyyy");
+
+                var listPlan = db.CalendarPlans.Where(p => p.CalendarId == check.Id && p.CDate == planCode).ToList();
+
+                foreach (var item in listPlan)
+                {
+                    data.plan.Add(new ShowCalendarAgency()
+                    {
+                        id = item.MAgency.Id,
+                        code = item.MAgency.Code,
+                        name = item.MAgency.Store,
+                        target = item.Targets.Value.ToString("C", Util.Cultures.VietNam)
+                    });
+                }
+
+                var listWork = db.CalendarWorks.Where(p => p.StaffId == check.StaffId && p.CDate == planCode).ToList();
+
+                foreach (var item in listWork)
+                {
+                    data.work.Add(new ShowCalendarAgency()
+                    {
+                        id = item.MAgency.Id,
+                        code = item.MAgency.Code,
+                        name = item.MAgency.Store
+                    });
+                }
+
+
+                planTimes.Add(data);
+
+                date = date.AddDays(1);
+            }
+
+            ViewBag.PlanTime = planTimes;
+
+            return View(check);
         }
 
         [HttpGet]
@@ -106,148 +154,204 @@ namespace MattanaSite.Controllers
         {
             AddMenu(1);
 
-            var currentDate = DateTime.Now;
-            ViewBag.FDate = currentDate;
-            ViewBag.TDate = currentDate.AddDays(5);
-            ViewBag.Week = GetIso8601WeekOfYear(currentDate);
+            int CurrentWeek = GetIso8601WeekOfYear(DateTime.Now);
+
+            int weekWork = CurrentWeek + 1;
+
+            ViewBag.Week = weekWork;
+
+            ViewBag.Year = DateTime.Now.Year;
+
+            ViewBag.CurrentWeek = CurrentWeek;
+
+            var firstWeekCreate = FirstDateOfWeekISO8601(DateTime.Now.Year, weekWork);
+
+            ViewBag.FDate = firstWeekCreate.ToString("dd/MM/yyyy");
+            ViewBag.TDate = firstWeekCreate.AddDays(5).ToString("dd/MM/yyyy");
 
             ViewBag.Staff = db.MStaffs.ToList();
 
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Add(string fdate, string tdate, string notes, HttpPostedFileBase files, List<string> staffChoose)
+        [HttpGet]
+        public ActionResult GetDateOfWeek(int week, int year)
         {
-            AddMenu(1);
+            var firstWeekCreate = FirstDateOfWeekISO8601(year, week);
 
-            ViewBag.Staff = db.MStaffs.ToList();
+            return Json(new { from = firstWeekCreate.ToString("dd/MM/yyyy"), to = firstWeekCreate.AddDays(5).ToString("dd/MM/yyyy") }, JsonRequestBehavior.AllowGet);
 
-
-            var fromDate = DateTime.ParseExact(fdate, "dd/MM/yyyy", null);
-            var toDate = DateTime.ParseExact(tdate, "dd/MM/yyyy", null);
+        }
 
 
-            ViewBag.FDate = fromDate;
-            ViewBag.TDate = toDate;
-            ViewBag.Week = GetIso8601WeekOfYear(DateTime.Now);
 
-            int compare = DateTime.Compare(fromDate, toDate);
-            if (compare >= 0)
+        [HttpPost]
+        public ActionResult Add(int week, int year, string staffChoose, string title)
+        {
+
+            int CurrentWeek = GetIso8601WeekOfYear(DateTime.Now);
+
+            if (week <= 0 || week > 52 || week < CurrentWeek)
                 return Redirect("/error");
 
-
-            // var allDates = DateRange(fromDate, toDate);
-            if (staffChoose == null || staffChoose.Count() == 0)
-            {
-                ViewBag.MSG = "Thiếu nhân viên";
-                return View();
-            }
-
-            if (files == null)
+            if (year < DateTime.Now.Year)
                 return Redirect("/error");
 
-            string extension = System.IO.Path.GetExtension(files.FileName);
-            if (!extension.Equals(".xlsx"))
+            var firstWeekCreate = FirstDateOfWeekISO8601(year, week);
+
+            var fDate = firstWeekCreate.ToString("dd/MM/yyyy");
+
+            var tDate = firstWeekCreate.AddDays(5).ToString("dd/MM/yyyy");
+
+            var staffCheck = db.MStaffs.Find(staffChoose);
+
+            if (staffChoose == null)
                 return Redirect("/error");
+
+            var checkCalendar = db.CalendarInfoes.Where(p => p.WeekOfYear == week && p.CYear == year && p.StaffId == staffCheck.Id).FirstOrDefault();
+
+            if (checkCalendar != null)
+                return RedirectToAction("edit", "calendar", new { id = checkCalendar.Id });
+
+
 
             var calendarInfo = new CalendarInfo()
             {
                 Id = Guid.NewGuid().ToString(),
-                TDate = toDate,
-                FDate = fromDate,
-                IsLock = 0,
-                WeekOfYear = GetIso8601WeekOfYear(fromDate),
-                Notes = notes,
-                Name = "Lịch tuần thứ " + GetIso8601WeekOfYear(fromDate) + " năm " + DateTime.Now.Year,
-                CYear = fromDate.Year
+                Title = title,
+                WeekOfYear = week,
+                CYear = year,
+                CStatus = 0,
+                CreateTine = DateTime.Now,
+                FDate = fDate,
+                TDate = tDate,
+                StaffId = staffCheck.Id
+
             };
 
             db.CalendarInfoes.Add(calendarInfo);
             db.SaveChanges();
 
-            // them nhan vien
-            foreach (var item in staffChoose)
+            return RedirectToAction("edit", "calendar", new { id = calendarInfo.Id });
+
+        }
+
+        public ActionResult Edit(string id)
+        {
+            AddMenu(1);
+
+            var check = db.CalendarInfoes.Find(id);
+
+            if (check == null || check.CStatus != 0)
             {
-                var staff = db.MStaffs.Find(item);
+                return Redirect("/error");
+            }
 
+            var startDate = DateTime.ParseExact(check.FDate, "dd/MM/yyyy", null);
 
-                if (staff != null)
+            var endDate = DateTime.ParseExact(check.TDate, "dd/MM/yyyy", null);
+
+            List<EditCalendarDay> planTimes = new List<EditCalendarDay>();
+
+            for (DateTime date = startDate; date <= endDate; )
+            {
+                EditCalendarDay data = new EditCalendarDay()
                 {
-                    calendarInfo.MStaffs.Add(staff);
+                    date = date.ToString("dd/MM/yyyy"),
+                    code = date.ToString("ddMMyyyy"),
+                    dayOfWeek = mapDayOfWeeks[date.DayOfWeek],
+                    agency = new List<ShowCalendarAgency>()
 
+                };
 
+                var planCode = date.ToString("ddMMyyyy");
+
+                var listPlan = db.CalendarPlans.Where(p => p.CalendarId == check.Id && p.CDate == planCode).ToList();
+
+                foreach (var item in listPlan)
+                {
+                    data.agency.Add(new ShowCalendarAgency()
+                    {
+                        id = item.MAgency.Id,
+                        code = item.MAgency.Code,
+                        name = item.MAgency.Store,
+                        target = item.Targets.Value.ToString("C",Util.Cultures.VietNam)
+                    });
                 }
+
+                planTimes.Add(data);
+
+                date = date.AddDays(1);
+            }
+
+            ViewBag.PlanTime = planTimes;
+
+            return View(check);
+        }
+
+
+        [HttpPost]
+        public ActionResult AddCalendarPlan(string date, string id, string agency, int target)
+        {
+             var checkAgency = db.MAgencies.Where(p => p.Code == agency).FirstOrDefault();
+                if (checkAgency == null)
+                    return Json(new { id = 0, msg = "Sai đại lý"}, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var check = db.CalendarInfoes.Find(id);
+
+                if (check == null || check.CStatus != 0)
+                {
+                    throw new Exception("sai thông tin lịch");
+                }
+
+                var datePlan = DateTime.ParseExact(date, "ddMMyyyy", null);
+
+                var checkPlan = db.CalendarPlans.Where(p => p.CalendarId == id && p.AgencyId == checkAgency.Id && p.CDate == date).FirstOrDefault();
+
+                if (checkPlan != null)
+                    throw new Exception("Đã tạo");
+
+                var plan = new CalendarPlan()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    AgencyId = checkAgency.Id,
+                    CalendarId = check.Id,
+                    CDate = date,
+                    CDay = datePlan.Day,
+                    CMonth = datePlan.Month,
+                    CYear = datePlan.Year,
+                    DayOfWeek = mapDayOfWeeks[datePlan.DayOfWeek],
+                    Targets = target
+                };
+                db.CalendarPlans.Add(plan);
                 db.SaveChanges();
             }
-
-
-
-            string fileSave = "calenadar_" + DateTime.Now.ToString("ddMMyyyyhhmmss") + extension;
-            string path = Server.MapPath("~/temp/" + fileSave);
-            if (System.IO.File.Exists(path))
+            catch (Exception e)
             {
-                System.IO.File.Delete(path);
+                return Json(new { id = 0, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }
 
-            files.SaveAs(path);
-            FileInfo newFile = new FileInfo(path);
-            var package = new ExcelPackage(newFile);
-            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
-
-            int totalRows = sheet.Dimension.End.Row;
-            int totalCols = sheet.Dimension.End.Column;
-
-            for (int i = 2; i <= totalRows; i++)
-            {
-                string code = Convert.ToString(sheet.Cells[i, 1].Value);
-
-                string cDay = Convert.ToString(sheet.Cells[i, 3].Value);
-
-                string cMonth = Convert.ToString(sheet.Cells[i, 4].Value);
-
-                string cYear = Convert.ToString(sheet.Cells[i, 5].Value);
-
-                string targets = Convert.ToString(sheet.Cells[i, 6].Value);
-
-                if (String.IsNullOrEmpty(code) || string.IsNullOrEmpty(cDay) || String.IsNullOrEmpty(cMonth) || String.IsNullOrEmpty(cYear) || String.IsNullOrEmpty(targets))
-                    continue;
-
-                try
-                {
-                    var findAgency = db.MAgencies.Where(p => p.Code == code).FirstOrDefault();
-
-                    if (findAgency != null)
-                    {
-                        var calendarWork = new CalendarWork()
-                        {
-                            AgencyId = findAgency.Id,
-                            CDay = Convert.ToInt32(cDay),
-                            CDate = "D" + cDay,
-                            CMonth = Convert.ToInt32(cMonth),
-                            CYear = Convert.ToInt32(cYear),
-                            InPlan = 1,
-                            Perform = 0,
-                            DayInWeek = GetDayOfWeek(Convert.ToInt32(cDay), Convert.ToInt32(cMonth), Convert.ToInt32(cYear)),
-                            Id = Guid.NewGuid().ToString(),
-                            TypeId = "CSBH",
-                            CalendarId = calendarInfo.Id,
-                            Targets = Convert.ToDouble(targets)
-                        };
-
-                        db.CalendarWorks.Add(calendarWork);
-                        db.SaveChanges();
-                    }
-                }
-                catch
-                {
-
-                }
-
-            }
-
-            return View();
+            return Json(new { id= 1, msg= checkAgency.Store + "- target: " + target.ToString("C", Util.Cultures.VietNam), date = date, agencyId = checkAgency.Id}, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult RemovePlanAgency(string agency, string date, string calendarId)
+        {
+
+            var checkPlan = db.CalendarPlans.Where(p => p.CalendarId == calendarId && p.AgencyId == agency && p.CDate == date).FirstOrDefault();
+
+            if (checkPlan == null)
+                return Json(new { id = 0, msg = "Sai thông tin"}, JsonRequestBehavior.AllowGet);
+
+            db.CalendarPlans.Remove(checkPlan);
+
+            db.SaveChanges();
+
+            return Json(new { id = 1 }, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         public override List<Models.SubMenuInfo> Menu(int idxActive)
         {
