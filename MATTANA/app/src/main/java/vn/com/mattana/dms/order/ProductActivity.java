@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +22,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,11 +93,13 @@ public class ProductActivity extends BaseActivity {
             }
         });
 
-        makeRequest();
+        new ReadDataTask().execute();
     }
 
     private void makeRequest() {
         showpDialog();
+        productInfos.clear();
+        productInfosTemp.clear();
         Call<List<ProductInfo>> call = apiInterface().products();
 
         call.enqueue(new Callback<List<ProductInfo>>() {
@@ -101,9 +109,8 @@ public class ProductActivity extends BaseActivity {
                 if (response.body() != null) {
                     productInfos.addAll(response.body());
                     productInfosTemp.addAll(response.body());
-
+                    saveListProduct(response.body());
                     mAdapter.notifyDataSetChanged();
-
                 }
 
                 hidepDialog();
@@ -153,6 +160,9 @@ public class ProductActivity extends BaseActivity {
             case R.id.scan_action:
                 Intent intent =  commons.createIntent(ProductActivity.this, SimpleScanActivity.class);
                 startActivityForResult(intent, SCAN_RESULT);
+                return true;
+            case R.id.reset_action:
+                makeRequest();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -273,4 +283,68 @@ public class ProductActivity extends BaseActivity {
         notifyAdapterProduct();
         resetCountOder();
     }
+
+    private void saveListProduct(final List<ProductInfo> data) {
+        Gson gson = new Gson();
+        commons.writeFile(gson.toJson(data), "productgroup.json", ProductActivity.this);
+    }
+
+    private List<ProductInfo> getListProduct() {
+
+        Gson gson = new Gson();
+        try {
+
+            BufferedReader reader = commons.readBufferedReader("productgroup.json", ProductActivity.this);
+
+            if (reader != null) {
+                Type listType = new TypeToken<List<ProductInfo>>() {
+                }.getType();
+                List<ProductInfo> groups = gson.fromJson(reader, listType);
+
+                if(groups != null)
+                    return groups;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    private class ReadDataTask extends AsyncTask<String, Integer, List<ProductInfo>> {
+        protected List<ProductInfo> doInBackground(String... urls) {
+
+            List<ProductInfo> data = new ArrayList<>();
+            try {
+
+                data = getListProduct();
+
+            } catch (Exception e) {
+
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            showpDialog();
+        }
+
+        protected void onPostExecute(List<ProductInfo> result) {
+            hidepDialog();
+            if (result == null || result.size() == 0) {
+                makeRequest();
+            } else {
+
+                productInfos.addAll(result);
+                productInfosTemp.addAll(result);
+
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+
+        }
+    }
+
 }

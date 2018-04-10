@@ -126,7 +126,7 @@ namespace MattanaSite.Controllers
                     });
                 }
 
-                var listWork = db.CalendarWorks.Where(p => p.StaffId == check.StaffId && p.CDate == planCode).ToList();
+                var listWork = db.CalendarWorks.Where(p => p.StaffId == check.StaffId && p.CDate == planCode && p.Perform == 1).ToList();
 
                 foreach (var item in listWork)
                 {
@@ -332,7 +332,7 @@ namespace MattanaSite.Controllers
                 return Json(new { id = 0, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new { id= 1, msg= checkAgency.Store + "- target: " + target.ToString("C", Util.Cultures.VietNam), date = date, agencyId = checkAgency.Id}, JsonRequestBehavior.AllowGet);
+            return Json(new { id = 1, msg = checkAgency.Store + "<br />target: " + target.ToString("C", Util.Cultures.VietNam), date = date, agencyId = checkAgency.Id }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

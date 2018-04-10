@@ -61,7 +61,9 @@ public class CWorkAdapter extends RecyclerView.Adapter<CWorkAdapter.MyViewHolder
                 agencyInfo.setStore(info.getStore());
                 agencyInfo.setLat(info.getLat());
                 agencyInfo.setLng(info.getLng());
+                agencyInfo.setDiscount(info.getDiscount());
                 MRes.getInstance().agency = agencyInfo;
+                activity.makeCheckIn(info.getId());
             }
         });
 

@@ -16,7 +16,7 @@ namespace MATTANAAPI.Models
 
         public string code { get; set; }
 
-        public string mainCode { get; set; }
+        public string sizeCode { get; set; }
 
         public string name { get; set; }
 
@@ -24,7 +24,6 @@ namespace MATTANAAPI.Models
 
         public string size { get; set; }
 
-        public string type { get; set; }
     }
 
     public class NoticeInfo

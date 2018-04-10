@@ -31,10 +31,9 @@
                     <table class="table table-striped table-bordered thumbnail-table">
                         <thead>
                             <tr>
-                                <th>Mã code</th>
                                 <th>Mã hàng</th>
+                                <th>Mã code</th>
                                 <th>Tên sản phầm</th>
-                                <th>Phân loại</th>
                                 <th>Cở vóc</th>
                                 <th>Giá bán lẽ</th>
                                 <th></th>
@@ -45,9 +44,8 @@
                             {
                                 <tr class="@(item.IsLock == 1?"danger":"")">
                                     <td>@item.PCode @(item.IsLock == 1 ? "(đang khóa)" : "")</td>
-                                    <td>@item.PMainCode</td>
+                                    <td>@item.PSizeCode</td>
                                     <td>@item.PName</td>
-                                    <td>@item.ProductType.Name</td>
                                     <td>@item.PSize</td>
                                     <td>@item.Price.Value.ToString("C", MattanaSite.Util.Cultures.VietNam)</td>
                                     <td><a href="/product/modify/@item.Id" target="_blank">Chỉnh sửa</a>&nbsp;&nbsp;<a href="/product/delete/@item.Id">Xóa</a></td> 

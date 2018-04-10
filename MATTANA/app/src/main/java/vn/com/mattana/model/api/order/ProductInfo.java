@@ -17,16 +17,13 @@ public class ProductInfo {
     @SerializedName("price")
     private double price ;
 
-    @SerializedName("type")
-    private String type;
-
     private int quantityBuy;
 
     @SerializedName("size")
     private String size;
 
-    @SerializedName("mainCode")
-    private String mainCode;
+    @SerializedName("sizeCode")
+    private String sizeCode;
 
     public String getId() {
         return id;
@@ -70,14 +67,6 @@ public class ProductInfo {
     }
 
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getSize() {
         return size;
     }
@@ -86,11 +75,11 @@ public class ProductInfo {
         this.size = size;
     }
 
-    public String getMainCode() {
-        return mainCode;
+    public String getSizeCode() {
+        return sizeCode;
     }
 
-    public void setMainCode(String mainCode) {
-        this.mainCode = mainCode;
+    public void setSizeCode(String sizeCode) {
+        this.sizeCode = sizeCode;
     }
 }

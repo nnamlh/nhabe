@@ -25,6 +25,9 @@ public class CWorkInfo {
     @SerializedName("id")
     private String id;
 
+    @SerializedName("discount")
+    private double discount;
+
 
     public String getStore() {
         return store;
@@ -80,5 +83,13 @@ public class CWorkInfo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

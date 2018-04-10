@@ -12,6 +12,8 @@ import vn.com.mattana.model.api.MainLoadSend;
 import vn.com.mattana.model.api.NoticeResult;
 import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
+import vn.com.mattana.model.api.checkin.CalendarWorkResult;
+import vn.com.mattana.model.api.checkin.CheckInResult;
 import vn.com.mattana.model.api.order.CompleteSend;
 import vn.com.mattana.model.api.order.ProductInfo;
 import vn.com.mattana.model.api.order.ShowOrderProductInfo;
@@ -41,9 +43,9 @@ public interface ApiInterface {
             @Query("user") String user);
 
     @GET("calendar/checkin")
-    Call<ResultInfo> checkIn(
+    Call<CheckInResult> checkIn(
             @Query("user") String user,
-            @Query("token") String token, @Query("workId") String workId);
+            @Query("token") String token, @Query("agencyId") String agencyId);
 
 
     @GET("calendar/checkout")
@@ -51,9 +53,11 @@ public interface ApiInterface {
             @Query("user") String user,
             @Query("token") String token, @Query("workId") String workId, @Query("notes") String notes);
 
+
+
     @GET("calendar/calendarwork")
-    Call<CWorkResult> calendarWork(
-            @Query("user") String user,@Query("day") int day,@Query("month") int month,@Query("year") int year);
+    Call<CalendarWorkResult> calendarWork(
+            @Query("user") String user,@Query("week") int month,@Query("year") int year);
 
     // product
     @GET("info/products")
@@ -72,6 +76,8 @@ public interface ApiInterface {
 
     @GET("info/updateagencylocation")
     Call<ResultInfo> updateLocation(@Query("lat") double lat, @Query("lng") double lng, @Query("agencyCode") String agencyCode);
+
+
 
 
     // mai
@@ -96,4 +102,6 @@ public interface ApiInterface {
     @GET("order/updatedelivery")
     Call<ResultInfo> updateDelivery(@Query("orderId") String orderId,@Query("productId") String productId,@Query("quantity") int quantity,@Query("user") String user,@Query("token") String token);
 
+
+    //
 }

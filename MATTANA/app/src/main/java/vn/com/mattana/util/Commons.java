@@ -7,11 +7,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import vn.com.mattana.dms.R;
 
@@ -81,18 +88,79 @@ public class Commons {
         return intent;
     }
 
-    public String getPhone(Context context) {
-        TelephonyManager phoneManager = (TelephonyManager)
-                context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_SMS)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-            return "";
+
+    public void writeFile(String json, String path, Activity activity) {
+        try {
+
+            if (isExternalStorageAvailable() && !isExternalStorageReadOnly()) {
+                File file = new File(activity.getExternalFilesDir("MATTANA"), path);
+
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+
+                FileWriter writer = new FileWriter(file.getAbsoluteFile() + path);
+                writer.write(json);
+                writer.close();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        String phoneNumber = phoneManager.getLine1Number();
-        return phoneNumber;
     }
+
+    public  void deleteFile(String path, Activity activity) {
+        try {
+
+            if (isExternalStorageAvailable() && !isExternalStorageReadOnly()) {
+                File file = new File(activity.getExternalFilesDir("MATTANA"), path);
+
+                if (file != null){
+                    file.delete();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isExternalStorageReadOnly() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isExternalStorageAvailable() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+    public BufferedReader readBufferedReader(String path, Activity activity) {
+        try {
+            if (isExternalStorageAvailable() && !isExternalStorageReadOnly()) {
+
+                File file = new File(activity.getExternalFilesDir("MATTANA"), path);
+
+                BufferedReader br = new BufferedReader(
+                        new FileReader(file.getAbsoluteFile() +  path));
+
+                return  br;
+            }
+
+        } catch (IOException e) {
+            return null;
+        }
+
+        return null;
+    }
+
 
 
 }

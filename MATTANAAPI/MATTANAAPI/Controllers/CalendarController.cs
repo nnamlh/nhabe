@@ -50,7 +50,8 @@ namespace MATTANAAPI.Controllers
                         lat = item.Lat == null ? 0 : item.Lat,
                         address = item.AddressDetail,
                         code = item.Code,
-                        id = item.Id
+                        id = item.Id,
+                        discount = item.Discount == null? 0: item.Discount
                     });
                 }
 
@@ -73,7 +74,7 @@ namespace MATTANAAPI.Controllers
 
         // check in
         [HttpGet]
-        public ResultInfo CheckIn(string user, string token, string workId)
+        public CheckInResult CheckIn(string user, string token, string agencyId)
         {
             var log = new MongoHistoryAPI()
             {
@@ -82,7 +83,7 @@ namespace MATTANAAPI.Controllers
                 Sucess = 1
             };
 
-            var result = new ResultInfo()
+            var result = new CheckInResult()
             {
                 id = "1",
                 msg = "success"
@@ -98,39 +99,53 @@ namespace MATTANAAPI.Controllers
                     throw new Exception("Sai thông tin");
 
 
-                var checkWork = db.CalendarWorks.Find(workId);
+                var checkAgency = db.MAgencies.Find(agencyId);
+
+                if (checkAgency == null)
+                    throw new Exception("Sai đại lý");
+
+                var dateCode = DateTime.Now.ToString("ddMMyyyy");
+
+                var checkWork = db.CalendarWorks.Where(p => p.AgencyId == agencyId && p.StaffId == checkStaff.Id && p.CDate == dateCode).FirstOrDefault();
 
                 if (checkWork == null)
-                    throw new Exception("Sai thông tin");
-
-
-                if (checkWork.Perform == 1)
-                    throw new Exception("Đã hoàn thành");
-
-                /*
-                if (checkWork.CInTime != null)
                 {
-                    if (checkWork.StaffCode != null)
+                    var work = new CalendarWork()
                     {
-                        var staffCheck = db.MStaffs.Find(checkWork.StaffCode);
-                        if (staffCheck.Id != checkStaff.Id)
-                            throw new Exception("Đã được check bởi thành viên trong nhóm bạn");
-                    }
+                        AgencyId = agencyId,
+                        CDate = dateCode,
+                        CDay = DateTime.Now.Day,
+                        ChangeTime = DateTime.Now,
+                        CMonth = DateTime.Now.Month,
+                        CountWork = 1,
+                        CYear = DateTime.Now.Year,
+                        FistTime = DateTime.Now,
+                        Id = Guid.NewGuid().ToString(),
+                        Perform = 0,
+                        StaffId = checkStaff.Id,
+                        DayOfWeek = mapDayOfWeeks[DateTime.Now.DayOfWeek]
+                    };
 
+                    db.CalendarWorks.Add(work);
+                    db.SaveChanges();
 
-                }
+                    result.perform = 0;
+                    result.workId = work.Id;
+                    result.des = "Ghé thăm lúc " + DateTime.Now.ToString("HH:mm") + " ngày " + DateTime.Now.ToString("dd/MM/yyyy");
+                 }
                 else
                 {
-                    checkWork.CInTime = DateTime.Now.TimeOfDay;
-                    checkWork.StaffCode = checkStaff.Id;
+
+                    result.perform = checkWork.Perform;
+                    result.workId = checkWork.Id;
+
+                    result.des = "Ghé thăm giần nhất lúc " + checkWork.ChangeTime.Value.ToString("HH:mm") + " ngày " + checkWork.ChangeTime.Value.ToString("dd/MM/yyyy");
+
+                    checkWork.ChangeTime = DateTime.Now;
 
                     db.Entry(checkWork).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
-                */
-
-              //  result.msg = new DateTime(checkWork.CInTime.Value.Ticks).ToString("HH:mm");
-
 
             }
             catch (Exception e)
@@ -179,13 +194,12 @@ namespace MATTANAAPI.Controllers
                 if (checkWork == null)
                     throw new Exception("Sai thông tin");
 
-                /*
-                if (checkWork.CInTime == null || checkWork.Perform == 1)
-                    throw new Exception("Không thể thực hiện");
+                if (checkWork.Perform == 1)
+                    throw new Exception("Đã check out");
 
+
+                checkWork.EndTime = DateTime.Now;
                 checkWork.Perform = 1;
-                checkWork.COutTime = DateTime.Now.TimeOfDay;
-                 * */
                 checkWork.Notes = notes;
                 db.Entry(checkWork).State = System.Data.Entity.EntityState.Modified;
 
@@ -208,7 +222,7 @@ namespace MATTANAAPI.Controllers
 
         //
         [HttpGet]
-        public CWorkResult CalendarWork(string user, int day, int month, int year)
+        public CalendarWorkResult CalendarWork(string user, int? week, int? year)
         {
 
             var log = new MongoHistoryAPI()
@@ -218,13 +232,24 @@ namespace MATTANAAPI.Controllers
                 Sucess = 1
             };
 
-            var result = new CWorkResult()
+            var result = new CalendarWorkResult()
             {
                 id = "1",
                 msg = "success",
-                works = new List<CWorkInfo>()
+                works = new List<CalendarWorkDay>()
             };
 
+            if (week == null || week == 0)
+                week = GetIso8601WeekOfYear(DateTime.Now);
+
+            if (year == null || year == 0)
+                year = DateTime.Now.Year;
+
+            result.week = week;
+            result.year = year;
+            var firstWeekCreate = FirstDateOfWeekISO8601((int)year, (int)week);
+            result.fDate = firstWeekCreate.ToString("dd/MM/yyyy");
+            result.tDate = firstWeekCreate.AddDays(5).ToString("dd/MM/yyyy");
             try
             {
                 var checkStaff = db.MStaffs.Where(p => p.MUser == user).FirstOrDefault();
@@ -232,6 +257,61 @@ namespace MATTANAAPI.Controllers
                 if (checkStaff == null)
                     throw new Exception("Sai thông tin");
 
+             
+
+                var findCal = db.CalendarInfoes.Where(p => p.WeekOfYear == week && p.CYear == year && p.StaffId == checkStaff.Id).FirstOrDefault();
+
+                if (findCal == null)
+                {
+                    throw new Exception("Chưa có lịch");
+                }
+
+
+                var startDate = DateTime.ParseExact(findCal.FDate, "dd/MM/yyyy", null);
+
+                var endDate = DateTime.ParseExact(findCal.TDate, "dd/MM/yyyy", null);
+
+                for (DateTime date = startDate; date <= endDate; )
+                {
+                    CalendarWorkDay data = new CalendarWorkDay()
+                    {
+                        date = date.ToString("dd/MM/yyyy"),
+                        dayOfWeek = mapDayOfWeeks[date.DayOfWeek],
+                        plan = new List<ShowCalendarAgency>(),
+                        work = new List<ShowCalendarAgency>()
+
+                    };
+
+                    var planCode = date.ToString("ddMMyyyy");
+
+                    var listPlan = db.CalendarPlans.Where(p => p.CalendarId == findCal.Id && p.CDate == planCode).ToList();
+
+                    foreach (var item in listPlan)
+                    {
+                        data.plan.Add(new ShowCalendarAgency()
+                        {
+                            code = item.MAgency.Code,
+                            name = item.MAgency.Store,
+                            target = item.Targets.Value.ToString("C", Util.Cultures.VietNam)
+                        });
+                    }
+
+                    var listWork = db.CalendarWorks.Where(p => p.StaffId == findCal.StaffId && p.CDate == planCode && p.Perform == 1).ToList();
+
+                    foreach (var item in listWork)
+                    {
+                        data.work.Add(new ShowCalendarAgency()
+                        {
+                            code = item.MAgency.Code,
+                            name = item.MAgency.Store
+                        });
+                    }
+
+
+                    result.works.Add(data);
+
+                    date = date.AddDays(1);
+                }
               
             }
             catch (Exception e)

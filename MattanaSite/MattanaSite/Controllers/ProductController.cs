@@ -37,7 +37,7 @@ namespace MattanaSite.Controllers
         public ActionResult Add()
         {
             AddMenu(1);
- 
+
             return View(new MProduct());
         }
 
@@ -88,7 +88,7 @@ namespace MattanaSite.Controllers
             check.PSizeCode = info.PSizeCode;
             check.Price = info.Price;
             check.PSize = info.PSize;
-  
+
 
             db.Entry(check).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
@@ -148,13 +148,6 @@ namespace MattanaSite.Controllers
                 Url = "/product/importexcel",
                 Active = 0
             });
-            menues.Add(new SubMenuInfo()
-            {
-                Name = "Phân loại sản phẩm",
-                Url = "/product/showtype",
-                Active = 0
-            });
-          
 
             if (idxActive < 0 || idxActive >= menues.Count())
                 return null;
@@ -175,7 +168,7 @@ namespace MattanaSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult ImportExcel(HttpPostedFileBase files, string TypeId)
+        public ActionResult ImportExcel(HttpPostedFileBase files)
         {
             AddMenu(2);
 
@@ -202,31 +195,45 @@ namespace MattanaSite.Controllers
 
             for (int i = 2; i <= totalRows; i++)
             {
-               
+
                 try
                 {
                     string name = Convert.ToString(sheet.Cells[i, 2].Value);
-                    string code = Convert.ToString(sheet.Cells[i, 3].Value);
-                    string mainCode = Convert.ToString(sheet.Cells[i, 4].Value);
+                    string code = Convert.ToString(sheet.Cells[i, 4].Value);
+                    string sizeCode = Convert.ToString(sheet.Cells[i, 3].Value);
                     string size = Convert.ToString(sheet.Cells[i, 5].Value);
                     string price = Convert.ToString(sheet.Cells[i, 6].Value);
 
-                    var product = new MProduct()
+                    var check = db.MProducts.Where(p => p.PSizeCode == sizeCode && p.PCode == code).FirstOrDefault();
+
+                    if (check != null)
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        IsLock = 0,
-                        PCode = code,
-                        PSizeCode = mainCode,
-                        PName = name,
-                        PSize = size,
-                        Price = Convert.ToDouble(price)
-                        
-                    };
+                        check.Price = Convert.ToDouble(price);
+                        check.PSize = size;
+                        check.PName = name;
+                        db.Entry(check).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        var product = new MProduct()
+                          {
+                              Id = Guid.NewGuid().ToString(),
+                              IsLock = 0,
+                              PCode = code,
+                              PSizeCode = sizeCode,
+                              PName = name,
+                              PSize = size,
+                              Price = Convert.ToDouble(price)
 
-                    db.MProducts.Add(product);
-                    db.SaveChanges();
+                          };
 
-                }catch
+                        db.MProducts.Add(product);
+                        db.SaveChanges();
+                    }
+
+                }
+                catch
                 {
 
                 }

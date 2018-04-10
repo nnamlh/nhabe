@@ -3,11 +3,6 @@
 
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_customer"
-            android:icon="@mipmap/ic_agency"
-            android:visible="true"
-            android:title="Danh sách khách hàng" />
-        <item
             android:id="@+id/nav_calendar"
             android:icon="@mipmap/ic_calendar"
             android:visible="true"

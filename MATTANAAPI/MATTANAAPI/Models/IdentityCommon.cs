@@ -19,6 +19,8 @@ namespace MATTANAAPI.Models
         public string msg { get; set; }
     }
 
+
+
     public class RequestInfo
     {
         public string user { get; set; }

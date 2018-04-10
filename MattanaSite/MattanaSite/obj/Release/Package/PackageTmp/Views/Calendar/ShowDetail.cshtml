@@ -87,7 +87,7 @@
                                 <div>
                                     @foreach (var plan in item.plan)
                                     {
-                                        <span>@plan.name - target: @plan.target</span>
+                                        <span>@plan.name <br /> target: @plan.target <br /> ------------------</span> <br />
                                     }
                                 </div>
                             </td>
@@ -95,7 +95,7 @@
                                 <div>
                                     @foreach (var work in item.work)
                                     {
-                                        <span>@work.name</span>
+                                        <span>@work.name</span> <br />
                                     }
                                 </div>
                             </td>

@@ -80,7 +80,7 @@
                                 <div id="@("date" + item.code)">
                                     @foreach (var plan in item.agency)
                                     {
-                                        <span id="@(plan.id + item.code)">@plan.name-target:@plan.target &nbsp;&nbsp;<a href="javascript:removeplan('@plan.id', '@item.code')">Xóa</a> <br /></span>
+                                        <span id="@(plan.id + item.code)">@plan.name <br />target:@plan.target <a href="javascript:removeplan('@plan.id', '@item.code')">Xóa</a> <br />------------ <br /></span>
                                     }
                                 </div>
                             </td>
@@ -183,7 +183,7 @@
                                 if (response.id === 1) {
                                     var agencyId = "'" + response.agencyId + "'";
                                     var dateResult = "'" + response.date + "'";
-                                    $('#date' + date).append('<span id="' + response.agencyId + response.date + '">' + response.msg + '&nbsp;&nbsp;<a href= "javascript:removeplan(' + agencyId + ', ' + dateResult + ')">Xóa</a> <br /></span>');
+                                    $('#date' + date).append('<span id="' + response.agencyId + response.date + '">' + response.msg + '&nbsp;&nbsp;<a href= "javascript:removeplan(' + agencyId + ', ' + dateResult + ')">Xóa</a><br />----------<br /></span>');
 
                                 } else {
                                     alert(response.msg);

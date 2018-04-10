@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/dayofweek"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#2196F3"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:text="T2" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/dayofweek"
+        android:fontFamily="sans-serif-light"
+        android:text="Ngày: 15/04/2016"
+        android:textColor="#E53935" />
+
+    <TextView
+        android:id="@+id/plantitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/dayofweek"
+        android:fontFamily="sans-serif-light"
+        android:text="Kế hoạch"
+        android:textColor="#4CAF50"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/plancontent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/plantitle"
+        android:layout_toRightOf="@id/dayofweek"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="3dp"
+        android:singleLine="false"
+        android:text="hoai nam tuan vu" />
+
+    <TextView
+        android:id="@+id/worktitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/plancontent"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/dayofweek"
+        android:fontFamily="sans-serif-light"
+        android:text="Thực hiện"
+        android:textColor="#FFD600"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/workcontent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/worktitle"
+        android:layout_toRightOf="@id/dayofweek"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="3dp"
+        android:singleLine="false"
+        android:text="hoai nam tuan vu" />
+
+</RelativeLayout>

@@ -161,9 +161,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_customer) {
-
-        } else if (id == R.id.nav_calendar) {
+     if (id == R.id.nav_calendar) {
             commons.startActivity(MainActivity.this, CalendarActivity.class);
         } else if (id == R.id.nav_order) {
             commons.startActivity(MainActivity.this, ShowOrderActivity.class);

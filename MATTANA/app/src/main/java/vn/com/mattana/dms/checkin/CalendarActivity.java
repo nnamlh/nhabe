@@ -5,12 +5,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,39 +21,47 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.com.mattana.adapter.CWorkAdapter;
-import vn.com.mattana.adapter.CalendarAdapter;
+import vn.com.mattana.adapter.CalendarWorkAdapter;
 import vn.com.mattana.dms.BaseActivity;
 import vn.com.mattana.dms.R;
-import vn.com.mattana.mdatepicker.DatePickerTimeline;
-import vn.com.mattana.mdatepicker.MonthView;
-import vn.com.mattana.model.api.checkin.CWorkInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
+import vn.com.mattana.model.api.checkin.CalendarWorkDay;
+import vn.com.mattana.model.api.checkin.CalendarWorkResult;
 
-public class CalendarActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-
-    @BindView(R.id.timeline)
-    DatePickerTimeline timeline;
+public class CalendarActivity extends BaseActivity {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    CalendarAdapter mAdapter;
+    CalendarWorkAdapter mAdapter;
 
-    List<CWorkInfo> workInfos;
+    @BindView(R.id.eyear)
+    EditText eYear;
+
+    @BindView(R.id.eweek)
+    EditText eWeek;
+
+    @BindView(R.id.efromdate)
+    EditText eFdate;
+
+    @BindView(R.id.etodate)
+    EditText eToDate;
+
+    List<CalendarWorkDay> calendarWorkDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_calendar);
+
         ButterKnife.bind(this);
 
         createToolbar();
 
+        calendarWorkDays = new ArrayList<>();
 
-
-        workInfos = new ArrayList<>();
-
+        mAdapter = new CalendarWorkAdapter(calendarWorkDays);
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -58,125 +69,113 @@ public class CalendarActivity extends BaseActivity implements AdapterView.OnItem
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new CalendarAdapter(workInfos);
         recyclerView.setAdapter(mAdapter);
-        createTimeLine();
-    }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-
-    private void createTimeLine() {
-        timeline.setVisibility(View.VISIBLE);
-
-        Date date = new Date();
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        int showMonth = calendar.get(Calendar.MONTH) + 1;
-        int showYear = calendar.get(Calendar.YEAR);
-        int showDay = calendar.get(Calendar.DATE);
-
-
-
-        timeline.setDateLabelAdapter(new MonthView.DateLabelAdapter() {
+        eYear.addTextChangedListener(new TextWatcher() {
             @Override
-            public CharSequence getLabel(Calendar calendar, int index) {
-                return Integer.toString(calendar.get(Calendar.MONTH) + 1) + "/" + (calendar.get(Calendar.YEAR) % 2000);
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (TextUtils.isEmpty(eYear.getText().toString()))
+                    eYear.setText("0");
+
+                if(TextUtils.isEmpty(eWeek.getText().toString()))
+                    eWeek.setText("0");
+
+                try{
+                    int week = Integer.parseInt(eWeek.getText().toString());
+
+                    int year = Integer.parseInt(eYear.getText().toString());
+
+                    if (week < 0 || week > 52)
+                        eWeek.setText("0");
+
+                    if (year < 0)
+                        eYear.setText("0");
+                }catch (Exception e) {
+
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
-
-        timeline.setFirstVisibleDate(showYear - 1, getCalendarMonth(1), 01);
-        timeline.setLastVisibleDate(showYear + 1,  getCalendarMonth(12), 31);
-
-
-        timeline.setOnDateSelectedListener(new DatePickerTimeline.OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(int year, int month, int day, int index) {
-                makeCalendar(day, month+1, year);
-            }
-        });
-
-        timeline.setSelectedDate(showYear, getCalendarMonth(showMonth), showDay);
-
-
-
-        timeline.setFollowScroll(true);
+        makeCalendar(0,0);
 
     }
 
-    private void makeCalendar(final int day, final int month, final int year) {
+    private void makeCalendar( final int week, final int year) {
         showpDialog();
-        workInfos.clear();
+        calendarWorkDays.clear();
+        Call<CalendarWorkResult> call = apiInterface().calendarWork(user, week, year);
 
-
-        Call<CWorkResult> call = apiInterface().calendarWork(user, day, month, year);
-
-        call.enqueue(new Callback<CWorkResult>() {
+        call.enqueue(new Callback<CalendarWorkResult>() {
             @Override
-            public void onResponse(Call<CWorkResult> call, Response<CWorkResult> response) {
+            public void onResponse(Call<CalendarWorkResult> call, Response<CalendarWorkResult> response) {
 
                 if (response.body() != null) {
 
-                    if ("1".equals(response.body().getId())) {
+                    eYear.setText(response.body().getYear() + "");
+                    eWeek.setText(response.body().getWeek() + "");
+                    eFdate.setText(response.body().getfDate());
+                    eToDate.setText(response.body().gettDate());
 
-                        if (response.body().getWorks().size()== 0)
-                            commons.makeToast(CalendarActivity.this, "Không có lịch trong ngày " + day + "/" + month + "/" + year).show();
-                        else {
-                            workInfos.addAll(response.body().getWorks());
-                        }
+                    if ("1".equals(response.body().getId())) {
+                        calendarWorkDays.addAll(response.body().getWorks());
+
                     } else {
                         commons.makeToast(CalendarActivity.this, response.body().getMsg()).show();
                     }
 
-
+                    mAdapter.notifyDataSetChanged();
                 }
 
-                mAdapter.notifyDataSetChanged();
+
                 hidepDialog();
             }
 
             @Override
-            public void onFailure(Call<CWorkResult> call, Throwable t) {
+            public void onFailure(Call<CalendarWorkResult> call, Throwable t) {
                 hidepDialog();
                 commons.showToastDisconnect(CalendarActivity.this);
             }
         });
-
-
     }
 
-    private int getCalendarMonth(int month) {
-        switch (month) {
-            case 1:
-                return Calendar.JANUARY;
-            case 2:
-                return Calendar.FEBRUARY;
-            case 3:
-                return Calendar.MARCH;
-            case 4:
-                return Calendar.APRIL;
-            case 5:
-                return Calendar.MAY;
-            case 6:
-                return Calendar.JUNE;
-            case 7:
-                return Calendar.JULY;
-            case 8:
-                return Calendar.AUGUST;
-            case 9:
-                return Calendar.SEPTEMBER;
-            case 10:
-                return Calendar.OCTOBER;
-            case 11:
-                return Calendar.NOVEMBER;
-            case 12:
-                return Calendar.DECEMBER;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.calendar_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.find_action:
+                try{
+                    int week = Integer.parseInt(eWeek.getText().toString());
+
+                    int year = Integer.parseInt(eYear.getText().toString());
+
+                    makeCalendar(week, year);
+                }catch (Exception e) {
+
+                }
+
+                return true;
             default:
-                return 1;
+                return super.onOptionsItemSelected(item);
         }
     }
 }

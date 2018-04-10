@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:paddingLeft="20dp">
+    android:paddingLeft="10dp">
 
 
     <TextView
@@ -13,13 +13,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:fontFamily="sans-serif-light"
-        android:text="THUỐC TRỪ SÂU TAKARE 2EC"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:textStyle="bold" />
 
+
+
     <TextView
-        android:id="@+id/code"
+        android:id="@+id/sizecode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
@@ -27,53 +28,29 @@
         android:fontFamily="sans-serif-light"
         android:text="Mã SP: ana"
         android:textColor="#000000"
-        android:textSize="14dp" />
-
-    <TextView
-        android:id="@+id/maincode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/code"
-        android:layout_marginTop="3dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Mã SP: ana"
-        android:textColor="#000000"
-        android:textSize="14dp" />
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:layout_toRightOf="@id/code"
+        android:layout_below="@id/sizecode"
         android:layout_marginTop="3dp"
-        android:layout_marginLeft="20dp"
         android:fontFamily="sans-serif-light"
-        android:text="Mã SP: ana"
         android:textColor="#FF1744"
-        android:textSize="14dp" />
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/maincode"
+        android:layout_below="@id/size"
         android:layout_marginTop="3dp"
         android:fontFamily="sans-serif-light"
         android:text="Giá bán lẽ: 100 Giói/thùng"
         android:textColor="#000000"
-        android:textSize="14dp" />
+        android:textSize="12dp" />
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/price"
-        android:layout_marginTop="3dp"
-        android:fontFamily="sans-serif-light"
-        android:text="loai"
-        android:textColor="#000000"
-        android:textSize="14dp" />
 
     <Button
         android:layout_width="70dp"
@@ -83,7 +60,7 @@
         android:id="@+id/btnorder"
         android:textSize="10dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/type"
+        android:layout_below="@id/price"
         android:textColor="#007DC6"
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_detail_blue"/>
@@ -95,7 +72,7 @@
         android:layout_marginTop="5dp"
         android:padding="3dp"
         android:background="@drawable/btn_detail_blue"
-        android:layout_below="@id/type"
+        android:layout_below="@id/price"
         android:layout_alignParentBottom="true"
         android:fontFamily="sans-serif-light"
         android:visibility="gone"
@@ -112,7 +89,7 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:visibility="gone"
-        android:layout_below="@id/type"
+        android:layout_below="@id/price"
         android:layout_marginRight="10dp"
         android:src="@mipmap/ic_delete" />
 

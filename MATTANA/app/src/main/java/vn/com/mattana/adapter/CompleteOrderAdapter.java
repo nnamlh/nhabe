@@ -46,7 +46,6 @@ public class CompleteOrderAdapter extends RecyclerView.Adapter<CompleteOrderAdap
         holder.name.setText(order.getName());
         holder.code.setText("Mã code: " + order.getCode());
         holder.detail.setText("SL đặt: " + order.getQuantityBuy());
-        holder.mainCode.setText("Mã hàng: " + order.getMainCode());
         holder.size.setText("Cở vóc: " + order.getSize());
         double price = order.getPrice() * order.getQuantityBuy();
 

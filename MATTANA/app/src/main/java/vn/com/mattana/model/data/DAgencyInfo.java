@@ -18,6 +18,8 @@ public class DAgencyInfo {
 
     private double lng;
 
+    private double discount;
+
     public String getCode() {
         return code;
     }
@@ -64,5 +66,13 @@ public class DAgencyInfo {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

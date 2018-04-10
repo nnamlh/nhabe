@@ -25,6 +25,7 @@ import vn.com.mattana.dms.R;
 import vn.com.mattana.model.api.ResultInfo;
 import vn.com.mattana.model.api.checkin.CWorkInfo;
 import vn.com.mattana.model.api.checkin.CWorkResult;
+import vn.com.mattana.model.api.checkin.CheckInResult;
 import vn.com.mattana.util.MRes;
 
 
@@ -106,20 +107,22 @@ public class CheckInActivity extends BaseActivity {
         });
     }
 
-    public void makeCheckIn(final String workId) {
+    public void makeCheckIn(String agency) {
         showpDialog();
-        Call<ResultInfo> call = apiInterface().checkIn(user, token, workId);
+        Call<CheckInResult> call = apiInterface().checkIn(user, token, agency);
 
-        call.enqueue(new Callback<ResultInfo>() {
+        call.enqueue(new Callback<CheckInResult>() {
             @Override
-            public void onResponse(Call<ResultInfo> call, Response<ResultInfo> response) {
+            public void onResponse(Call<CheckInResult> call, Response<CheckInResult> response) {
 
                 if (response.body() != null) {
                     if ("1".equals(response.body().getId())) {
                         Intent intent = commons.createIntent(CheckInActivity.this, CheckInTaskActivity.class);
-                        intent.putExtra("TimeIn", response.body().getMsg());
-                        intent.putExtra("workId", workId);
-                        startActivityForResult(intent, SHOW_TASK);
+                        intent.putExtra("des", response.body().getDes());
+                        intent.putExtra("workId", response.body().getWorkId());
+                        intent.putExtra("perform", response.body().getPerform());
+
+                        startActivity(intent);
                     } else {
                         commons.makeToast(CheckInActivity.this, response.body().getMsg()).show();
                     }
@@ -129,7 +132,7 @@ public class CheckInActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<ResultInfo> call, Throwable t) {
+            public void onFailure(Call<CheckInResult> call, Throwable t) {
                 hidepDialog();
                 commons.showToastDisconnect(CheckInActivity.this);
             }
@@ -156,6 +159,8 @@ public class CheckInActivity extends BaseActivity {
 
                             if (response.body() != null) {
                                 if (response.body().getId().equals("1")) {
+                                    workInfos.get(position).setLat(lat);
+                                    workInfos.get(position).setLng(lng);
                                     adapter.notifyDataSetChanged();
                                 } else {
                                     commons.makeToast(CheckInActivity.this, response.body().getMsg()).show();
@@ -181,7 +186,7 @@ public class CheckInActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SHOW_TASK) {
             if (resultCode == RESULT_OK) {
-                makeRequest();
+             //   makeRequest();
             } else if (resultCode == RESULT_CANCELED) {
 
             }

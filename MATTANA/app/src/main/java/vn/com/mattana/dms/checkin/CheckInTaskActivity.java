@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +30,9 @@ public class CheckInTaskActivity extends BaseActivity {
     @BindView(R.id.txtagency)
     TextView agency;
 
+    @BindView(R.id.txtcode)
+    TextView agencyCode;
+
     @BindView(R.id.txtphone)
     TextView phone;
 
@@ -43,6 +47,11 @@ public class CheckInTaskActivity extends BaseActivity {
 
     String workId;
 
+    @BindView(R.id.btncheckout)
+    Button btnCheckOut;
+
+    int perform = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +64,23 @@ public class CheckInTaskActivity extends BaseActivity {
 
         workId = intent.getStringExtra("workId");
 
-        timeIn.setText("Ghé thăm lúc: "  + intent.getStringExtra("TimeIn"));
+        timeIn.setText(intent.getStringExtra("des"));
+
+        perform = intent.getIntExtra("perform", 1);
 
 
         address.setText("Địa chỉ: " + MRes.getInstance().agency.getAddress());
 
-        agency.setText(MRes.getInstance().agency.getStore() + " - " + MRes.getInstance().agency.getCode());
+        agencyCode.setText("Mã: " + MRes.getInstance().agency.getCode());
+        agency.setText(MRes.getInstance().agency.getStore());
 
         phone.setText("Điện thoại: " + MRes.getInstance().agency.getPhone());
+
+
+        if (perform == 1) {
+            eNotes.setVisibility(View.GONE);
+            btnCheckOut.setVisibility(View.GONE);
+        }
 
 
     }
@@ -101,9 +119,12 @@ public class CheckInTaskActivity extends BaseActivity {
                         commons.showAlertInfo(CheckInTaskActivity.this, "Thông báo", "Bạn đã hoàn thành ghé thăm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent returnIntent = getIntent();
-                                setResult(Activity.RESULT_OK, returnIntent);
-                                finish();
+                               // Intent returnIntent = getIntent();
+                               // setResult(Activity.RESULT_OK, returnIntent);
+                              //  finish();
+                                perform = 1;
+                                eNotes.setVisibility(View.GONE);
+                                btnCheckOut.setVisibility(View.GONE);
                             }
                         });
 

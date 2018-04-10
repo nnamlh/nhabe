@@ -33,7 +33,7 @@ namespace MATTANAAPI.Controllers
                     name = item.PName,
                     price = item.Price,
                     size = item.PSize,
-                    mainCode = item.PSizeCode,
+                    sizeCode = item.PSizeCode,
                 });
             }
 

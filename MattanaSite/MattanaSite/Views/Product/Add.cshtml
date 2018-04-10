@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Sản phẩm";
 
-    var ptype = ViewBag.PType as IEnumerable<MattanaSite.Models.ProductType>;
 }
 
 
@@ -21,12 +20,12 @@
 
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Mã code</label>
+                        <label>Mã hàng</label>
                         <input type="text" value="@Model.PCode" name="PCode" class="form-control" required />
                     </div>
                     <div class="form-group">
-                        <label>Mã hàng</label>
-                        <input type="text" value="@Model.PMainCode" name="PMainCode" class="form-control" required />
+                        <label>Mã code</label>
+                        <input type="text" value="@Model.PSizeCode" name="PSizeCode" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label>Tên sản phẩm</label>
@@ -43,15 +42,6 @@
                     <div class="form-group">
                         <label>Cở vóc</label>
                         <input type="text" value="@Model.PSize" name="PSize" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Phân loại sản phẩm</label>
-                        <select class="form-control" name="TypeId">
-                            @foreach (var item in ptype)
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        </select>
                     </div>
                 </div>
 
