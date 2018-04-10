@@ -12,7 +12,6 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_non_radius"
         android:fontFamily="sans-serif-light"
-        android:onClick="orderClick"
         android:text=""
         android:visibility="gone"
         android:textColor="#fff"
@@ -23,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="100dp"
+        android:layout_above="@id/btnstatus"
         android:scrollbars="vertical" />
 
 

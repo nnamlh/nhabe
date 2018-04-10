@@ -63,7 +63,6 @@
     <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="Code" Type="varchar" MaxLength="128" />
     <Property Name="Store" Type="nvarchar(max)" />
-    <Property Name="Deputy" Type="nvarchar(max)" />
     <Property Name="IdentityCard" Type="varchar" MaxLength="32" />
     <Property Name="Phone" Type="varchar" MaxLength="16" />
     <Property Name="AddressDetail" Type="nvarchar(max)" />
@@ -72,7 +71,6 @@
     <Property Name="Lat" Type="float" />
     <Property Name="Lng" Type="float" />
     <Property Name="Discount" Type="float" />
-    <Property Name="AreaInfo" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="MOrder">
     <Key>
@@ -91,6 +89,7 @@
     <Property Name="Notes" Type="nvarchar(max)" />
     <Property Name="SuggestDate" Type="datetime" />
     <Property Name="CDate" Type="varchar" MaxLength="16" />
+    <Property Name="Discount" Type="float" />
   </EntityType>
   <EntityType Name="MProduct">
     <Key>
@@ -123,8 +122,8 @@
     </Key>
     <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="Number" Type="int" />
-    <Property Name="CharId" Type="int" />
     <Property Name="Code" Type="nvarchar" MaxLength="128" />
+    <Property Name="CYear" Type="int" />
   </EntityType>
   <EntityType Name="OrderStatus">
     <Key>

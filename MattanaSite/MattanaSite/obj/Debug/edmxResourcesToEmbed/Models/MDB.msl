@@ -31,8 +31,8 @@
     <EntitySetMapping Name="OrderNumbers">
       <EntityTypeMapping TypeName="MDBModel.OrderNumber">
         <MappingFragment StoreEntitySet="OrderNumber">
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
           <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="CharId" ColumnName="CharId" />
           <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -155,7 +155,6 @@
     <EntitySetMapping Name="MAgencies">
       <EntityTypeMapping TypeName="MDBModel.MAgency">
         <MappingFragment StoreEntitySet="MAgency">
-          <ScalarProperty Name="AreaInfo" ColumnName="AreaInfo" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="Lng" ColumnName="Lng" />
           <ScalarProperty Name="Lat" ColumnName="Lat" />
@@ -164,7 +163,6 @@
           <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
-          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
           <ScalarProperty Name="Store" ColumnName="Store" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -233,6 +231,7 @@
     <EntitySetMapping Name="MOrders">
       <EntityTypeMapping TypeName="MDBModel.MOrder">
         <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="CDate" ColumnName="CDate" />
           <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />

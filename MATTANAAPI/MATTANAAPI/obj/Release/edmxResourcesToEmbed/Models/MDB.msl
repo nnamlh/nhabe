@@ -4,14 +4,12 @@
     <EntitySetMapping Name="MAgencies">
       <EntityTypeMapping TypeName="MDBModel.MAgency">
         <MappingFragment StoreEntitySet="MAgency">
-          <ScalarProperty Name="AreaInfo" ColumnName="AreaInfo" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="Lng" ColumnName="Lng" />
           <ScalarProperty Name="Lat" ColumnName="Lat" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Store" ColumnName="Store" />
-          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
           <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
@@ -65,20 +63,18 @@
           <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
           <ScalarProperty Name="Lat" ColumnName="Lat" />
           <ScalarProperty Name="Lng" ColumnName="Lng" />
-          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
           <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
           <ScalarProperty Name="Province" ColumnName="Province" />
           <ScalarProperty Name="IsLock" ColumnName="IsLock" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
-          <ScalarProperty Name="AreaInfo" ColumnName="AreaInfo" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
     <EntitySetMapping Name="OrderNumbers">
       <EntityTypeMapping TypeName="MDBModel.OrderNumber">
         <MappingFragment StoreEntitySet="OrderNumber">
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
           <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="CharId" ColumnName="CharId" />
           <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -87,6 +83,7 @@
     <EntitySetMapping Name="OrderStatus">
       <EntityTypeMapping TypeName="MDBModel.OrderStatu">
         <MappingFragment StoreEntitySet="OrderStatus">
+          <ScalarProperty Name="PermitUser" ColumnName="PermitUser" />
           <ScalarProperty Name="PreStt" ColumnName="PreStt" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -174,6 +171,7 @@
     <EntitySetMapping Name="MOrders">
       <EntityTypeMapping TypeName="MDBModel.MOrder">
         <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="CDate" ColumnName="CDate" />
           <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />

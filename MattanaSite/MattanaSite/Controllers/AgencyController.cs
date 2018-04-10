@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using MattanaSite.Models;
+using System.IO;
+using OfficeOpenXml;
 
 namespace MattanaSite.Controllers
 {
@@ -41,6 +43,13 @@ namespace MattanaSite.Controllers
             return View(new MAgency());
         }
 
+        [HttpGet]
+        public ActionResult AddExcel()
+        {
+            AddMenu(2);
+
+            return View();
+        }
 
         [HttpPost]
         public ActionResult Add(MAgency info)
@@ -117,9 +126,7 @@ namespace MattanaSite.Controllers
 
             check.Code = info.Code;
             check.Store = info.Store;
-            check.Deputy = info.Deputy;
             check.Phone = info.Phone;
-            check.AreaInfo = info.AreaInfo;
             check.AddressDetail = info.AddressDetail;
             check.IdentityCard = info.IdentityCard;
             check.Lat = info.Lat;
@@ -152,6 +159,12 @@ namespace MattanaSite.Controllers
                 Active = 0
             });
 
+            menues.Add(new SubMenuInfo()
+            {
+                Name = "Thêm bằng Excel",
+                Url = "/agency/addexcel",
+                Active = 0
+            });
 
             if (idxActive < 0 || idxActive >= menues.Count())
                 return null;
@@ -161,6 +174,84 @@ namespace MattanaSite.Controllers
 
 
             return menues;
+        }
+
+
+        [HttpPost]
+        public ActionResult AddExcel(HttpPostedFileBase files)
+        {
+            AddMenu(2);
+
+            string extension = System.IO.Path.GetExtension(files.FileName);
+            if (!extension.Equals(".xlsx"))
+                return Redirect("/error");
+
+            string fileSave = "agency_" + DateTime.Now.ToString("ddMMyyyyhhmmss") + extension;
+            string path = Server.MapPath("~/temp/" + fileSave);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
+            files.SaveAs(path);
+            FileInfo newFile = new FileInfo(path);
+            var package = new ExcelPackage(newFile);
+            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            int totalRows = sheet.Dimension.End.Row;
+            int totalCols = sheet.Dimension.End.Column;
+
+            var listError = new List<MProduct>();
+
+            for (int i = 2; i <= totalRows; i++)
+            {
+
+                try
+                {
+                    string name = Convert.ToString(sheet.Cells[i, 2].Value).Trim();
+                    string code = Convert.ToString(sheet.Cells[i, 1].Value);
+                    string address = Convert.ToString(sheet.Cells[i, 3].Value);
+                    string province = Convert.ToString(sheet.Cells[i, 4].Value);
+
+                    var check = db.MAgencies.Where(p => p.Code == code).FirstOrDefault();
+
+                    if (check != null)
+                    {
+                        check.Store = name;
+                        check.AddressDetail = address;
+                        check.Province = province;
+                        db.Entry(check).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        var agencyNew = new MAgency()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            IsLock = 0,
+                            Store = name,
+                            AddressDetail = address,
+                            Province = province,
+                            Code = code,
+                            Discount = 0,
+                            Lat = 0,
+                            Lng = 0
+
+                        };
+
+                        db.MAgencies.Add(agencyNew);
+                        db.SaveChanges();
+                    }
+
+                }
+                catch
+                {
+
+                }
+
+            }
+
+            return RedirectToAction("importexcel", "product");
         }
     }
 }

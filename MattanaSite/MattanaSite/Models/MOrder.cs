@@ -32,6 +32,7 @@ namespace MattanaSite.Models
         public string Notes { get; set; }
         public Nullable<System.DateTime> SuggestDate { get; set; }
         public string CDate { get; set; }
+        public Nullable<double> Discount { get; set; }
     
         public virtual MAgency MAgency { get; set; }
         public virtual MStaff MStaff { get; set; }

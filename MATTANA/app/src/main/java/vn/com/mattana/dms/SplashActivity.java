@@ -70,7 +70,7 @@ public class SplashActivity extends BaseActivity {
     private void checkAndRequestPermissions() {
 
         Dexter.withActivity(this).withPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION).withListener(new MultiplePermissionsListener() {
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA).withListener(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
                 if (report.areAllPermissionsGranted()) {

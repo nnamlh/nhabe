@@ -52,7 +52,7 @@ public class ShowOrderDetailActivity extends BaseActivity {
         createToolbar();
 
         ShowOrderInfo info = MRes.getInstance().orderInfo;
-        getSupportActionBar().setTitle("Đơn hàng: " + info.getCode());
+        getSupportActionBar().setTitle("ĐH: " + info.getCode());
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);

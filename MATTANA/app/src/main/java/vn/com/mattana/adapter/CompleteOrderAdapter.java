@@ -44,9 +44,9 @@ public class CompleteOrderAdapter extends RecyclerView.Adapter<CompleteOrderAdap
 
 
         holder.name.setText(order.getName());
-        holder.code.setText("Mã code: " + order.getCode());
+        holder.code.setText(order.getCode());
         holder.detail.setText("SL đặt: " + order.getQuantityBuy());
-        holder.size.setText("Cở vóc: " + order.getSize());
+        holder.size.setText("Cở: " + order.getSize());
         double price = order.getPrice() * order.getQuantityBuy();
 
         holder.price.setText(MRes.getInstance().formatMoneyToText(price));
@@ -97,7 +97,6 @@ public class CompleteOrderAdapter extends RecyclerView.Adapter<CompleteOrderAdap
             price = (TextView) view.findViewById(R.id.price);
             imgEdit  = (ImageView) view.findViewById(R.id.imgedit);
             size = (TextView) view.findViewById(R.id.size);
-            mainCode = (TextView) view.findViewById(R.id.maincode);
         }
     }
 

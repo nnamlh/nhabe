@@ -44,7 +44,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         final ProductInfo productInfo = productInfos.get(position);
         holder.name.setText(productInfo.getName());
         holder.price.setText("Giá bán lẽ: " + MRes.getInstance().formatMoneyToText(productInfo.getPrice()));
-        holder.sizeCode.setText(productInfo.getCode());
+        holder.sizeCode.setText(productInfo.getSizeCode());
         holder.size.setText("Cở: " + productInfo.getSize());
         holder.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override

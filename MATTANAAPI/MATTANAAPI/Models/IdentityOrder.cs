@@ -85,6 +85,8 @@ namespace MATTANAAPI.Models
 
         public string Id { get; set; }
 
+        public string size { get; set; }
+
     }
 
     public class UpdateOrderResult : ResultInfo

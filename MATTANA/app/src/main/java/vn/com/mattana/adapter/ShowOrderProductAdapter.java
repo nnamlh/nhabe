@@ -47,8 +47,8 @@ public class ShowOrderProductAdapter extends RecyclerView.Adapter<ShowOrderProdu
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final ShowOrderProductInfo productInfo = orderProductInfos.get(position);
-        holder.name.setText(productInfo.getName());
-        holder.code.setText("Mã SP: " + productInfo.getCode());
+        holder.name.setText(productInfo.getName() + "(" + productInfo.getSize() + ")");
+        holder.code.setText("Mã SP: " + productInfo.getCode() );
 
         holder.quantity.setText("SL: " + productInfo.getQuantityBuy());
         holder.equantityreal.setText("SL thực: " + productInfo.getQuantityReal());

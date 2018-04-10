@@ -12,7 +12,7 @@
         android:fontFamily="sans-serif-light"
         android:text=""
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:textStyle="bold" />
 
 
@@ -25,42 +25,30 @@
         android:fontFamily="sans-serif-light"
         android:text=""
         android:textColor="#000000"
-        android:textSize="14dp" />
+        android:textSize="12dp" />
 
-    <TextView
-        android:id="@+id/maincode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/code"
-        android:layout_marginTop="3dp"
-        android:fontFamily="sans-serif-light"
-        android:text=""
-        android:textColor="#000000"
-        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:layout_toRightOf="@id/code"
+        android:layout_below="@id/code"
         android:layout_marginTop="3dp"
-        android:layout_marginLeft="20dp"
         android:fontFamily="sans-serif-light"
         android:text="Mã SP: ana"
         android:textColor="#FF1744"
-        android:textSize="14dp" />
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/maincode"
+        android:layout_below="@id/size"
         android:layout_marginTop="3dp"
         android:fontFamily="sans-serif-light"
         android:text=""
         android:textColor="#000000"
-        android:textSize="14dp"
+        android:textSize="12dp"
         android:textStyle="bold" />
 
     <ImageView

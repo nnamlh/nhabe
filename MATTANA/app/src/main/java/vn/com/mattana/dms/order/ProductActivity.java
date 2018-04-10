@@ -173,7 +173,7 @@ public class ProductActivity extends BaseActivity {
         productInfos.clear();
 
         for (ProductInfo info : productInfosTemp) {
-            if (info.getName().toLowerCase().contains(query.toLowerCase()) || info.getCode().toLowerCase().contains(query.toLowerCase())) {
+            if (info.getSizeCode().toLowerCase().contains(query.toLowerCase())) {
                 productInfos.add(info);
             }
         }
@@ -242,8 +242,8 @@ public class ProductActivity extends BaseActivity {
     }
 
    private void findProduct (String code) {
-        for (ProductInfo item : productInfos){
-            if(code.equals(item)) {
+        for (ProductInfo item : productInfosTemp){
+            if(code.trim().toLowerCase().equals(item.getSizeCode().trim().toLowerCase())) {
                 ProductInfo order = MRes.getInstance().getProductOrder(item.getId());
                 if (order == null) {
                     item.setQuantityBuy(1);

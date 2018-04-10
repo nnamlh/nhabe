@@ -8,6 +8,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -95,7 +98,7 @@ public class CompleteOrderActivity extends BaseActivity implements DatePickerDia
 
     }
 
-    public void orderClick(View view) {
+    private void complete() {
         if (MRes.getInstance().getProductOrder().size() == 0) {
             commons.makeToast(CompleteOrderActivity.this, "Chọn sản phẩm").show();
             return;
@@ -232,5 +235,25 @@ public class CompleteOrderActivity extends BaseActivity implements DatePickerDia
         suggest.setText("Ngày đề nghị giao: " + dateSugess);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.complete_menu, menu);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.continue_action:
+                complete();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

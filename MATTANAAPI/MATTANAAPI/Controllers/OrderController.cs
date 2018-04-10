@@ -52,17 +52,14 @@ namespace MATTANAAPI.Controllers
                 if (checkAgency == null)
                     throw new Exception("Sai thông tin");
 
-                var newCode = GetCode();
+                var newCode = GetCode(checkAgency.Code);
 
-                Nullable<System.DateTime> sugestTime = null;
+                Nullable<System.DateTime> sugestTime = DateTime.ParseExact(paser.suggestDate, "d/M/yyyy", null);
 
-                try
+
+                if (sugestTime == null)
                 {
-                    sugestTime = DateTime.ParseExact(paser.suggestDate, "d/M/yyyy", null);
-                }
-                catch
-                {
-
+                    sugestTime = DateTime.Now.AddDays(3);
                 }
 
                 var order = new MOrder()
@@ -76,7 +73,8 @@ namespace MATTANAAPI.Controllers
                     StaffId = checkStaff.Id,
                     StatusId = "create",
                     Code = newCode,
-                    SuggestDate = sugestTime
+                    SuggestDate = sugestTime,
+                    Discount = checkAgency.Discount
                 };
 
                 db.MOrders.Add(order);
@@ -129,45 +127,61 @@ namespace MATTANAAPI.Controllers
 
         }
 
-        private string GetCode()
+        private string GetCode(string agency = "")
         {
-            var charId = db.OrderNumbers.Max(p => p.CharId);
 
-            if (charId == null)
+
+            var check = db.OrderNumbers.Where(p => p.CYear == DateTime.Now.Year && p.Code == agency).FirstOrDefault();
+
+            if (check == null)
             {
-                charId = 65;
+                string firstCode = agency + DateTime.Now.ToString("MMyyyy") + "001";
+                var saveNew = new OrderNumber()
+                {
+                    Id = firstCode,
+                    Number = 1,
+                    CYear = DateTime.Now.Year,
+                    Code = agency
+                };
+
+                db.OrderNumbers.Add(saveNew);
+                db.SaveChanges();
+
+                return firstCode;
             }
 
-            var number = db.OrderNumbers.Where(p => p.CharId == charId).Max(p => p.Number);
 
-            if (number == null)
-                number = 10000;
+            var number = db.OrderNumbers.Where(p => p.CYear == DateTime.Now.Year && p.Code == agency).Max(p => p.Number);
+
+            number++;
+
+            int numberSize = number.ToString().Count();
+
+            string newCode = "";
+            if (numberSize == 1)
+            {
+                newCode = agency + DateTime.Now.ToString("MMyyyy") + "00" + number;
+            }
+            else if (numberSize == 2)
+            {
+                newCode = agency + DateTime.Now.ToString("MMyyyy") + "0" + number;
+            }
             else
             {
-                if (number == 99999)
-                {
-                    charId++;
-                    number = 10000;
-                }
-                else
-                {
-                    number++;
-                }
+                newCode = agency + DateTime.Now.ToString("MMyyyy") + number;
             }
-
-            char character = (char)charId;
-            string code = character.ToString() + number;
 
             var save = new OrderNumber()
             {
-                Id = code,
-                CharId = charId,
-                Number = number
+                Id = newCode,
+                Number = number,
+                CYear = DateTime.Now.Year,
+                Code = agency
             };
             db.OrderNumbers.Add(save);
             db.SaveChanges();
 
-            return code;
+            return newCode;
 
         }
 
@@ -212,12 +226,12 @@ namespace MATTANAAPI.Controllers
 
                 if (isAdmin(user))
                 {
-                    orders= (from log in db.MOrders
-                     where DbFunctions.TruncateTime(log.CreateTime)
-                                        >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
-                                        <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status) && log.MAgency.Code.Contains(agency)
+                    orders = (from log in db.MOrders
+                              where DbFunctions.TruncateTime(log.CreateTime)
+                                                 >= DbFunctions.TruncateTime(fromDate) && DbFunctions.TruncateTime(log.CreateTime)
+                                                 <= DbFunctions.TruncateTime(toDate) && log.StatusId.Contains(status) && log.MAgency.Code.Contains(agency)
 
-                     select log).OrderByDescending(p => p.CreateTime).ToList();
+                              select log).OrderByDescending(p => p.CreateTime).ToList();
                 }
                 else
                 {
@@ -246,7 +260,7 @@ namespace MATTANAAPI.Controllers
                         close = (int)item.CloseOrder,
                         orderId = item.Id,
                         createTime = item.CreateTime.Value.ToString("dd/MM/yyyy"),
-                        timeSuggest = item.SuggestDate != null?item.SuggestDate.Value.ToString("dd/MM/yyyy"):"",
+                        timeSuggest = item.SuggestDate != null ? item.SuggestDate.Value.ToString("dd/MM/yyyy") : "",
                         realPrice = item.PriceReal.Value.ToString("C", Cultures.VietNam),
                         staffCode = item.StaffId,
                         staffName = item.MStaff.FullName
@@ -301,8 +315,9 @@ namespace MATTANAAPI.Controllers
                 {
                     result.Add(new ShowProductOrderInfo()
                     {
-                        code = item.MProduct.PCode,
+                        code = item.MProduct.PSizeCode,
                         name = item.MProduct.PName,
+                        size = item.MProduct.PSize,
                         price = item.Price.Value.ToString("C", Cultures.VietNam),
                         priceTotal = (item.QuantityBuy * item.Price).Value.ToString("C", Cultures.VietNam),
                         quantityBuy = (int)item.QuantityBuy,
@@ -312,7 +327,7 @@ namespace MATTANAAPI.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch
             {
                 log.Sucess = 0;
             }
@@ -329,18 +344,18 @@ namespace MATTANAAPI.Controllers
         [HttpGet]
         public UpdateOrderResult UpdateOrderStatus(string user, string token, string orderId, string status)
         {
-             var log = new MongoHistoryAPI()
-            {
-                APIUrl = "/api/order/updateorderstatus",
-                CreateTime = DateTime.Now,
-                Sucess = 1
-            };
+            var log = new MongoHistoryAPI()
+           {
+               APIUrl = "/api/order/updateorderstatus",
+               CreateTime = DateTime.Now,
+               Sucess = 1
+           };
 
-             var result = new UpdateOrderResult()
-             {
-                 id = "1",
-                 msg = "success"
-             };
+            var result = new UpdateOrderResult()
+            {
+                id = "1",
+                msg = "success"
+            };
 
             try
             {
@@ -357,7 +372,7 @@ namespace MATTANAAPI.Controllers
 
                 var checkStt = db.OrderStatus.Find(status);
 
-                if(checkStt == null)
+                if (checkStt == null)
                     throw new Exception("Sai thông tin status");
 
                 var checkOrder = db.MOrders.Find(orderId);
@@ -387,7 +402,7 @@ namespace MATTANAAPI.Controllers
                     result.nextStatus = findNextStt.Name;
                     result.nextStatusCode = findNextStt.Id;
                 }
-            
+
             }
             catch (Exception e)
             {
@@ -407,18 +422,18 @@ namespace MATTANAAPI.Controllers
         [HttpGet]
         public ResultInfo UpdateDelivery(string orderId, string productId, int quantity, string user, string token)
         {
-             var log = new MongoHistoryAPI()
-            {
-                APIUrl = "/api/order/updatedelivery",
-                CreateTime = DateTime.Now,
-                Sucess = 1
-            };
+            var log = new MongoHistoryAPI()
+           {
+               APIUrl = "/api/order/updatedelivery",
+               CreateTime = DateTime.Now,
+               Sucess = 1
+           };
 
-             var result = new ResultInfo()
-             {
-                 id = "1",
-                 msg = "success"
-             };
+            var result = new ResultInfo()
+            {
+                id = "1",
+                msg = "success"
+            };
 
             try
             {
@@ -457,7 +472,8 @@ namespace MATTANAAPI.Controllers
                     Util.Utils.send(checkOrder.MStaff.MUser, "Đơn hàng " + checkOrder.Code, "Đơn hàng " + checkOrder.Code + "\nĐã thay đổi số lượng thực: " + quantity + "\nSản phẩm: " + oderProduct.MProduct.PName, mongoHelper);
 
 
-                } else
+                }
+                else
                     throw new Exception("Sai thông tin");
 
             }

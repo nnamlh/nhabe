@@ -22,6 +22,7 @@ namespace MATTANAAPI.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string PreStt { get; set; }
+        public Nullable<int> PermitUser { get; set; }
     
         public virtual ICollection<MOrder> MOrders { get; set; }
     }

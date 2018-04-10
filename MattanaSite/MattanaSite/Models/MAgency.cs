@@ -25,7 +25,6 @@ namespace MattanaSite.Models
         public string Id { get; set; }
         public string Code { get; set; }
         public string Store { get; set; }
-        public string Deputy { get; set; }
         public string IdentityCard { get; set; }
         public string Phone { get; set; }
         public string AddressDetail { get; set; }
@@ -34,7 +33,6 @@ namespace MattanaSite.Models
         public Nullable<double> Lat { get; set; }
         public Nullable<double> Lng { get; set; }
         public Nullable<double> Discount { get; set; }
-        public string AreaInfo { get; set; }
     
         public virtual ICollection<MStaff> MStaffs { get; set; }
         public virtual ICollection<CalendarPlan> CalendarPlans { get; set; }

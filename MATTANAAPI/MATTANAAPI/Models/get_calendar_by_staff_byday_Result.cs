@@ -20,11 +20,9 @@ namespace MATTANAAPI.Models
         public string AddressDetail { get; set; }
         public Nullable<double> Lat { get; set; }
         public Nullable<double> Lng { get; set; }
-        public string Deputy { get; set; }
         public string IdentityCard { get; set; }
         public string Province { get; set; }
         public Nullable<int> IsLock { get; set; }
         public Nullable<double> Discount { get; set; }
-        public string AreaInfo { get; set; }
     }
 }

@@ -178,7 +178,6 @@ namespace MattanaSite.Controllers
                     worksheet.Cells[3, 6].Value = order.Code;
                     worksheet.Cells[4, 6].Value = order.CreateTime.Value.ToString("dd/MM/yyyy");
                     worksheet.Cells[5, 6].Value = order.MAgency.AddressDetail;
-                    worksheet.Cells[6, 6].Value = order.MAgency.Deputy;
                     worksheet.Cells[7, 6].Value = order.SuggestDate != null ? order.SuggestDate.Value.ToString("dd/MM/yyyy") : "";
 
                     worksheet.Cells[5, 3].Value = order.MStaff.FullName;

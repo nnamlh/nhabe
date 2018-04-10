@@ -102,8 +102,7 @@
             android:label="Thông báo"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SimpleScanActivity"
-            android:label="Mattana"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Mattana"/>
     </application>
 
 </manifest>

@@ -25,6 +25,9 @@ public class ShowOrderProductInfo {
     @SerializedName("Id")
     private String Id;
 
+    @SerializedName("size")
+    private String size;
+
     public String getName() {
         return name;
     }
@@ -80,5 +83,13 @@ public class ShowOrderProductInfo {
 
     public void setId(String id) {
         Id = id;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }
