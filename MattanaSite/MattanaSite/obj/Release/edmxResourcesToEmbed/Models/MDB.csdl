@@ -35,27 +35,11 @@
     <EntitySet Name="MStaffs" EntityType="Self.MStaff" />
     <EntitySet Name="OrderNumbers" EntityType="MDBModel.OrderNumber" />
     <EntitySet Name="OrderStatus" EntityType="MDBModel.OrderStatu" />
-    <FunctionImport Name="get_detail_calendar_by_calendarid" ReturnType="Collection(MDBModel.get_detail_calendar_by_calendarid_Result)">
-      <Parameter Name="calendarId" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="show_user_role" ReturnType="Collection(MDBModel.show_user_role_Result)" />
-    <FunctionImport Name="delete_calendar">
-      <Parameter Name="calendarId" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="get_calendar_in_month_by_staff" ReturnType="Collection(MDBModel.get_calendar_in_month_by_staff_Result)">
       <Parameter Name="Month" Mode="In" Type="Int32" />
       <Parameter Name="Year" Mode="In" Type="Int32" />
       <Parameter Name="StaffId" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="check_staff_has_create_calendar" ReturnType="Collection(MDBModel.check_staff_has_create_calendar_Result)">
-      <Parameter Name="day" Mode="In" Type="Int32" />
-      <Parameter Name="month" Mode="In" Type="Int32" />
-      <Parameter Name="year" Mode="In" Type="Int32" />
-      <Parameter Name="staffId" Mode="In" Type="String" />
-      <Parameter Name="calendarId" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="get_calendar_by_id" ReturnType="Collection(MDBModel.get_calendar_by_id_Result)">
-      <Parameter Name="CalendarId" Mode="In" Type="String" />
     </FunctionImport>
     <EntitySet Name="MAgencies" EntityType="MDBModel.MAgency" />
     <AssociationSet Name="AgencyWithStaff" Association="MDBModel.AgencyWithStaff">
@@ -114,8 +98,8 @@
     </Key>
     <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
     <Property Name="Number" Type="Int32" />
-    <Property Name="CharId" Type="Int32" />
     <Property Name="Code" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CYear" Type="Int32" />
   </EntityType>
   <EntityType Name="OrderStatu">
     <Key>
@@ -125,33 +109,8 @@
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="PreStt" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="OrderStatu" ToRole="MOrder" />
+    <Property Name="PermitUser" Type="Int32" />
   </EntityType>
-  <ComplexType Name="get_detail_calendar_by_calendarid_Result">
-    <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="CDay" Nullable="true" />
-    <Property Type="Int32" Name="InPlan" Nullable="true" />
-    <Property Type="String" Name="TypeId" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Notes" Nullable="true" />
-    <Property Type="Time" Name="CInTime" Nullable="true" />
-    <Property Type="Time" Name="COutTime" Nullable="true" />
-    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-    <Property Type="Int32" Name="Perform" Nullable="true" />
-    <Property Type="String" Name="CDate" Nullable="true" MaxLength="32" />
-    <Property Type="String" Name="AgencyId" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="MUser" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="StaffCode" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="CYear" Nullable="true" />
-    <Property Type="Int32" Name="CMonth" Nullable="true" />
-    <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Code" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Store" Nullable="true" />
-    <Property Type="String" Name="Phone" Nullable="true" MaxLength="16" />
-    <Property Type="String" Name="AddressDetail" Nullable="true" />
-    <Property Type="Double" Name="Lat" Nullable="true" />
-    <Property Type="Double" Name="Lng" Nullable="true" />
-    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="StaffCheckName" Nullable="true" MaxLength="512" />
-  </ComplexType>
   <ComplexType Name="show_user_role_Result">
     <Property Type="String" Name="FullName" Nullable="true" MaxLength="512" />
     <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
@@ -165,51 +124,19 @@
     <Property Type="Int32" Name="CMonth" Nullable="true" />
     <Property Type="String" Name="Notes" Nullable="true" />
     <Property Type="Int32" Name="CYear" Nullable="true" />
-    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-    <Property Type="Int32" Name="InPlan" Nullable="true" />
-    <Property Type="Int32" Name="Perform" Nullable="true" />
-    <Property Type="Time" Name="CInTime" Nullable="true" />
-    <Property Type="Time" Name="COutTime" Nullable="true" />
     <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
     <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
     <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
     <Property Type="String" Name="Store" Nullable="true" />
-    <Property Type="String" Name="Deputy" Nullable="true" />
     <Property Type="String" Name="AgencyAddress" Nullable="true" />
     <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
-    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="StaffCheck" Nullable="false" MaxLength="128" />
     <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
     <Property Type="Int32" Name="StaffGroup" Nullable="true" />
     <Property Type="Double" Name="TotalMoney" Nullable="true" />
-    <Property Type="Double" Name="Targets" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="check_staff_has_create_calendar_Result">
-    <Property Type="String" Name="StaffId" Nullable="false" MaxLength="128" />
-    <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
-  </ComplexType>
-  <ComplexType Name="get_calendar_by_id_Result">
-    <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="CDay" Nullable="true" />
-    <Property Type="Int32" Name="CMonth" Nullable="true" />
-    <Property Type="String" Name="Notes" Nullable="true" />
-    <Property Type="Int32" Name="CYear" Nullable="true" />
-    <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-    <Property Type="Int32" Name="InPlan" Nullable="true" />
-    <Property Type="Int32" Name="Perform" Nullable="true" />
-    <Property Type="Time" Name="CInTime" Nullable="true" />
-    <Property Type="Time" Name="COutTime" Nullable="true" />
-    <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
-    <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Store" Nullable="true" />
-    <Property Type="String" Name="Deputy" Nullable="true" />
-    <Property Type="String" Name="AgencyAddress" Nullable="true" />
-    <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
-    <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
-    <Property Type="Int32" Name="StaffGroup" Nullable="true" />
-    <Property Type="Double" Name="TotalMoney" Nullable="true" />
-    <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
-    <Property Type="Double" Name="Targets" Nullable="true" />
+    <Property Type="String" Name="CDate" Nullable="true" MaxLength="32" />
+    <Property Type="DateTime" Name="FistTime" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndTime" Nullable="true" Precision="23" />
   </ComplexType>
   <EntityType Name="MAgency">
     <Key>
@@ -218,7 +145,6 @@
     <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
     <Property Name="Code" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
     <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Deputy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="IdentityCard" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
     <Property Name="Phone" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
     <Property Name="AddressDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -227,7 +153,6 @@
     <Property Name="Lat" Type="Double" />
     <Property Name="Lng" Type="Double" />
     <Property Name="Discount" Type="Double" />
-    <Property Name="AreaInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="MStaffs" Relationship="MDBModel.AgencyWithStaff" FromRole="MAgency" ToRole="MStaff" />
     <NavigationProperty Name="CalendarPlans" Relationship="MDBModel.FK__CalendarP__Agenc__123EB7A3" FromRole="MAgency" ToRole="CalendarPlan" />
     <NavigationProperty Name="CalendarWorks" Relationship="MDBModel.FK__CalendarW__Agenc__17036CC0" FromRole="MAgency" ToRole="CalendarWork" />
@@ -312,6 +237,7 @@
     <NavigationProperty Name="MStaff" Relationship="MDBModel.FK__MOrder__StaffId__6383C8BA" FromRole="MOrder" ToRole="MStaff" />
     <NavigationProperty Name="OrderStatu" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="MOrder" ToRole="OrderStatu" />
     <NavigationProperty Name="ProductOrders" Relationship="MDBModel.FK__ProductOr__Order__6754599E" FromRole="MOrder" ToRole="ProductOrder" />
+    <Property Name="Discount" Type="Double" />
   </EntityType>
   <EntityType Name="ProductOrder">
     <Key>

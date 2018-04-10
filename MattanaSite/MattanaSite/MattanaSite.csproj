@@ -237,16 +237,7 @@
     <Compile Include="Models\CalendarWork.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\check_staff_has_create_calendar_Result.cs">
-      <DependentUpon>MDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\get_calendar_by_id_Result.cs">
-      <DependentUpon>MDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\get_calendar_in_month_by_staff_Result.cs">
-      <DependentUpon>MDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\get_detail_calendar_by_calendarid_Result.cs">
       <DependentUpon>MDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityCommon.cs" />
@@ -338,6 +329,7 @@
     <Content Include="MTemplates\form_checkin_month.xlsx" />
     <Content Include="MTemplates\import-product.xlsx" />
     <Content Include="MTemplates\import_agency.xlsx" />
+    <Content Include="MTemplates\form_plan.xlsx" />
     <None Include="Properties\PublishProfiles\mattanaweb.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

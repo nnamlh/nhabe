@@ -132,6 +132,7 @@
     <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" />
     <Property Name="PreStt" Type="varchar" MaxLength="128" />
+    <Property Name="PermitUser" Type="int" />
   </EntityType>
   <EntityType Name="ProductOrder">
     <Key>
@@ -288,26 +289,10 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="check_staff_has_create_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="day" Type="int" Mode="In" />
-    <Parameter Name="month" Type="int" Mode="In" />
-    <Parameter Name="year" Type="int" Mode="In" />
-    <Parameter Name="staffId" Type="varchar" Mode="In" />
-    <Parameter Name="calendarId" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="delete_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="calendarId" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="get_calendar_by_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="CalendarId" Type="varchar" Mode="In" />
-  </Function>
   <Function Name="get_calendar_in_month_by_staff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Month" Type="int" Mode="In" />
     <Parameter Name="Year" Type="int" Mode="In" />
     <Parameter Name="StaffId" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="get_detail_calendar_by_calendarid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="calendarId" Type="varchar" Mode="In" />
   </Function>
   <Function Name="show_user_role" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="MDBModelStoreContainer">

@@ -38,27 +38,9 @@ namespace MattanaSite.Models
         public virtual DbSet<MOrder> MOrders { get; set; }
         public virtual DbSet<ProductOrder> ProductOrders { get; set; }
     
-        public virtual ObjectResult<get_detail_calendar_by_calendarid_Result> get_detail_calendar_by_calendarid(string calendarId)
-        {
-            var calendarIdParameter = calendarId != null ?
-                new ObjectParameter("calendarId", calendarId) :
-                new ObjectParameter("calendarId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_detail_calendar_by_calendarid_Result>("get_detail_calendar_by_calendarid", calendarIdParameter);
-        }
-    
         public virtual ObjectResult<show_user_role_Result> show_user_role()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<show_user_role_Result>("show_user_role");
-        }
-    
-        public virtual int delete_calendar(string calendarId)
-        {
-            var calendarIdParameter = calendarId != null ?
-                new ObjectParameter("calendarId", calendarId) :
-                new ObjectParameter("calendarId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_calendar", calendarIdParameter);
         }
     
         public virtual ObjectResult<get_calendar_in_month_by_staff_Result> get_calendar_in_month_by_staff(Nullable<int> month, Nullable<int> year, string staffId)
@@ -76,40 +58,6 @@ namespace MattanaSite.Models
                 new ObjectParameter("StaffId", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_calendar_in_month_by_staff_Result>("get_calendar_in_month_by_staff", monthParameter, yearParameter, staffIdParameter);
-        }
-    
-        public virtual ObjectResult<check_staff_has_create_calendar_Result> check_staff_has_create_calendar(Nullable<int> day, Nullable<int> month, Nullable<int> year, string staffId, string calendarId)
-        {
-            var dayParameter = day.HasValue ?
-                new ObjectParameter("day", day) :
-                new ObjectParameter("day", typeof(int));
-    
-            var monthParameter = month.HasValue ?
-                new ObjectParameter("month", month) :
-                new ObjectParameter("month", typeof(int));
-    
-            var yearParameter = year.HasValue ?
-                new ObjectParameter("year", year) :
-                new ObjectParameter("year", typeof(int));
-    
-            var staffIdParameter = staffId != null ?
-                new ObjectParameter("staffId", staffId) :
-                new ObjectParameter("staffId", typeof(string));
-    
-            var calendarIdParameter = calendarId != null ?
-                new ObjectParameter("calendarId", calendarId) :
-                new ObjectParameter("calendarId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<check_staff_has_create_calendar_Result>("check_staff_has_create_calendar", dayParameter, monthParameter, yearParameter, staffIdParameter, calendarIdParameter);
-        }
-    
-        public virtual ObjectResult<get_calendar_by_id_Result> get_calendar_by_id(string calendarId)
-        {
-            var calendarIdParameter = calendarId != null ?
-                new ObjectParameter("CalendarId", calendarId) :
-                new ObjectParameter("CalendarId", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_calendar_by_id_Result>("get_calendar_by_id", calendarIdParameter);
         }
     }
 }

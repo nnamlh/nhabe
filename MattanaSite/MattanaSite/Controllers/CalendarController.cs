@@ -149,6 +149,64 @@ namespace MattanaSite.Controllers
             return View(check);
         }
 
+
+        private List<ShowCalendarDay> planCalendar(CalendarInfo check)
+        {
+            var startDate = DateTime.ParseExact(check.FDate, "dd/MM/yyyy", null);
+
+            var endDate = DateTime.ParseExact(check.TDate, "dd/MM/yyyy", null);
+
+            List<ShowCalendarDay> planTimes = new List<ShowCalendarDay>();
+
+            for (DateTime date = startDate; date <= endDate; )
+            {
+                ShowCalendarDay data = new ShowCalendarDay()
+                {
+                    date = date.ToString("dd/MM/yyyy"),
+                    code = date.ToString("ddMMyyyy"),
+                    dayOfWeek = mapDayOfWeeks[date.DayOfWeek],
+                    plan = new List<ShowCalendarAgency>(),
+                    work = new List<ShowCalendarAgency>()
+
+                };
+
+                var planCode = date.ToString("ddMMyyyy");
+
+                var listPlan = db.CalendarPlans.Where(p => p.CalendarId == check.Id && p.CDate == planCode).ToList();
+
+                foreach (var item in listPlan)
+                {
+                    data.plan.Add(new ShowCalendarAgency()
+                    {
+                        id = item.MAgency.Id,
+                        code = item.MAgency.Code,
+                        name = item.MAgency.Store,
+                        target = item.Targets.Value.ToString("C", Util.Cultures.VietNam)
+                    });
+                }
+
+                var listWork = db.CalendarWorks.Where(p => p.StaffId == check.StaffId && p.CDate == planCode && p.Perform == 1).ToList();
+
+                foreach (var item in listWork)
+                {
+                    data.work.Add(new ShowCalendarAgency()
+                    {
+                        id = item.MAgency.Id,
+                        code = item.MAgency.Code,
+                        name = item.MAgency.Store
+                    });
+                }
+
+
+                planTimes.Add(data);
+
+                date = date.AddDays(1);
+            }
+
+            return planTimes;
+        }
+
+
         [HttpGet]
         public ActionResult Add()
         {
@@ -402,14 +460,19 @@ namespace MattanaSite.Controllers
 
 
         [HttpGet]
-        public ActionResult ReportCalendarById(string calendarId)
+        public ActionResult ExportFormPlan(string id)
         {
 
-            string pathRoot = Server.MapPath("~/MTemplates/form_checkin_month.xlsx");
+            string pathRoot = Server.MapPath("~/MTemplates/form_plan.xlsx");
             string name = "checkinform" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xlsx";
             string pathTo = Server.MapPath("~/Temp/" + name);
 
             System.IO.File.Copy(pathRoot, pathTo);
+
+            var checkCalendar = db.CalendarInfoes.Find(id);
+
+            if (checkCalendar == null)
+                return Redirect("/error");
 
             try
             {
@@ -419,25 +482,34 @@ namespace MattanaSite.Controllers
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
 
-                    var data = db.get_calendar_by_id(calendarId).ToList();
+                    var data = planCalendar(checkCalendar);
+
+                    worksheet.Cells[1, 1].Value = "KẾ HOẠCH LÀM VIỆC TUẦN ";
+                    worksheet.Cells[2, 1].Value = "Từ ngày " + checkCalendar.FDate + " Đến ngày " + checkCalendar.TDate;
+                    worksheet.Cells[3, 2].Value = checkCalendar.MStaff.FullName;
+                    worksheet.Cells[4, 2].Value = checkCalendar.MStaff.GroupNumber;
+
 
                     for (int i = 0; i < data.Count(); i++)
                     {
-                        worksheet.Cells[i + 8, 1].Value = i + 1;
+                        worksheet.Cells[i + 7, 1].Value = data[i].dayOfWeek + Environment.NewLine + data[i].date;
 
-                        worksheet.Cells[i + 8, 2].Value = data[i].AgencyCode;
-                        worksheet.Cells[i + 8, 3].Value = data[i].Deputy;
-                        worksheet.Cells[i + 8, 4].Value = data[i].Province;
-                        worksheet.Cells[i + 8, 5].Value = data[i].AgencyAddress;
-                        worksheet.Cells[i + 8, 6].Value = data[i].AgencyPhone;
-                        worksheet.Cells[i + 8, 7].Value = "Ngày " + data[i].CDay + " tháng" + data[i].CMonth;
-                        worksheet.Cells[i + 8, 8].Value = data[i].CInTime;
-                        worksheet.Cells[i + 8, 9].Value = data[i].COutTime;
-                        worksheet.Cells[i + 8, 10].Value = data[i].StaffName;
-                        worksheet.Cells[i + 8, 11].Value = data[i].StaffCheck;
-                        worksheet.Cells[i + 8, 12].Value = data[i].Targets;
-                        worksheet.Cells[i + 8, 13].Value = data[i].TotalMoney;
-                        worksheet.Cells[i + 8, 14].Value = data[i].Notes;
+                        string planContent = "";
+                        foreach (var plan in data[i].plan)
+                        {
+                            planContent = planContent + plan.name + Environment.NewLine;
+                        }
+
+                        worksheet.Cells[i + 7, 2].Value = planContent;
+
+                        string workContent = "";
+                        foreach (var work in data[i].work)
+                        {
+                            workContent = workContent + work.name + Environment.NewLine;
+                        }
+
+                        worksheet.Cells[i + 7, 3].Value = workContent;
+                        
                     }
 
                     package.Save();
@@ -450,7 +522,7 @@ namespace MattanaSite.Controllers
             }
 
 
-            return File(pathTo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", string.Format("checkin-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".{0}", "xlsx"));
+            return File(pathTo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", string.Format("plan-" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".{0}", "xlsx"));
         }
 
 
@@ -489,16 +561,15 @@ namespace MattanaSite.Controllers
                         worksheet.Cells[i + 8, 1].Value = i + 1;
 
                         worksheet.Cells[i + 8, 2].Value = data[i].AgencyCode;
-                        worksheet.Cells[i + 8, 3].Value = data[i].Deputy;
+
                         worksheet.Cells[i + 8, 4].Value = data[i].Province;
                         worksheet.Cells[i + 8, 5].Value = data[i].AgencyAddress;
                         worksheet.Cells[i + 8, 6].Value = data[i].AgencyPhone;
-                        worksheet.Cells[i + 8, 7].Value = "Ngày " + data[i].CDay + " tháng" + data[i].CMonth;
-                        worksheet.Cells[i + 8, 8].Value = data[i].CInTime;
-                        worksheet.Cells[i + 8, 9].Value = data[i].COutTime;
+                        worksheet.Cells[i + 8, 8].Value = data[i].FistTime.Value.ToString("dd/MM/yyyy HH:mm");
+                        worksheet.Cells[i + 8, 9].Value = data[i].EndTime.Value.ToString("dd/MM/yyyy HH:mm");
                         worksheet.Cells[i + 8, 10].Value = data[i].StaffName;
                         worksheet.Cells[i + 8, 11].Value = data[i].StaffCheck;
-                        worksheet.Cells[i + 8, 12].Value = data[i].Targets;
+
                         worksheet.Cells[i + 8, 13].Value = data[i].TotalMoney;
                         worksheet.Cells[i + 8, 14].Value = data[i].Notes;
                     }

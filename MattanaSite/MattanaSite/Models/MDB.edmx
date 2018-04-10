@@ -137,6 +137,7 @@
           <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="PreStt" Type="varchar" MaxLength="128" />
+          <Property Name="PermitUser" Type="int" />
         </EntityType>
         <EntityType Name="ProductOrder">
           <Key>
@@ -293,26 +294,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="check_staff_has_create_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="day" Type="int" Mode="In" />
-          <Parameter Name="month" Type="int" Mode="In" />
-          <Parameter Name="year" Type="int" Mode="In" />
-          <Parameter Name="staffId" Type="varchar" Mode="In" />
-          <Parameter Name="calendarId" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="delete_calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="calendarId" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="get_calendar_by_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="CalendarId" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="get_calendar_in_month_by_staff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Month" Type="int" Mode="In" />
           <Parameter Name="Year" Type="int" Mode="In" />
           <Parameter Name="StaffId" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="get_detail_calendar_by_calendarid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="calendarId" Type="varchar" Mode="In" />
         </Function>
         <Function Name="show_user_role" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="MDBModelStoreContainer">
@@ -415,27 +400,11 @@
           <EntitySet Name="MStaffs" EntityType="Self.MStaff" />
           <EntitySet Name="OrderNumbers" EntityType="MDBModel.OrderNumber" />
           <EntitySet Name="OrderStatus" EntityType="MDBModel.OrderStatu" />
-          <FunctionImport Name="get_detail_calendar_by_calendarid" ReturnType="Collection(MDBModel.get_detail_calendar_by_calendarid_Result)">
-          <Parameter Name="calendarId" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="show_user_role" ReturnType="Collection(MDBModel.show_user_role_Result)" />
-          <FunctionImport Name="delete_calendar">
-          <Parameter Name="calendarId" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="get_calendar_in_month_by_staff" ReturnType="Collection(MDBModel.get_calendar_in_month_by_staff_Result)">
             <Parameter Name="Month" Mode="In" Type="Int32" />
             <Parameter Name="Year" Mode="In" Type="Int32" />
             <Parameter Name="StaffId" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="check_staff_has_create_calendar" ReturnType="Collection(MDBModel.check_staff_has_create_calendar_Result)">
-            <Parameter Name="day" Mode="In" Type="Int32" />
-            <Parameter Name="month" Mode="In" Type="Int32" />
-            <Parameter Name="year" Mode="In" Type="Int32" />
-            <Parameter Name="staffId" Mode="In" Type="String" />
-            <Parameter Name="calendarId" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="get_calendar_by_id" ReturnType="Collection(MDBModel.get_calendar_by_id_Result)">
-          <Parameter Name="CalendarId" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="MAgencies" EntityType="MDBModel.MAgency" />
           <AssociationSet Name="AgencyWithStaff" Association="MDBModel.AgencyWithStaff">
@@ -505,33 +474,8 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PreStt" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MOrders" Relationship="MDBModel.FK__MOrder__StatusId__6477ECF3" FromRole="OrderStatu" ToRole="MOrder" />
+          <Property Name="PermitUser" Type="Int32" />
         </EntityType>
-        <ComplexType Name="get_detail_calendar_by_calendarid_Result">
-          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="CDay" Nullable="true" />
-          <Property Type="Int32" Name="InPlan" Nullable="true" />
-          <Property Type="String" Name="TypeId" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Notes" Nullable="true" />
-          <Property Type="Time" Name="CInTime" Nullable="true" />
-          <Property Type="Time" Name="COutTime" Nullable="true" />
-          <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-          <Property Type="Int32" Name="Perform" Nullable="true" />
-          <Property Type="String" Name="CDate" Nullable="true" MaxLength="32" />
-          <Property Type="String" Name="AgencyId" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="MUser" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="StaffCode" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="CYear" Nullable="true" />
-          <Property Type="Int32" Name="CMonth" Nullable="true" />
-          <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Code" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Store" Nullable="true" />
-          <Property Type="String" Name="Phone" Nullable="true" MaxLength="16" />
-          <Property Type="String" Name="AddressDetail" Nullable="true" />
-          <Property Type="Double" Name="Lat" Nullable="true" />
-          <Property Type="Double" Name="Lng" Nullable="true" />
-          <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="StaffCheckName" Nullable="true" MaxLength="512" />
-        </ComplexType>
         <ComplexType Name="show_user_role_Result">
           <Property Type="String" Name="FullName" Nullable="true" MaxLength="512" />
           <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
@@ -545,51 +489,19 @@
           <Property Type="Int32" Name="CMonth" Nullable="true" />
           <Property Type="String" Name="Notes" Nullable="true" />
           <Property Type="Int32" Name="CYear" Nullable="true" />
-          <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-          <Property Type="Int32" Name="InPlan" Nullable="true" />
-          <Property Type="Int32" Name="Perform" Nullable="true" />
-          <Property Type="Time" Name="CInTime" Nullable="true" />
-          <Property Type="Time" Name="COutTime" Nullable="true" />
           <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
           <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
           <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
           <Property Type="String" Name="Store" Nullable="true" />
-          <Property Type="String" Name="Deputy" Nullable="true" />
           <Property Type="String" Name="AgencyAddress" Nullable="true" />
           <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
-          <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="StaffCheck" Nullable="false" MaxLength="128" />
           <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
           <Property Type="Int32" Name="StaffGroup" Nullable="true" />
           <Property Type="Double" Name="TotalMoney" Nullable="true" />
-          <Property Type="Double" Name="Targets" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="check_staff_has_create_calendar_Result">
-          <Property Type="String" Name="StaffId" Nullable="false" MaxLength="128" />
-          <Property Type="String" Name="CalendarId" Nullable="true" MaxLength="128" />
-        </ComplexType>
-        <ComplexType Name="get_calendar_by_id_Result">
-          <Property Type="String" Name="WorkId" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="CDay" Nullable="true" />
-          <Property Type="Int32" Name="CMonth" Nullable="true" />
-          <Property Type="String" Name="Notes" Nullable="true" />
-          <Property Type="Int32" Name="CYear" Nullable="true" />
-          <Property Type="String" Name="DayInWeek" Nullable="true" MaxLength="32" />
-          <Property Type="Int32" Name="InPlan" Nullable="true" />
-          <Property Type="Int32" Name="Perform" Nullable="true" />
-          <Property Type="Time" Name="CInTime" Nullable="true" />
-          <Property Type="Time" Name="COutTime" Nullable="true" />
-          <Property Type="String" Name="agencyId" Nullable="false" MaxLength="128" />
-          <Property Type="String" Name="AgencyCode" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Store" Nullable="true" />
-          <Property Type="String" Name="Deputy" Nullable="true" />
-          <Property Type="String" Name="AgencyAddress" Nullable="true" />
-          <Property Type="String" Name="AgencyPhone" Nullable="true" MaxLength="16" />
-          <Property Type="String" Name="StaffCheck" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="StaffName" Nullable="true" MaxLength="512" />
-          <Property Type="Int32" Name="StaffGroup" Nullable="true" />
-          <Property Type="Double" Name="TotalMoney" Nullable="true" />
-          <Property Type="String" Name="Province" Nullable="true" MaxLength="512" />
-          <Property Type="Double" Name="Targets" Nullable="true" />
+          <Property Type="String" Name="CDate" Nullable="true" MaxLength="32" />
+          <Property Type="DateTime" Name="FistTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EndTime" Nullable="true" Precision="23" />
         </ComplexType>
         <EntityType Name="MAgency">
           <Key>
@@ -871,42 +783,13 @@
           <EntitySetMapping Name="OrderStatus">
             <EntityTypeMapping TypeName="MDBModel.OrderStatu">
               <MappingFragment StoreEntitySet="OrderStatus">
+                <ScalarProperty Name="PermitUser" ColumnName="PermitUser" />
                 <ScalarProperty Name="PreStt" ColumnName="PreStt" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="get_detail_calendar_by_calendarid" FunctionName="MDBModel.Store.get_detail_calendar_by_calendarid">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MDBModel.get_detail_calendar_by_calendarid_Result">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CDay" ColumnName="CDay" />
-                <ScalarProperty Name="InPlan" ColumnName="InPlan" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="CInTime" ColumnName="CInTime" />
-                <ScalarProperty Name="COutTime" ColumnName="COutTime" />
-                <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-                <ScalarProperty Name="Perform" ColumnName="Perform" />
-                <ScalarProperty Name="CDate" ColumnName="CDate" />
-                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
-                <ScalarProperty Name="MUser" ColumnName="MUser" />
-                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
-                <ScalarProperty Name="CYear" ColumnName="CYear" />
-                <ScalarProperty Name="CMonth" ColumnName="CMonth" />
-                <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Store" ColumnName="Store" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
-                <ScalarProperty Name="Lat" ColumnName="Lat" />
-                <ScalarProperty Name="Lng" ColumnName="Lng" />
-                <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
-                <ScalarProperty Name="StaffCheckName" ColumnName="StaffCheckName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="show_user_role" FunctionName="MDBModel.Store.show_user_role">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MDBModel.show_user_role_Result">
@@ -917,7 +800,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="delete_calendar" FunctionName="MDBModel.Store.delete_calendar" />
           <FunctionImportMapping FunctionImportName="get_calendar_in_month_by_staff" FunctionName="MDBModel.Store.get_calendar_in_month_by_staff">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MDBModel.get_calendar_in_month_by_staff_Result">
@@ -926,59 +808,19 @@
                 <ScalarProperty Name="CMonth" ColumnName="CMonth" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="CYear" ColumnName="CYear" />
-                <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-                <ScalarProperty Name="InPlan" ColumnName="InPlan" />
-                <ScalarProperty Name="Perform" ColumnName="Perform" />
-                <ScalarProperty Name="CInTime" ColumnName="CInTime" />
-                <ScalarProperty Name="COutTime" ColumnName="COutTime" />
                 <ScalarProperty Name="agencyId" ColumnName="agencyId" />
                 <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
                 <ScalarProperty Name="Province" ColumnName="Province" />
                 <ScalarProperty Name="Store" ColumnName="Store" />
-                <ScalarProperty Name="Deputy" ColumnName="Deputy" />
                 <ScalarProperty Name="AgencyAddress" ColumnName="AgencyAddress" />
                 <ScalarProperty Name="AgencyPhone" ColumnName="AgencyPhone" />
                 <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
                 <ScalarProperty Name="StaffName" ColumnName="StaffName" />
                 <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
                 <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
-                <ScalarProperty Name="Targets" ColumnName="Targets" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="check_staff_has_create_calendar" FunctionName="MDBModel.Store.check_staff_has_create_calendar">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MDBModel.check_staff_has_create_calendar_Result">
-                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
-                <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="get_calendar_by_id" FunctionName="MDBModel.Store.get_calendar_by_id">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MDBModel.get_calendar_by_id_Result">
-                <ScalarProperty Name="WorkId" ColumnName="WorkId" />
-                <ScalarProperty Name="CDay" ColumnName="CDay" />
-                <ScalarProperty Name="CMonth" ColumnName="CMonth" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="CYear" ColumnName="CYear" />
-                <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-                <ScalarProperty Name="InPlan" ColumnName="InPlan" />
-                <ScalarProperty Name="Perform" ColumnName="Perform" />
-                <ScalarProperty Name="CInTime" ColumnName="CInTime" />
-                <ScalarProperty Name="COutTime" ColumnName="COutTime" />
-                <ScalarProperty Name="agencyId" ColumnName="agencyId" />
-                <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
-                <ScalarProperty Name="Store" ColumnName="Store" />
-                <ScalarProperty Name="Deputy" ColumnName="Deputy" />
-                <ScalarProperty Name="AgencyAddress" ColumnName="AgencyAddress" />
-                <ScalarProperty Name="AgencyPhone" ColumnName="AgencyPhone" />
-                <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
-                <ScalarProperty Name="StaffName" ColumnName="StaffName" />
-                <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
-                <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="Targets" ColumnName="Targets" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="FistTime" ColumnName="FistTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

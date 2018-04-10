@@ -18,22 +18,18 @@ namespace MattanaSite.Models
         public Nullable<int> CMonth { get; set; }
         public string Notes { get; set; }
         public Nullable<int> CYear { get; set; }
-        public string DayInWeek { get; set; }
-        public Nullable<int> InPlan { get; set; }
-        public Nullable<int> Perform { get; set; }
-        public Nullable<System.TimeSpan> CInTime { get; set; }
-        public Nullable<System.TimeSpan> COutTime { get; set; }
         public string agencyId { get; set; }
         public string AgencyCode { get; set; }
         public string Province { get; set; }
         public string Store { get; set; }
-        public string Deputy { get; set; }
         public string AgencyAddress { get; set; }
         public string AgencyPhone { get; set; }
         public string StaffCheck { get; set; }
         public string StaffName { get; set; }
         public Nullable<int> StaffGroup { get; set; }
         public Nullable<double> TotalMoney { get; set; }
-        public Nullable<double> Targets { get; set; }
+        public string CDate { get; set; }
+        public Nullable<System.DateTime> FistTime { get; set; }
+        public Nullable<System.DateTime> EndTime { get; set; }
     }
 }

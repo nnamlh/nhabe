@@ -74,7 +74,8 @@ namespace MATTANAAPI.Controllers
                     StatusId = "create",
                     Code = newCode,
                     SuggestDate = sugestTime,
-                    Discount = checkAgency.Discount
+                    Discount = checkAgency.Discount,
+                    CDate = DateTime.Now.ToString("ddMMyyyy")
                 };
 
                 db.MOrders.Add(order);

@@ -32,9 +32,7 @@
                             <tr>
                                 <th>Mã</th>
                                 <th>Cửa hàng</th>
-                                <th>Đại diện</th>
                                 <th>Chiết khấu</th>
-                                <th>Vùng</th>
                                 <th>Liên hệ</th>
                                 <th>#</th>
                             </tr>
@@ -45,9 +43,7 @@
                                 <tr class="@(item.IsLock == 1?"danger":"")">
                                     <td>@item.Code @(item.IsLock == 1 ? "(đang khóa)" : "")</td>
                                     <td>@item.Store</td>
-                                    <td>@item.Deputy</td>
                                     <td>@item.Discount %</td>
-                                    <td>@item.AreaInfo</td>
                                     <td>
                                         <span>Điện thoại: </span>@item.Phone <br />
                                         <span>Địa chỉ: </span>@item.AddressDetail <br />

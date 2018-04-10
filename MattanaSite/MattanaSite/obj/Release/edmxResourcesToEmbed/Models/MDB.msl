@@ -31,8 +31,8 @@
     <EntitySetMapping Name="OrderNumbers">
       <EntityTypeMapping TypeName="MDBModel.OrderNumber">
         <MappingFragment StoreEntitySet="OrderNumber">
+          <ScalarProperty Name="CYear" ColumnName="CYear" />
           <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="CharId" ColumnName="CharId" />
           <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -41,42 +41,13 @@
     <EntitySetMapping Name="OrderStatus">
       <EntityTypeMapping TypeName="MDBModel.OrderStatu">
         <MappingFragment StoreEntitySet="OrderStatus">
+          <ScalarProperty Name="PermitUser" ColumnName="PermitUser" />
           <ScalarProperty Name="PreStt" ColumnName="PreStt" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="get_detail_calendar_by_calendarid" FunctionName="MDBModel.Store.get_detail_calendar_by_calendarid">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="MDBModel.get_detail_calendar_by_calendarid_Result">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CDay" ColumnName="CDay" />
-          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
-          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-          <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
-          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
-          <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-          <ScalarProperty Name="Perform" ColumnName="Perform" />
-          <ScalarProperty Name="CDate" ColumnName="CDate" />
-          <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
-          <ScalarProperty Name="MUser" ColumnName="MUser" />
-          <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
-          <ScalarProperty Name="CYear" ColumnName="CYear" />
-          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
-          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-          <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="Store" ColumnName="Store" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
-          <ScalarProperty Name="Lat" ColumnName="Lat" />
-          <ScalarProperty Name="Lng" ColumnName="Lng" />
-          <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
-          <ScalarProperty Name="StaffCheckName" ColumnName="StaffCheckName" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="show_user_role" FunctionName="MDBModel.Store.show_user_role">
       <ResultMapping>
         <ComplexTypeMapping TypeName="MDBModel.show_user_role_Result">
@@ -87,7 +58,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="delete_calendar" FunctionName="MDBModel.Store.delete_calendar" />
     <FunctionImportMapping FunctionImportName="get_calendar_in_month_by_staff" FunctionName="MDBModel.Store.get_calendar_in_month_by_staff">
       <ResultMapping>
         <ComplexTypeMapping TypeName="MDBModel.get_calendar_in_month_by_staff_Result">
@@ -96,66 +66,25 @@
           <ScalarProperty Name="CMonth" ColumnName="CMonth" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />
           <ScalarProperty Name="CYear" ColumnName="CYear" />
-          <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
-          <ScalarProperty Name="Perform" ColumnName="Perform" />
-          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
-          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
           <ScalarProperty Name="agencyId" ColumnName="agencyId" />
           <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
           <ScalarProperty Name="Province" ColumnName="Province" />
           <ScalarProperty Name="Store" ColumnName="Store" />
-          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
           <ScalarProperty Name="AgencyAddress" ColumnName="AgencyAddress" />
           <ScalarProperty Name="AgencyPhone" ColumnName="AgencyPhone" />
           <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
           <ScalarProperty Name="StaffName" ColumnName="StaffName" />
           <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
           <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
-          <ScalarProperty Name="Targets" ColumnName="Targets" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="check_staff_has_create_calendar" FunctionName="MDBModel.Store.check_staff_has_create_calendar">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="MDBModel.check_staff_has_create_calendar_Result">
-          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
-          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="get_calendar_by_id" FunctionName="MDBModel.Store.get_calendar_by_id">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="MDBModel.get_calendar_by_id_Result">
-          <ScalarProperty Name="WorkId" ColumnName="WorkId" />
-          <ScalarProperty Name="CDay" ColumnName="CDay" />
-          <ScalarProperty Name="CMonth" ColumnName="CMonth" />
-          <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="CYear" ColumnName="CYear" />
-          <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-          <ScalarProperty Name="InPlan" ColumnName="InPlan" />
-          <ScalarProperty Name="Perform" ColumnName="Perform" />
-          <ScalarProperty Name="CInTime" ColumnName="CInTime" />
-          <ScalarProperty Name="COutTime" ColumnName="COutTime" />
-          <ScalarProperty Name="agencyId" ColumnName="agencyId" />
-          <ScalarProperty Name="AgencyCode" ColumnName="AgencyCode" />
-          <ScalarProperty Name="Store" ColumnName="Store" />
-          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
-          <ScalarProperty Name="AgencyAddress" ColumnName="AgencyAddress" />
-          <ScalarProperty Name="AgencyPhone" ColumnName="AgencyPhone" />
-          <ScalarProperty Name="StaffCheck" ColumnName="StaffCheck" />
-          <ScalarProperty Name="StaffName" ColumnName="StaffName" />
-          <ScalarProperty Name="StaffGroup" ColumnName="StaffGroup" />
-          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
-          <ScalarProperty Name="Province" ColumnName="Province" />
-          <ScalarProperty Name="Targets" ColumnName="Targets" />
+          <ScalarProperty Name="CDate" ColumnName="CDate" />
+          <ScalarProperty Name="FistTime" ColumnName="FistTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
     <EntitySetMapping Name="MAgencies">
       <EntityTypeMapping TypeName="MDBModel.MAgency">
         <MappingFragment StoreEntitySet="MAgency">
-          <ScalarProperty Name="AreaInfo" ColumnName="AreaInfo" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="Lng" ColumnName="Lng" />
           <ScalarProperty Name="Lat" ColumnName="Lat" />
@@ -164,7 +93,6 @@
           <ScalarProperty Name="AddressDetail" ColumnName="AddressDetail" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
-          <ScalarProperty Name="Deputy" ColumnName="Deputy" />
           <ScalarProperty Name="Store" ColumnName="Store" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -233,6 +161,7 @@
     <EntitySetMapping Name="MOrders">
       <EntityTypeMapping TypeName="MDBModel.MOrder">
         <MappingFragment StoreEntitySet="MOrder">
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="CDate" ColumnName="CDate" />
           <ScalarProperty Name="SuggestDate" ColumnName="SuggestDate" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />

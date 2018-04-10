@@ -100,9 +100,9 @@
                         @foreach (var item in Model.ProductOrders)
                         {
                             <tr>
-                                <td>@item.MProduct.PCode</td>
+                                <td>@item.MProduct.PSizeCode</td>
                                 <td>@item.MProduct.PName</td>
-                                <td>@item.MProduct.Size</td>
+                                <td>@item.MProduct.PSize</td>
                                 <td>@item.QuantityBuy</td>
                                 <td>@item.Price.Value.ToString("C", MattanaSite.Util.Cultures.VietNam)</td>
                                 <td>@((item.Price * item.QuantityBuy).Value.ToString("C", MattanaSite.Util.Cultures.VietNam))</td>

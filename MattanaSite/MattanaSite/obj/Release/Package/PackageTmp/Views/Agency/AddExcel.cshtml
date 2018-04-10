@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "AddExcel";
+}
+<div class="portlet portlet-boxed">
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            Thêm đại lý bằng file Excel
+        </h4>
+    </div> <!-- /.portlet-header -->
+
+    <div class="portlet-body">
+        <div class="row">
+            <p class="">@ViewBag.MSG</p>
+            <form method="post" onsubmit="if(!confirm('Thêm đại lý mới?')){return false;}" enctype="multipart/form-data">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>File Excel</label>
+                        <input type="file" name="files" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+                        <a href="~/mtemplates/import_agency.xlsx">File khách hàng mẫu</a>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
